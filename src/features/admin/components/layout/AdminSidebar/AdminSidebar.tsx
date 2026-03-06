@@ -16,6 +16,7 @@ import {
     Store,
     Tag,
     User as UserIcon,
+    Users,
     X
 } from 'lucide-react';
 import Link from 'next/link';
@@ -64,6 +65,12 @@ const navItems = [
     label: 'Universities',
     icon: GraduationCap,
     requiresSuperAdmin: false,
+  },
+  {
+    path: '/admin/users',
+    label: 'Users',
+    icon: Users,
+    requiresSuperAdmin: true,
   },
   {
     path: '/admin/profile',

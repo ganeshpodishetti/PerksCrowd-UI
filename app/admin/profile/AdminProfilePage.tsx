@@ -2,7 +2,7 @@
 import AdminLoadingSpinner from '@/features/admin/components/dashboard/AdminLoadingSpinner/AdminLoadingSpinner';
 import AdminHeader from '@/features/admin/components/layout/AdminHeader/AdminHeader';
 import { AdminLayout } from '@/features/admin/components/layout/AdminLayout';
-import UserProfile from '@/features/admin/components/profile/UserProfile/UserProfile';
+import UserProfile from '@/features/auth/components/UserProfile/UserProfile';
 import { useAuth } from '@/features/auth/contexts/AuthContext';
 
 export default function AdminProfilePage() {

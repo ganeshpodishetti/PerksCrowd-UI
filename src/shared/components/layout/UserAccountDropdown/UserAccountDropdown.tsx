@@ -7,10 +7,20 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@/shared/components/ui/dropdown-menu";
-import { Menu } from "lucide-react";
+import { Menu, User, LogOut } from "lucide-react";
 import React from 'react';
+import { useAuth } from "@/features/auth/contexts/AuthContext";
+import { useRouter } from "next/navigation";
 
 const UserAccountDropdown: React.FC = () => {
+  const { user, logout } = useAuth();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await logout();
+    router.push('/login');
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -22,12 +32,29 @@ const UserAccountDropdown: React.FC = () => {
         <DropdownMenuLabel>
           <div className="flex flex-col">
             <p className="text-sm font-medium leading-none">Navigation</p>
+            {user && (
+              <p className="text-xs text-muted-foreground mt-1">{user.email}</p>
+            )}
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Home</DropdownMenuItem>
-        <DropdownMenuItem>Categories</DropdownMenuItem>
-        <DropdownMenuItem>Stores</DropdownMenuItem>
+        <DropdownMenuItem onClick={() => router.push('/')}>Home</DropdownMenuItem>
+        <DropdownMenuItem onClick={() => router.push('/categories')}>Categories</DropdownMenuItem>
+        <DropdownMenuItem onClick={() => router.push('/stores')}>Stores</DropdownMenuItem>
+        <DropdownMenuSeparator />
+        {user && (
+          <>
+            <DropdownMenuItem onClick={() => router.push('/profile')}>
+              <User className="h-4 w-4 mr-2" />
+              Profile
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={handleLogout} className="text-red-600 focus:text-red-600">
+              <LogOut className="h-4 w-4 mr-2" />
+              Log out
+            </DropdownMenuItem>
+          </>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );
