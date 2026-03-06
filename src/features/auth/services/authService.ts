@@ -33,6 +33,14 @@ export interface UserProfile {
   roles: string[];
 }
 
+export interface UserItem {
+  id: string;
+  username: string;
+  email: string;
+  emailConfirmed: boolean;
+  roles: string[];
+}
+
 export interface RefreshTokenResponse {
   message: string;
 }
@@ -179,5 +187,27 @@ export const authService = {
     } finally {
       localStorage.removeItem('user');
     }
+  },
+
+  async deleteAccount(): Promise<{ message: string }> {
+    const response = await apiClient.delete('/api/users', {
+      withCredentials: true,
+    });
+    // Clear local user data after successful deletion
+    localStorage.removeItem('user');
+    return response.data;
+  },
+
+  async getAllUsers(): Promise<UserItem[]> {
+    const response = await apiClient.get('/api/users', {
+      withCredentials: true,
+    });
+    return response.data;
+  },
+
+  async deleteUser(userId: string): Promise<void> {
+    await apiClient.delete(`/api/users/${userId}`, {
+      withCredentials: true,
+    });
   },
 };
