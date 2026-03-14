@@ -6,12 +6,12 @@ import {
     useUserDealsQuery
 } from '@/features/deals/hooks/useDealsQuery';
 import { useErrorHandler } from '@/shared/contexts/ErrorContext';
-import { Deal } from '@/shared/types/entities/deal';
+import type { DealResponse } from '@/shared/types/api/responses';
 import { useState } from 'react';
 
 export const useAdminDeals = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingDeal, setEditingDeal] = useState<Deal | null>(null);
+  const [editingDeal, setEditingDeal] = useState<DealResponse | null>(null);
   const { user } = useAuth();
   const { showError, showSuccess } = useErrorHandler();
 
@@ -26,7 +26,7 @@ export const useAdminDeals = () => {
     setIsModalOpen(true);
   };
 
-  const handleEditDeal = (deal: Deal) => {
+  const handleEditDeal = (deal: DealResponse) => {
     setEditingDeal(deal);
     setIsModalOpen(true);
   };

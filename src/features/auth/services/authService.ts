@@ -1,213 +1,173 @@
-// authService.ts
-import { apiClient, publicApiClient } from '@/shared/services/api/apiClient'; // Use shared apiClient
+/**
+ * authService – all authentication operations.
+ *
+ * Delegates HTTP calls to authApi / usersApi; adds localStorage helpers
+ * and the changePassword endpoint that was previously missing.
+ */
+import { authApi } from '@/shared/services/api/authApi';
+import { usersApi } from '@/shared/services/api/usersApi';
+import { setRefreshTokenFn } from '@/shared/services/api/apiClient';
+import type {
+  ChangePasswordRequest,
+  ForgotPasswordRequest,
+  LoginRequest,
+  RegisterRequest,
+  ResetPasswordRequest,
+  SendConfirmationEmailRequest,
+} from '@/shared/types/api/requests';
+import type {
+  ChangePasswordResponse,
+  CurrentUserResponse,
+  ForgotPasswordResponse,
+  LoginResponse,
+  RegisterResponse,
+  GetUserResponse,
+  ResetPasswordResponse,
+} from '@/shared/types/api/responses';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
-if (!API_BASE_URL) {
-  throw new Error(
-    "authService: process.env.NEXT_PUBLIC_API_URL is not defined. " +
-    "Set it in your environment or `.env.local`."
-  );
-}
-
-export interface LoginRequest {
-  email: string;
-  password: string;
-}
-
-export interface RegisterRequest {
-  username: string;
-  email: string;
-  password: string;
-}
-
-export interface LoginResponse {
-  requiresMfa: boolean;
-  lockoutEnd: string | null;
-  message: string;
-}
-
-export interface UserProfile {
-  username: string;
-  email: string;
-  emailConfirmed: boolean;
-  roles: string[];
-}
-
-export interface UserItem {
-  id: string;
-  username: string;
-  email: string;
-  emailConfirmed: boolean;
-  roles: string[];
-}
-
-export interface RefreshTokenResponse {
-  message: string;
-}
+// Re-export for consumers that import types from this module
+export type { LoginRequest, RegisterRequest };
+export type UserProfile = CurrentUserResponse;
+export type UserItem = GetUserResponse;
 
 export const authService = {
-  async getUserProfile(usePublicClient: boolean = false): Promise<UserProfile | null> {
+  // ── Profile helpers ────────────────────────────────────────────────────────
+
+  async getUserProfile(): Promise<UserProfile | null> {
     try {
-      const client = usePublicClient ? publicApiClient : apiClient;
-      const response = await client.get('/api/auth/me', {
-        withCredentials: true,
-      });
-      return response.data;
-    } catch (error) {
-      console.error('Failed to fetch user profile:', error);
+      return await authApi.getMe();
+    } catch {
       return null;
     }
   },
 
-  async login(loginData: LoginRequest): Promise<LoginResponse> {
-    const response = await apiClient.post('/api/auth/login', loginData, {
-      withCredentials: true,
-    });
-    const responseData = response.data;
-
-    // Fetch user profile after successful login
-    // Use try-catch to handle case where profile fetch might fail
+  getUser(): UserProfile | null {
+    if (typeof window === 'undefined') return null;
     try {
-      const userProfile = await this.getUserProfile();
-      if (userProfile) {
-        this.setUser(userProfile);
-      }
-    } catch (profileError) {
-      // Log but don't fail login if profile fetch fails
-      console.warn('Failed to fetch user profile after login:', profileError);
-    }
-
-    return responseData;
-  },
-
-  async register(registerData: RegisterRequest) {
-    const response = await apiClient.post('/api/auth/register', registerData, {
-      withCredentials: true,
-    });
-    return response.data;
-  },
-
-  async confirmEmail(token: string): Promise<{ message: string }> {
-    const response = await apiClient.get(`/api/auth/confirm-email?token=${encodeURIComponent(token)}`, {
-      withCredentials: true,
-    });
-    return response.data;
-  },
-
-  async resendConfirmationEmail(email: string): Promise<{ message: string }> {
-    const response = await apiClient.post('/api/auth/send-confirmation-email',
-      { email },
-      {
-        withCredentials: true,
-      }
-    );
-    return response.data;
-  },
-
-  async forgotPassword(email: string): Promise<{ message: string }> {
-    const response = await apiClient.post('/api/auth/forgot-password',
-      { email },
-      {
-        withCredentials: true,
-      }
-    );
-    return response.data;
-  },
-
-  async validateResetToken(token: string): Promise<{ message: string }> {
-    const response = await apiClient.get(`/api/auth/validate-reset-token?token=${encodeURIComponent(token)}`, {
-      withCredentials: true,
-    });
-    return response.data;
-  },
-
-  async resetPassword(token: string, newPassword: string, confirmNewPassword: string): Promise<{ message: string }> {
-    const response = await apiClient.post(`/api/auth/reset-password?token=${encodeURIComponent(token)}`,
-      {
-        newPassword,
-        confirmNewPassword
-      },
-      {
-        withCredentials: true,
-      }
-    );
-    return response.data;
-  },
-
-  async refreshToken(): Promise<void> {
-    try {
-      // Use publicApiClient to avoid the 401 interceptor loop
-      await publicApiClient.post('/api/auth/refresh-token', {}, {
-        withCredentials: true,
-      });
-      // Tokens are now in HTTP-only cookies, no need to handle them here
-    } catch (error: any) {
-      if (error.response?.status === 401 || error.response?.status === 403) {
-        throw new Error('Refresh token invalid or expired');
-      }
-      if (error.response?.status === 400) {
-        throw new Error('Refresh token expired or revoked');
-      }
-      throw error;
-    }
-  },
-
-  async checkAuthStatus(): Promise<boolean> {
-    try {
-      // Try to refresh the token to verify authentication
-      await this.refreshToken();
-      return true;
-    } catch (refreshError: any) {
-      // Don't remove user data on refresh failure - user might just need to log in again
-      // The localStorage user data will be cleared on next failed attempt or on logout
-      return false;
-    }
-  },
-
-  getUser() {
-    try {
-      const userJson = localStorage.getItem('user');
-      return userJson ? JSON.parse(userJson) : null;
-    } catch (error) {
+      const raw = localStorage.getItem('user');
+      return raw ? (JSON.parse(raw) as UserProfile) : null;
+    } catch {
       return null;
     }
   },
 
-  setUser(user: any) {
-    localStorage.setItem('user', JSON.stringify(user));
+  setUser(user: UserProfile): void {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('user', JSON.stringify(user));
+    }
   },
 
-  async logout() {
-    try {
-      await apiClient.post('/api/auth/logout', {}, {
-        withCredentials: true,
-      });
-    } catch (_error) {
-      // Silent fail for production, optionally log to remote error service
-    } finally {
+  clearUser(): void {
+    if (typeof window !== 'undefined') {
       localStorage.removeItem('user');
     }
   },
 
-  async deleteAccount(): Promise<{ message: string }> {
-    const response = await apiClient.delete('/api/users', {
-      withCredentials: true,
-    });
-    // Clear local user data after successful deletion
-    localStorage.removeItem('user');
-    return response.data;
+  // ── Auth operations ────────────────────────────────────────────────────────
+
+  async login(loginData: LoginRequest): Promise<LoginResponse> {
+    const response = await authApi.login(loginData);
+    // Fetch & cache the user profile after successful login
+    try {
+      const profile = await authApi.getMe();
+      if (profile) this.setUser(profile);
+    } catch {
+      // Non-fatal – profile fetch may fail on first login attempt
+    }
+    return response;
   },
 
+  async register(registerData: RegisterRequest): Promise<RegisterResponse> {
+    return authApi.register(registerData);
+  },
+
+  async logout(): Promise<void> {
+    try {
+      await authApi.logout();
+    } finally {
+      this.clearUser();
+    }
+  },
+
+  /**
+   * POST /api/auth/refresh-token
+   * Contract: NoBody – refresh cookie is sent automatically via withCredentials.
+   */
+  async refreshToken(): Promise<void> {
+    await authApi.refreshToken();
+  },
+
+  async checkAuthStatus(): Promise<boolean> {
+    try {
+      await this.refreshToken();
+      return true;
+    } catch {
+      return false;
+    }
+  },
+
+  // ── Password operations ────────────────────────────────────────────────────
+
+  async forgotPassword(email: string): Promise<ForgotPasswordResponse> {
+    return authApi.forgotPassword({ email } as ForgotPasswordRequest);
+  },
+
+  async validateResetToken(token: string): Promise<{ message: string }> {
+    return authApi.validateResetToken(token);
+  },
+
+  async resetPassword(
+    token: string,
+    newPassword: string,
+    confirmNewPassword: string,
+  ): Promise<ResetPasswordResponse> {
+    return authApi.resetPassword(token, {
+      newPassword,
+      confirmNewPassword,
+    } as ResetPasswordRequest);
+  },
+
+  /** POST /api/auth/change-password (was missing – now added) */
+  async changePassword(data: ChangePasswordRequest): Promise<ChangePasswordResponse> {
+    return authApi.changePassword(data);
+  },
+
+  // ── Email confirmation ─────────────────────────────────────────────────────
+
+  async confirmEmail(token: string): Promise<{ message: string }> {
+    return authApi.confirmEmail(token);
+  },
+
+  async resendConfirmationEmail(
+    email: string,
+  ): Promise<{ message: string }> {
+    return authApi.sendConfirmationEmail({ email } as SendConfirmationEmailRequest);
+  },
+
+  // ── Refresh token validation ────────────────────────────────────────────────
+
+  async validateRefreshToken(): Promise<{ message: string }> {
+    return authApi.validateRefreshToken();
+  },
+
+  // ── User management (SuperAdmin) ───────────────────────────────────────────
+
   async getAllUsers(): Promise<UserItem[]> {
-    const response = await apiClient.get('/api/users', {
-      withCredentials: true,
-    });
-    return response.data;
+    return usersApi.getAll();
   },
 
   async deleteUser(userId: string): Promise<void> {
-    await apiClient.delete(`/api/users/${userId}`, {
-      withCredentials: true,
-    });
+    return usersApi.deleteById(userId);
+  },
+
+  /** DELETE /api/users – delete own account */
+  async deleteAccount(): Promise<void> {
+    await usersApi.deleteSelf();
+    this.clearUser();
   },
 };
+
+// Register the refresh function so the apiClient interceptor can call it
+// without a circular import.
+setRefreshTokenFn(() => authService.refreshToken());
+

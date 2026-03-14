@@ -1,7 +1,4 @@
-// Store entity types based on backend DTOs
-// UpdateStoreRequest(string Title, string? Website, string? LogoUrl)
-// CreateStoreRequest(string Title, string? Website, string? LogoUrl)
-// StoreResponse(Guid Id, string? Title, string? Website, string? LogoUrl)
+/** Store entity – aligns with StoreResponse from the backend */
 export interface Store {
   id: string;
   title: string;
@@ -9,14 +6,5 @@ export interface Store {
   logoUrl?: string;
 }
 
-export interface CreateStoreRequest {
-  title: string;
-  website?: string;
-  logoUrl?: string;
-}
-
-export interface UpdateStoreRequest {
-  title: string;
-  website?: string;
-  logoUrl?: string;
-}
+export type { CreateStoreRequest, UpdateStoreRequest } from '@/shared/types/api/requests';
+export type { StoreResponse, CreateStoreResponse } from '@/shared/types/api/responses';

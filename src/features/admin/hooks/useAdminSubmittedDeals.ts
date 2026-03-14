@@ -2,11 +2,11 @@ import { useAuth } from '@/features/auth/contexts/AuthContext';
 import { useUnreadDealsCount } from '@/features/deals/hooks/useUnreadDealsCount';
 import { submittedDealService } from '@/features/deals/services/submittedDealService';
 import { useErrorHandler } from '@/shared/contexts/ErrorContext';
-import { SubmittedDeal } from '@/shared/types/entities/submittedDeal';
+import type { SubmittedDealResponse } from '@/shared/types/api/responses';
 import { useCallback, useEffect, useState } from 'react';
 
 export const useAdminSubmittedDeals = () => {
-  const [deals, setDeals] = useState<SubmittedDeal[]>([]);
+  const [deals, setDeals] = useState<SubmittedDealResponse[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
   const { showError } = useErrorHandler();

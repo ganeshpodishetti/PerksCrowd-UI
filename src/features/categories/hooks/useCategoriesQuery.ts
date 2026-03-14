@@ -1,4 +1,5 @@
-import { categoryService, CreateCategoryRequest, UpdateCategoryRequest } from '@/features/categories/services/categoryService';
+import { categoryService } from '@/features/categories/services/categoryService';
+import type { CreateCategoryRequest, UpdateCategoryRequest } from '@/shared/types/api/requests';
 import { useErrorHandler } from '@/shared/contexts/ErrorContext';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 

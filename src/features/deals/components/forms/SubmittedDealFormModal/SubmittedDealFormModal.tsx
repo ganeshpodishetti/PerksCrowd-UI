@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from '@/shared/components/ui/input';
 import { Label } from '@/shared/components/ui/label';
 import { useToast } from '@/shared/components/ui/use-toast';
-import { SubmitDealRequest } from '@/shared/types/entities/submittedDeal';
+import type { SubmitDealRequest } from '@/shared/types/api/requests';
 import { useEffect, useState } from 'react';
 import { submittedDealService } from '../../../services/submittedDealService';
 
@@ -56,7 +56,7 @@ export default function SubmittedDealFormModal({ isOpen, onClose, onSuccess }: S
       const dealData: SubmitDealRequest = {
         title: formData.title.trim(),
         url: formData.url.trim(),
-        ...(formData.promoCode.trim() && { promoCode: formData.promoCode.trim() }),
+        promoCode: formData.promoCode.trim(),
       };
 
       await submittedDealService.submitDeal(dealData);

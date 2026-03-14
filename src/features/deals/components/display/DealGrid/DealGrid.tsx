@@ -1,9 +1,10 @@
 import { cn } from '@/lib/utils';
 import React from 'react';
-import { Deal, GetDealsByCategoryResponse, GetDealsByStoreResponse, GetDealsByUniversityResponse } from '@/shared/types';
+import type { DealResponse } from '@/shared/types/api/responses';
 import DealCard from '../DealCard/DealCard';
 
-type DealType = Deal | GetDealsByCategoryResponse | GetDealsByStoreResponse | GetDealsByUniversityResponse;
+// All deal-list endpoints now return the same DealResponse shape
+type DealType = DealResponse;
 
 interface DealGridProps {
   deals: DealType[];
@@ -65,7 +66,7 @@ const DealGrid: React.FC<DealGridProps> = ({
       {deals.map((deal) => (
         <DealCard
           key={deal.id}
-          deal={deal as Deal}
+          deal={deal}
           compact={compact}
           showUniversityInfo={showUniversityInfo}
         />

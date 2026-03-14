@@ -1,4 +1,7 @@
+'use client';
+
 import { useToast } from '@/shared/components/ui/use-toast';
+import { normalizeApiError } from '@/shared/utils/normalizeApiError';
 import { errorReportingService } from '../services/errorReportingService';
 import { createContext, ReactNode, useCallback, useContext } from 'react';
 
@@ -7,10 +10,11 @@ interface ErrorContextType {
   showSuccess: (message: string, title?: string) => void;
   showWarning: (message: string, title?: string) => void;
   showInfo: (message: string, title?: string) => void;
-  handleApiError: (error: any, context?: { endpoint?: string; method?: string }) => void;
-  handleNetworkError: (error: any, context?: Record<string, any>) => void;
-  handleValidationError: (message: string, context?: Record<string, any>) => void;
-  handleBoundaryError: (error: Error, errorInfo: string, context?: Record<string, any>) => void;
+  /** Normalises any API error and shows an appropriate toast. */
+  handleApiError: (error: unknown, context?: { endpoint?: string; method?: string }) => void;
+  handleNetworkError: (error: unknown, context?: Record<string, unknown>) => void;
+  handleValidationError: (message: string, context?: Record<string, unknown>) => void;
+  handleBoundaryError: (error: Error, errorInfo: string, context?: Record<string, unknown>) => void;
 }
 
 const ErrorContext = createContext<ErrorContextType | undefined>(undefined);
@@ -30,99 +34,98 @@ interface ErrorProviderProps {
 export const ErrorProvider: React.FC<ErrorProviderProps> = ({ children }) => {
   const { toast } = useToast();
 
-  const showError = useCallback((message: string, title: string = "Error") => {
-    toast({
-      title,
-      description: message,
-      variant: "destructive",
-    });
-  }, [toast]);
+  const showError = useCallback(
+    (message: string, title = 'Error') => {
+      toast({ title, description: message, variant: 'destructive' });
+    },
+    [toast],
+  );
 
-  const showSuccess = useCallback((message: string, title: string = "Success") => {
-    toast({
-      title,
-      description: message,
-    });
-  }, [toast]);
+  const showSuccess = useCallback(
+    (message: string, title = 'Success') => {
+      toast({ title, description: message });
+    },
+    [toast],
+  );
 
-  const showWarning = useCallback((message: string, title: string = "Warning") => {
-    toast({
-      title,
-      description: message,
-      variant: "destructive", // Adjust if you have a warning variant
-    });
-  }, [toast]);
+  const showWarning = useCallback(
+    (message: string, title = 'Warning') => {
+      toast({ title, description: message, variant: 'destructive' });
+    },
+    [toast],
+  );
 
-  const showInfo = useCallback((message: string, title: string = "Info") => {
-    toast({
-      title,
-      description: message,
-      variant: "default",
-    });
-  }, [toast]);
+  const showInfo = useCallback(
+    (message: string, title = 'Info') => {
+      toast({ title, description: message, variant: 'default' });
+    },
+    [toast],
+  );
 
-  const handleApiError = useCallback((error: any, context?: { endpoint?: string; method?: string }) => {
-    console.error('API Error:', error);
-    
-    // Report to error service
-    if (context?.endpoint && context?.method) {
+  const handleApiError = useCallback(
+    (error: unknown, context?: { endpoint?: string; method?: string }) => {
+      // Report for observability
       errorReportingService.reportApiError(error, {
-        endpoint: context.endpoint,
-        method: context.method,
-        status: error?.response?.status,
-        requestData: error?.config?.data,
+        endpoint: context?.endpoint ?? '',
+        method: context?.method ?? '',
+        status: (error as any)?.response?.status,
+        requestData: (error as any)?.config?.data,
       });
-    } else {
-      errorReportingService.reportError({
-        message: error?.message || 'API Error',
-        stack: error?.stack,
-        errorType: 'api',
-        severity: 'medium',
-        context: { error },
-      });
-    }
-    
-    // Handle different error types with appropriate messages
-    if (error.response?.status === 401) {
-      showError("Please log in again to continue", "Authentication Error");
-    } else if (error.response?.status === 403) {
-      showError("You don't have permission to perform this action", "Access Denied");
-    } else if (error.response?.status === 404) {
-      showError("The requested resource was not found", "Not Found");
-    } else if (error.response?.status >= 500) {
-      showError("Server error occurred. Please try again later", "Server Error");
-    } else if (error.response?.data?.message) {
-      showError(error.response.data.message);
-    } else if (error.message) {
-      showError(error.message);
-    } else {
-      showError("An unexpected error occurred");
-    }
-  }, [showError]);
 
-  const handleNetworkError = useCallback((error: any, context?: Record<string, any>) => {
-    console.error('Network Error:', error);
-    
-    errorReportingService.reportNetworkError(error, context);
-    
-    showError('Please check your internet connection and try again', 'Connection Error');
-  }, [showError]);
+      const { status, message, fieldErrors } = normalizeApiError(error);
 
-  const handleValidationError = useCallback((message: string, context?: Record<string, any>) => {
-    console.warn('Validation Error:', message);
-    
-    errorReportingService.reportValidationError(message, context);
-    
-    showError(message, 'Validation Error');
-  }, [showError]);
+      // ── Status-driven decisions ─────────────────────────────────────────────
+      // 401 / 403: always show a safe frontend message (don't leak backend detail)
+      if (status === 401) {
+        showError('Please log in again to continue.', 'Authentication Required');
+        return;
+      }
+      if (status === 403) {
+        showError("You don't have permission to perform this action.", 'Access Denied');
+        return;
+      }
+      // 5xx: generic – already handled by normalizeApiError, but guard here too
+      if (!status || status >= 500) {
+        showError('A server error occurred. Please try again later.', 'Server Error');
+        return;
+      }
 
-  const handleBoundaryError = useCallback((error: Error, errorInfo: string, context?: Record<string, any>) => {
-    console.error('Boundary Error:', error, errorInfo);
-    
-    errorReportingService.reportBoundaryError(error, errorInfo, context);
-    
-    showError('An unexpected error occurred. The page will be refreshed.', 'Application Error');
-  }, [showError]);
+      // ── Field-level validation summary ─────────────────────────────────────
+      if (fieldErrors) {
+        const summary = Object.values(fieldErrors).flat().join(' ');
+        showError(summary || message, 'Validation Error');
+        return;
+      }
+
+      // ── Safe backend message (400/404/409/422 etc.) ─────────────────────────
+      showError(message);
+    },
+    [showError],
+  );
+
+  const handleNetworkError = useCallback(
+    (error: unknown, context?: Record<string, unknown>) => {
+      errorReportingService.reportNetworkError(error, context as Record<string, any>);
+      showError('Please check your internet connection and try again.', 'Connection Error');
+    },
+    [showError],
+  );
+
+  const handleValidationError = useCallback(
+    (message: string, context?: Record<string, unknown>) => {
+      errorReportingService.reportValidationError(message, context as Record<string, any>);
+      showError(message, 'Validation Error');
+    },
+    [showError],
+  );
+
+  const handleBoundaryError = useCallback(
+    (error: Error, errorInfo: string, context?: Record<string, unknown>) => {
+      errorReportingService.reportBoundaryError(error, errorInfo, context as Record<string, any>);
+      showError('An unexpected error occurred. The page will be refreshed.', 'Application Error');
+    },
+    [showError],
+  );
 
   const value: ErrorContextType = {
     showError,
@@ -135,9 +138,5 @@ export const ErrorProvider: React.FC<ErrorProviderProps> = ({ children }) => {
     handleBoundaryError,
   };
 
-  return (
-    <ErrorContext.Provider value={value}>
-      {children}
-    </ErrorContext.Provider>
-  );
+  return <ErrorContext.Provider value={value}>{children}</ErrorContext.Provider>;
 };

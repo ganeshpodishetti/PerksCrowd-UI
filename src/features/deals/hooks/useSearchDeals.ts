@@ -1,4 +1,4 @@
-import { Deal } from '@/shared/types/entities/deal';
+import type { DealResponse } from '@/shared/types/api/responses';
 import { useQuery } from '@tanstack/react-query';
 import { useCallback, useRef, useState } from 'react';
 import { dealService } from '../services/dealService';
@@ -12,7 +12,7 @@ interface SearchParams {
 }
 
 interface UseSearchDealsResult {
-  deals: Deal[];
+  deals: DealResponse[];
   isLoading: boolean;
   error: Error | null;
   searchDeals: (params: SearchParams) => void;
@@ -38,12 +38,11 @@ export const useSearchDeals = (): UseSearchDealsResult => {
   } = useQuery({
     queryKey: ['deals', 'search', searchParams],
     queryFn: () => {
-      // Use ref to get the latest searchParams
-      return dealService.searchDeals(searchParamsRef.current);
+      const params = searchParamsRef.current;
+      return dealService.searchDeals({ query: params.query });
     },
-    // Always enable the query, we'll control execution via hasSearched
     enabled: true,
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    staleTime: 5 * 60 * 1000,
   });
 
   const searchDeals = useCallback((params: SearchParams) => {

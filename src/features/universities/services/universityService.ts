@@ -1,122 +1,65 @@
-// Service for university operations
-import type {
-    CreateUniversityRequest,
-    CreateUniversityResponse,
-    University,
-    UpdateUniversityRequest
-} from '@/shared/types';
-import apiClient, { publicApiClient } from '@/shared/services/api/apiClient';
+/**
+ * universityService – delegates to universitiesApi.
+ *
+ * FIX: old code used the wrong default import from apiClient.
+ * Multipart/form-data construction is now handled centrally by
+ * universitiesApi + buildFormData.
+ * PUT returns void (204).
+ */
+import { universitiesApi } from '@/shared/services/api/universitiesApi';
+import type { CreateUniversityRequest, UpdateUniversityRequest } from '@/shared/types/api/requests';
+import type { CreateUniversityResponse } from '@/shared/types/api/responses';
+import type { University } from '@/shared/types/entities/university';
 
 // Re-export types for convenience
-export type { CreateUniversityRequest, CreateUniversityResponse, University, UpdateUniversityRequest };
+export type { University, CreateUniversityRequest, UpdateUniversityRequest, CreateUniversityResponse };
+
+type UniversityDto = Awaited<ReturnType<typeof universitiesApi.getById>> & {
+  title: string;
+};
+
+const normalizeUniversity = (university: UniversityDto): University => ({
+  id: university.id,
+  name: university.title,
+  code: university.code,
+  country: university.country,
+  state: university.state,
+  city: university.city,
+  imageUrl: university.imageUrl,
+  isActive: university.isActive,
+});
 
 export const universityService = {
   // Public endpoints - no authentication required
   async getUniversities(): Promise<University[]> {
     try {
-      const response = await publicApiClient.get('/api/universities');
-      
-      // Handle 204 No Content response (empty database)
-      if (response.status === 204 || !response.data) {
-        return [];
-      }
-      
-      // Ensure we always return an array
-      return Array.isArray(response.data) ? response.data : [];
-    } catch (error: any) {
-      // Return empty array instead of throwing to prevent UI crashes
+      const data = await universitiesApi.getAll();
+      const universityData = data as UniversityDto[];
+      return Array.isArray(universityData) ? universityData.map(normalizeUniversity) : [];
+    } catch {
       return [];
     }
   },
 
   async getUniversity(id: string): Promise<University> {
-    try {
-      const response = await publicApiClient.get(`/api/universities/${id}`);
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
+    const data = await universitiesApi.getById(id);
+    return normalizeUniversity(data as UniversityDto);
   },
 
   // Admin endpoints - authentication required
-  async createUniversity(universityData: CreateUniversityRequest): Promise<CreateUniversityResponse> {
-    try {
-      const formData = new FormData();
-      formData.append('name', universityData.name);
-      formData.append('code', universityData.code);
-      
-      if (universityData.country) {
-        formData.append('country', universityData.country);
-      }
-      
-      if (universityData.state) {
-        formData.append('state', universityData.state);
-      }
-      
-      if (universityData.city) {
-        formData.append('city', universityData.city);
-      }
-      
-      if (universityData.image) {
-        formData.append('image', universityData.image);
-      }
-      
-      
-      const response = await apiClient.post('/api/universities', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
+  async createUniversity(data: CreateUniversityRequest): Promise<CreateUniversityResponse> {
+    return universitiesApi.create(data);
   },
 
-  async updateUniversity(id: string, universityData: UpdateUniversityRequest): Promise<University> {
-    try {
-      
-      const formData = new FormData();
-      formData.append('name', universityData.name);
-      formData.append('code', universityData.code);
-      formData.append('isActive', universityData.isActive.toString());
-      
-      if (universityData.country) {
-        formData.append('country', universityData.country);
-      }
-      
-      if (universityData.state) {
-        formData.append('state', universityData.state);
-      }
-      
-      if (universityData.city) {
-        formData.append('city', universityData.city);
-      }
-      
-      if (universityData.image) {
-        formData.append('image', universityData.image);
-      }
-      
-      
-      const response = await apiClient.put(`/api/universities/${id}`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
+  /** PUT returns 204 → void */
+  async updateUniversity(id: string, data: UpdateUniversityRequest): Promise<void> {
+    return universitiesApi.update(id, data);
   },
 
   async deleteUniversity(id: string): Promise<void> {
-    try {
-      await apiClient.delete(`/api/universities/${id}`);
-    } catch (error) {
-      throw error;
-    }
-  }
+    return universitiesApi.remove(id);
+  },
 };
 
 // Legacy function for backward compatibility
-export const fetchUniversities = universityService.getUniversities;
+export const fetchUniversities = universityService.getUniversities.bind(universityService);
