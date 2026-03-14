@@ -1,93 +1,42 @@
-// Service for fetching categories
-import apiClient, { publicApiClient } from '@/shared/services/api/apiClient';
+/**
+ * categoryService – delegates to categoriesApi.
+ *
+ * FIX: create/update now send JSON (not FormData); the backend
+ * expects { title: string }, not multipart/form-data.
+ */
+import { categoriesApi } from '@/shared/services/api/categoriesApi';
+import type { CategoryResponse, CreateCategoryResponse } from '@/shared/types/api/responses';
+import type { CreateCategoryRequest, UpdateCategoryRequest } from '@/shared/types/api/requests';
 
-// Define response types
-export interface Category {
-  id: string;
-  title?: string;
-}
-
-export interface CreateCategoryRequest {
-  title: string;
-}
-
-export interface UpdateCategoryRequest {
-  title: string;
-}
-
-export interface CreateCategoryResponse {
-  id: string;
-}
+// Re-export types for consumers importing from this module
+export type { CategoryResponse as Category, CreateCategoryRequest, UpdateCategoryRequest, CreateCategoryResponse };
 
 export const categoryService = {
-  // Public endpoints - no authentication required
-  async getCategories(): Promise<Category[]> {
+  async getCategories(): Promise<CategoryResponse[]> {
     try {
-      const response = await publicApiClient.get('/api/categories');
-      
-      // Handle 204 No Content response (empty database)
-      if (response.status === 204 || !response.data) {
-        return [];
-      }
-      
-      // Ensure we always return an array
-      return Array.isArray(response.data) ? response.data : [];
-    } catch (error: any) {
-      // Return empty array instead of throwing to prevent UI crashes
+      const data = await categoriesApi.getAll();
+      return Array.isArray(data) ? data : [];
+    } catch {
       return [];
     }
   },
 
-  async getCategory(id: string): Promise<Category> {
-    try {
-      const response = await publicApiClient.get(`/api/categories/${id}`);
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
+  async getCategory(id: string): Promise<CategoryResponse> {
+    return categoriesApi.getById(id);
   },
 
-  // Admin endpoints - authentication required
-  async createCategory(categoryData: CreateCategoryRequest): Promise<CreateCategoryResponse> {
-    try {
-      const formData = new FormData();
-      formData.append('title', categoryData.title);
-      
-      const response = await apiClient.post('/api/categories', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
+  async createCategory(data: CreateCategoryRequest): Promise<CreateCategoryResponse> {
+    return categoriesApi.create(data);
   },
 
-  async updateCategory(id: string, categoryData: UpdateCategoryRequest): Promise<Category> {
-    try {
-      const formData = new FormData();
-      formData.append('title', categoryData.title);
-      
-      const response = await apiClient.put(`/api/categories/${id}`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
+  /** PUT returns 204 → void; callers should invalidate their query cache */
+  async updateCategory(id: string, data: UpdateCategoryRequest): Promise<void> {
+    return categoriesApi.update(id, data);
   },
 
   async deleteCategory(id: string): Promise<void> {
-    try {
-      await apiClient.delete(`/api/categories/${id}`);
-    } catch (error) {
-      throw error;
-    }
-  }
+    return categoriesApi.remove(id);
+  },
 };
 
-// Keep legacy function for backward compatibility
-export const fetchCategories = categoryService.getCategories;
+export const fetchCategories = categoryService.getCategories.bind(categoryService);

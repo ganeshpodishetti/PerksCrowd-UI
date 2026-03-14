@@ -1,72 +1,21 @@
-export type RedeemType = 'Online' | 'InStore' | 'Both' | 'Unknown';
+/**
+ * Deal entity used throughout the UI.
+ * Shape mirrors DealResponse from the backend.
+ */
+import type { RedeemType } from '@/shared/types/api/requests';
 
-// Base Deal interface
+export type { RedeemType };
+
 export interface Deal {
   id: string;
   title: string;
   description: string;
-  discount?: string;
-  imageUrl?: string;
+  discount: string;
   promo?: string;
+  imageUrl?: string;
   isActive: boolean;
   url: string;
   redeemType: RedeemType;
-  howToRedeem?: string;
-  startDate?: string;
-  endDate?: string;
-  categoryName: string;
-  storeName: string;
-  universityName?: string;
-  universityImageUrl?: string;
-  isUniversitySpecific?: boolean;
-}
-
-// Request types for creating and updating deals
-export interface CreateDealRequest {
-  title: string;
-  description: string;
-  discount: string;
-  promo?: string;
-  isActive: boolean;
-  url: string;
-  redeemType: string;
-  howToRedeem?: string;
-  startDate?: string;
-  endDate?: string;
-  isUniversitySpecific?: boolean;
-  categoryName: string;
-  storeName?: string;
-  universityName?: string;
-}
-
-export interface UpdateDealRequest {
-  title: string;
-  description: string;
-  discount: string;
-  promo?: string;
-  isActive: boolean;
-  url: string;
-  redeemType: string;
-  howToRedeem?: string;
-  startDate?: string;
-  endDate?: string;
-  isUniversitySpecific?: boolean;
-  categoryName: string;
-  storeName?: string;
-  universityName?: string;
-}
-
-// Response types for different API endpoints
-export interface GetDealResponse {
-  id: string;
-  title: string;
-  description: string;
-  discount: string;
-  promo?: string;
-  imageUrl?: string;
-  isActive: boolean;
-  url: string;
-  redeemType: string;
   howToRedeem?: string;
   startDate?: string;
   endDate?: string;
@@ -74,59 +23,17 @@ export interface GetDealResponse {
   categoryName: string;
   storeName: string;
   universityName?: string;
-  createdAt: string;
-}
-
-export interface GetDealsByCategoryResponse {
-  id: string;
-  title: string;
-  description: string;
-  discount: string;
-  promo?: string;
-  dealImageUrl?: string;
-  categoryImageUrl?: string;
-  isActive: boolean;
-  url: string;
-  redeemType: string;
-  howToRedeem?: string;
-  startDate?: string;
-  endDate?: string;
-  categoryName: string;
-}
-
-export interface GetDealsByStoreResponse {
-  id: string;
-  title: string;
-  description: string;
-  discount: string;
-  promo?: string;
-  imageUrl?: string;
-  isActive: boolean;
-  url: string;
-  redeemType: string;
-  howToRedeem?: string;
-  startDate?: string;
-  endDate?: string;
-  storeName: string;
-}
-
-export interface GetDealsByUniversityResponse {
-  id: string;
-  title: string;
-  description: string;
-  discount: string;
-  promo?: string;
-  dealImageUrl?: string;
   universityImageUrl?: string;
-  isActive: boolean;
-  url: string;
-  redeemType: string;
-  howToRedeem?: string;
-  startDate?: string;
-  endDate?: string;
-  universityName: string;
+  createdAt?: string;
 }
 
-export interface DealResponse {
-  id: string;
-}
+export type {
+  CreateDealRequest,
+  UpdateDealRequest,
+  CursorPaginationRequest,
+} from '@/shared/types/api/requests';
+
+export type {
+  DealResponse,
+  CursorPaginatedDealsResponse,
+} from '@/shared/types/api/responses';

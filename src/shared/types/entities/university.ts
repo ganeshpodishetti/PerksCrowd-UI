@@ -1,4 +1,4 @@
-// University types based on API specifications
+/** University entity – normalized frontend shape for university data */
 export interface University {
   id: string;
   name: string;
@@ -10,37 +10,11 @@ export interface University {
   isActive?: boolean;
 }
 
-export interface CreateUniversityRequest {
-  name: string;
-  code: string;
-  country?: string;
-  state?: string;
-  city?: string;
-  image?: File;
-}
+export type {
+  CreateUniversityRequest,
+  UpdateUniversityRequest,
+} from '@/shared/types/api/requests';
 
-export interface UpdateUniversityRequest {
-  name: string;
-  code: string;
-  country?: string;
-  state?: string;
-  city?: string;
-  isActive: boolean;
-  image?: File;
-}
-
-export interface CreateUniversityResponse {
-  id: string;
-  imageUrl?: string;
-}
-
-export interface UniversityResponse {
-  id: string;
-  name: string;
-  code: string;
-  country?: string;
-  state?: string;
-  city?: string;
-    imageUrl?: string;
-    isActive?: boolean;
-}
+export type {
+  CreateUniversityResponse,
+} from '@/shared/types/api/responses';

@@ -1,4 +1,4 @@
-// User entity types
+/** User entity – mirrors CurrentUserResponse / GetUserResponse from the backend */
 export interface User {
   username: string;
   email: string;
@@ -6,24 +6,31 @@ export interface User {
   roles: string[];
 }
 
-export interface CreateUserRequest {
+/** Extended user item returned by GET /api/users (SuperAdmin only) */
+export interface UserItem {
+  id: string;
   username: string;
   email: string;
-  password: string;
+  emailConfirmed: boolean;
+  roles: string[];
 }
 
-export interface UpdateUserRequest {
-  username?: string;
-  email?: string;
-}
+export type {
+  LoginRequest,
+  RegisterRequest,
+  ForgotPasswordRequest,
+  ResetPasswordRequest,
+  ChangePasswordRequest,
+  SendConfirmationEmailRequest,
+} from '@/shared/types/api/requests';
 
-export interface LoginRequest {
-  email: string;
-  password: string;
-}
-
-export interface LoginResponse {
-  requiresMfa: boolean;
-  lockoutEnd: string | null;
-  message: string;
-}
+export type {
+  LoginResponse,
+  RegisterResponse,
+  RefreshTokenResponse,
+  ChangePasswordResponse,
+  ForgotPasswordResponse,
+  ResetPasswordResponse,
+  CurrentUserResponse,
+  GetUserResponse,
+} from '@/shared/types/api/responses';

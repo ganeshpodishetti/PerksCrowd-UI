@@ -1,94 +1,41 @@
-// Service for fetching stores
-import apiClient, { publicApiClient } from '@/shared/services/api/apiClient';
+/**
+ * storeService – delegates to storesApi.
+ *
+ * FIX: import was `import apiClient, { publicApiClient }` (default + named)
+ * but apiClient only has named exports – now fixed via storesApi.
+ * PUT returns 204 → void.
+ */
+import { storesApi } from '@/shared/services/api/storesApi';
+import type { StoreResponse, CreateStoreResponse } from '@/shared/types/api/responses';
+import type { CreateStoreRequest, UpdateStoreRequest } from '@/shared/types/api/requests';
 
-// Define response types based on backend DTOs
-// UpdateStoreRequest(string Title, string? Website, string? LogoUrl)
-// CreateStoreRequest(string Title, string? Website, string? LogoUrl)
-// StoreResponse(Guid Id, string? Title, string? Website, string? LogoUrl)
-export interface Store {
-  id: string;
-  title: string;
-  website?: string;
-  logoUrl?: string;
-}
-
-export interface CreateStoreRequest {
-  title: string;
-  website?: string;
-  logoUrl?: string;
-}
-
-export interface UpdateStoreRequest {
-  title: string;
-  website?: string;
-  logoUrl?: string;
-}
+export type { StoreResponse as Store, CreateStoreRequest, UpdateStoreRequest, CreateStoreResponse };
 
 export const storeService = {
-  // Public endpoints - no authentication required
-  async getStores(): Promise<Store[]> {
+  async getStores(): Promise<StoreResponse[]> {
     try {
-      const response = await publicApiClient.get('/api/stores');
-      
-      // Handle 204 No Content response (empty database)
-      if (response.status === 204 || !response.data) {
-        return [];
-      }
-      
-      // Ensure we always return an array
-      return Array.isArray(response.data) ? response.data : [];
-    } catch (error: any) {
-      // Return empty array instead of throwing to prevent UI crashes
+      const data = await storesApi.getAll();
+      return Array.isArray(data) ? data : [];
+    } catch {
       return [];
     }
   },
 
-  async getStore(id: string): Promise<Store> {
-    try {
-      const response = await publicApiClient.get(`/api/stores/${id}`);
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
+  async getStore(id: string): Promise<StoreResponse> {
+    return storesApi.getById(id);
   },
 
-  // Admin endpoints - authentication required
-  async createStore(storeData: CreateStoreRequest): Promise<Store> {
-    try {
-      // Clean up the data to remove undefined values
-      const cleanStoreData = Object.fromEntries(
-        Object.entries(storeData).filter(([_, value]) => value !== undefined)
-      );
-      
-      const response = await apiClient.post('/api/stores', cleanStoreData);
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
+  async createStore(data: CreateStoreRequest): Promise<CreateStoreResponse> {
+    return storesApi.create(data);
   },
 
-  async updateStore(id: string, storeData: UpdateStoreRequest): Promise<Store> {
-    try {
-      // Clean up the data to remove undefined values
-      const cleanStoreData = Object.fromEntries(
-        Object.entries(storeData).filter(([_, value]) => value !== undefined)
-      );
-      
-      const response = await apiClient.put(`/api/stores/${id}`, cleanStoreData);
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
+  async updateStore(id: string, data: UpdateStoreRequest): Promise<void> {
+    return storesApi.update(id, data);
   },
 
   async deleteStore(id: string): Promise<void> {
-    try {
-      await apiClient.delete(`/api/stores/${id}`);
-    } catch (error) {
-      throw error;
-    }
-  }
+    return storesApi.remove(id);
+  },
 };
 
-// Keep legacy function for backward compatibility
-export const fetchStores = storeService.getStores;
+export const fetchStores = storeService.getStores.bind(storeService);

@@ -1,4 +1,5 @@
-import { CreateStoreRequest, storeService, UpdateStoreRequest } from '@/features/stores/services/storeService';
+import { storeService } from '@/features/stores/services/storeService';
+import type { CreateStoreRequest, UpdateStoreRequest } from '@/shared/types/api/requests';
 import { useErrorHandler } from '@/shared/contexts/ErrorContext';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 

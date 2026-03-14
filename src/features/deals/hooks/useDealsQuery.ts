@@ -1,7 +1,6 @@
 import { dealService } from '@/features/deals/services/dealService';
 import { useErrorHandler } from '@/shared/contexts/ErrorContext';
-import { CursorPaginatedResponse } from '@/shared/types';
-import { Deal } from '@/shared/types/entities/deal';
+import type { CursorPaginatedDealsResponse, DealResponse } from '@/shared/types/api/responses';
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 // Query keys for caching
@@ -22,9 +21,10 @@ export const dealKeys = {
 export const useDealsInfiniteQuery = () => {
   const { handleApiError } = useErrorHandler();
   
-  return useInfiniteQuery<CursorPaginatedResponse<Deal>, Error>({
+  return useInfiniteQuery<CursorPaginatedDealsResponse, Error>({
     queryKey: dealKeys.infinite(),
-    queryFn: ({ pageParam }) => dealService.getDeals({ cursor: pageParam as string | null }),
+    queryFn: ({ pageParam }) =>
+      dealService.getDeals({ cursor: pageParam as string | null }),
     initialPageParam: null as string | null,
     getNextPageParam: (lastPage) => {
       if (lastPage.hasMore && lastPage.nextCursor && lastPage.nextCursor !== '') {
@@ -55,7 +55,7 @@ export const useDealsQuery = () => {
     queryKey: dealKeys.lists(),
     queryFn: async () => {
       const response = await dealService.getDeals();
-      return response.items;
+      return response.items as DealResponse[];
     },
     staleTime: 5 * 60 * 1000, // 5 minutes
     gcTime: 10 * 60 * 1000, // 10 minutes (previously cacheTime)

@@ -1,17 +1,8 @@
-// Category entity types extracted from categoryService.ts
+/** Category entity – aligns with CategoryResponse from the backend */
 export interface Category {
   id: string;
-  title?: string;
-}
-
-export interface CreateCategoryRequest {
   title: string;
 }
 
-export interface UpdateCategoryRequest {
-  title: string;
-}
-
-export interface CreateCategoryResponse {
-  id: string;
-}
+export type { CreateCategoryRequest, UpdateCategoryRequest } from '@/shared/types/api/requests';
+export type { CategoryResponse, CreateCategoryResponse } from '@/shared/types/api/responses';
