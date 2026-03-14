@@ -136,10 +136,10 @@ const DealFilterBar: React.FC<DealFilterBarProps> = ({
         <Select value={filters.store} onValueChange={(value) => updateFilter('store', value)}>
           <SelectTrigger>
             <Store className="h-4 w-4 mr-2" />
-            <SelectValue placeholder="Store" />
+            <SelectValue placeholder="Brand" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">All Stores</SelectItem>
+            <SelectItem value="">All Brands</SelectItem>
             {stores.map((store) => (
               <SelectItem key={store.name} value={store.name}>
                 {store.name} {store.count && `(${store.count})`}

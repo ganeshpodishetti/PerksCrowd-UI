@@ -24,8 +24,8 @@ const sortOptions: SortOption[] = [
   { label: 'Oldest First', value: 'startDate', direction: 'asc' },
   { label: 'Alphabetical (A-Z)', value: 'title', direction: 'asc' },
   { label: 'Alphabetical (Z-A)', value: 'title', direction: 'desc' },
-  { label: 'Store Name (A-Z)', value: 'storeName', direction: 'asc' },
-  { label: 'Store Name (Z-A)', value: 'storeName', direction: 'desc' },
+  { label: 'Brand Name (A-Z)', value: 'storeName', direction: 'asc' },
+  { label: 'Brand Name (Z-A)', value: 'storeName', direction: 'desc' },
 ];
 
 interface UseDealsFilterProps {

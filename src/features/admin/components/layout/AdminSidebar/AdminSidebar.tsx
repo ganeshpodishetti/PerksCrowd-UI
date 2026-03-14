@@ -50,7 +50,7 @@ const navItems = [
   },
   {
     path: '/admin/stores',
-    label: 'Stores',
+    label: 'Brands',
     icon: Store,
     requiresSuperAdmin: false,
   },

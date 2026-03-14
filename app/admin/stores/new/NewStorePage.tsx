@@ -26,14 +26,14 @@ export default function NewStorePage() {
   return (
     <AdminLayout>
       <AdminHeader 
-        title="Create New Store"
-        description="Fill in the details to create a new store"
+        title="Create New Brand"
+        description="Fill in the details to create a new brand"
       />
 
       <StoreForm
         onSave={handleSave}
-        title="Store Information"
-        description="Enter the details for your new store."
+        title="Brand Information"
+        description="Enter the details for your new brand."
       />
     </AdminLayout>
   );

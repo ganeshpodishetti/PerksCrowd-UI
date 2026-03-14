@@ -47,7 +47,7 @@ export default function StoreFormModal({ isOpen, onClose, onSave, store }: Store
     } catch (error) {
       toast({
         title: "Error",
-        description: "Failed to save store. Please try again.",
+        description: "Failed to save brand. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -61,22 +61,22 @@ export default function StoreFormModal({ isOpen, onClose, onSave, store }: Store
       onClose={onClose}
       onSave={handleSubmit}
       entity={entityFormData}
-      title={store ? 'Edit Store' : 'Create New Store'}
-      description={store ? 'Update the store information below.' : 'Add a new store to the platform.'}
+      title={store ? 'Edit Brand' : 'Create New Brand'}
+      description={store ? 'Update the brand information below.' : 'Add a new brand to the platform.'}
       initialState={initialState}
       isLoading={isLoading}
-      submitText={store ? 'Update Store' : 'Create Store'}
+      submitText={store ? 'Update Brand' : 'Create Brand'}
     >
       {(formData, handleInputChange) => (
         <>
           <div className="space-y-2">
-            <Label htmlFor="title">Store Title *</Label>
+            <Label htmlFor="title">Brand Title *</Label>
             <Input
               id="title"
               name="title"
               value={formData.title}
               onChange={handleInputChange}
-              placeholder="Enter store title"
+              placeholder="Enter brand title"
               required
             />
           </div>

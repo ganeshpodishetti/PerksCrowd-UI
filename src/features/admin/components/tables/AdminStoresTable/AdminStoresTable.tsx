@@ -37,7 +37,7 @@ export default function AdminStoresTable({ stores, onEditStore, onDeleteStore }:
       data={stores}
       columns={columns}
       actions={actions}
-      emptyMessage="No stores found"
+      emptyMessage="No brands found"
     />
   );
 }

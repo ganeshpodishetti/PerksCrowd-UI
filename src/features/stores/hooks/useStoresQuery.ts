@@ -54,7 +54,7 @@ export const useCreateStoreMutation = () => {
     mutationFn: (data: CreateStoreRequest) => storeService.createStore(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: storeKeys.all });
-      showSuccess('Store created successfully');
+      showSuccess('Brand created successfully');
     },
     onError: (error: any) => {
       handleApiError(error);
@@ -72,7 +72,7 @@ export const useUpdateStoreMutation = () => {
       storeService.updateStore(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: storeKeys.all });
-      showSuccess('Store updated successfully');
+      showSuccess('Brand updated successfully');
     },
     onError: (error: any) => {
       handleApiError(error);
@@ -89,7 +89,7 @@ export const useDeleteStoreMutation = () => {
     mutationFn: (id: string) => storeService.deleteStore(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: storeKeys.all });
-      showSuccess('Store deleted successfully');
+      showSuccess('Brand deleted successfully');
     },
     onError: (error: any) => {
       handleApiError(error);

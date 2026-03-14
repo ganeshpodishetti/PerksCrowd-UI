@@ -24,12 +24,12 @@ const StoresPage: React.FC = () => {
         setLoading(false);
       } catch (err) {
         console.error("Error loading stores:", err);
-        setError("Failed to load stores. Please try again later.");
+        setError("Failed to load brands. Please try again later.");
         setLoading(false);
         
         toast({
           title: "Error",
-          description: "Failed to load stores. Please try again later.",
+          description: "Failed to load brands. Please try again later.",
           variant: "destructive",
         });
       }
@@ -90,7 +90,7 @@ const StoresPage: React.FC = () => {
     <div className="container mx-auto p-4">
       {stores.length === 0 ? (
         <div className="text-center py-8">
-          <h2 className="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-2">No Stores Found</h2>
+          <h2 className="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-2">No Brands Found</h2>
           <p className="text-gray-500 dark:text-gray-400 text-sm">
             Check back soon!
           </p>

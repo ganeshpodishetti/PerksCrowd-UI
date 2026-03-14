@@ -71,7 +71,7 @@ export default function StoreForm({ store, onSave, title, description }: StoreFo
         className="mb-4"
       >
         <ArrowLeft className="h-4 w-4 mr-2" />
-        Back to Stores
+        Back to Brands
       </Button>
 
       <Card className="border-0">
@@ -82,13 +82,13 @@ export default function StoreForm({ store, onSave, title, description }: StoreFo
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="title">Store Title *</Label>
+              <Label htmlFor="title">Brand Title *</Label>
               <Input
                 id="title"
                 name="title"
                 value={formData.title}
                 onChange={handleInputChange}
-                placeholder="Enter store title"
+                placeholder="Enter brand title"
                 required
               />
             </div>
@@ -128,7 +128,7 @@ export default function StoreForm({ store, onSave, title, description }: StoreFo
               </Button>
               <Button type="submit" disabled={isLoading}>
                 {isLoading && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
-                {store ? 'Update Store' : 'Create Store'}
+                {store ? 'Update Brand' : 'Create Brand'}
               </Button>
             </div>
           </form>
