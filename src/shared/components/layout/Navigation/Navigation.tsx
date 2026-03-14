@@ -110,7 +110,7 @@ const Navigation: React.FC<NavigationProps> = () => {
               }`}
             >
               <Store className="mr-1.5 h-3.5 w-3.5" />
-              Stores
+              Brands
             </Link>
             
             <Link 
@@ -207,7 +207,7 @@ const Navigation: React.FC<NavigationProps> = () => {
                 onClick={closeMobileMenu}
               >
                 <Store className="mr-2 h-4 w-4" />
-                Stores
+                Brands
               </Link>
               
               <Link 

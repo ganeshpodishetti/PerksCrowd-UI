@@ -32,8 +32,8 @@ export default function EditStorePage({ params }: EditStorePageProps) {
     return (
       <AdminLayout>
         <AdminHeader 
-          title="Store Not Found"
-          description="The store you're looking for doesn't exist."
+          title="Brand Not Found"
+          description="The brand you're looking for doesn't exist."
         />
       </AdminLayout>
     );
@@ -42,15 +42,15 @@ export default function EditStorePage({ params }: EditStorePageProps) {
   return (
     <AdminLayout>
       <AdminHeader 
-        title="Edit Store"
+        title="Edit Brand"
         description={`Editing: ${store.title}`}
       />
 
       <StoreForm
         store={store}
         onSave={handleSave}
-        title="Store Information"
-        description="Update the store details."
+        title="Brand Information"
+        description="Update the brand details."
       />
     </AdminLayout>
   );

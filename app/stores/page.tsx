@@ -7,8 +7,8 @@ const Navigation = dynamic(() => import('@/shared/components/layout/Navigation/N
 })
 
 export const metadata = {
-  title: 'Stores - StudentPerks',
-  description: 'Browse deals by store',
+  title: 'Brands - StudentPerks',
+  description: 'Browse deals by brand',
 }
 
 export default function Stores() {

@@ -40,7 +40,7 @@ const UserAccountDropdown: React.FC = () => {
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => router.push('/')}>Home</DropdownMenuItem>
         <DropdownMenuItem onClick={() => router.push('/categories')}>Categories</DropdownMenuItem>
-        <DropdownMenuItem onClick={() => router.push('/stores')}>Stores</DropdownMenuItem>
+        <DropdownMenuItem onClick={() => router.push('/stores')}>Brands</DropdownMenuItem>
         <DropdownMenuSeparator />
         {user && (
           <>

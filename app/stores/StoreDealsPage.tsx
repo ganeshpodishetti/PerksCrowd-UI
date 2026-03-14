@@ -13,7 +13,7 @@ const StoreDealsPage: React.FC = () => {
   const router = useRouter();
   const storeName = decodeURIComponent(params?.storeName as string || '');
 
-  // Get deals for this store
+  // Get deals for this brand
   const { 
     data: deals = [], 
     isLoading, 
@@ -50,11 +50,11 @@ const StoreDealsPage: React.FC = () => {
           className="mb-6"
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
-          Back to Stores
+          Back to Brands
         </Button>
         <div className="text-center py-8">
           <h2 className="text-2xl font-bold text-red-600 mb-2">Error</h2>
-          <p className="text-gray-600">Failed to load deals for this store</p>
+          <p className="text-gray-600">Failed to load deals for this brand</p>
         </div>
       </div>
     );
@@ -70,7 +70,7 @@ const StoreDealsPage: React.FC = () => {
           className="mb-6"
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
-          Back to Stores
+          Back to Brands
         </Button>
 
         {/* Store header */}

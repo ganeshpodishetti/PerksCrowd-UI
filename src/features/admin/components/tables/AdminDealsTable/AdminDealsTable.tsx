@@ -16,7 +16,7 @@ export default function AdminDealsTable({ deals, onEditDeal, onDeleteDeal }: Adm
     },
     {
       key: 'storeName',
-      header: 'Store',
+      header: 'Brand',
       render: (_, deal) => cellRenderers.text(deal.storeName, 'text-neutral-700 dark:text-neutral-300')
     },
     {

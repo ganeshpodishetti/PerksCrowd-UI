@@ -40,10 +40,10 @@ export default function AdminStoresPage() {
   return (
     <AdminLayout>
       <AdminHeader 
-        title="Store Management"
-        description="Manage stores and their information"
+        title="Brand Management"
+        description="Manage brands and their information"
         onCreateAction={handleCreateStore}
-        createButtonText="Create Store"
+        createButtonText="Create Brand"
       />
 
       <AdminStoresList 

@@ -21,7 +21,7 @@ export default function AdminStoresList({ stores, onEditStore, onDeleteStore }: 
 
         {stores.length === 0 && (
           <div className="text-center py-8 text-neutral-500 dark:text-neutral-400">
-            No stores found. Create your first store to get started!
+            No brands found. Create your first brand to get started!
           </div>
         )}
       </CardContent>
