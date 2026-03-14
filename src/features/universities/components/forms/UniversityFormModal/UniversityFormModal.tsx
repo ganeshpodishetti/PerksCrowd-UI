@@ -98,7 +98,7 @@ export default function UniversityFormModal({ isOpen, onClose, onSave, universit
     >
       {(formData, handleInputChange, setFormData) => (
         <>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="name">University Name *</Label>
               <Input
@@ -122,7 +122,7 @@ export default function UniversityFormModal({ isOpen, onClose, onSave, universit
               />
             </div>
           </div>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             <div className="space-y-2">
               <Label htmlFor="country">Country</Label>
               <Input

@@ -6,21 +6,13 @@ import { useAuth } from '@/features/auth/contexts/AuthContext';
 import CategoryForm from '@/features/categories/components/forms/CategoryForm';
 import { useCreateCategoryMutation } from '@/features/categories/hooks/useCategoriesQuery';
 import { CreateCategoryRequest } from '@/features/categories/services/categoryService';
-import { useErrorHandler } from '@/shared/contexts/ErrorContext';
 
 export default function NewCategoryPage() {
   const { isLoading: authLoading } = useAuth();
-  const { showSuccess, showError } = useErrorHandler();
   const createCategoryMutation = useCreateCategoryMutation();
 
   const handleSave = async (categoryData: CreateCategoryRequest) => {
-    try {
-      await createCategoryMutation.mutateAsync(categoryData);
-      showSuccess('Category created successfully');
-    } catch (error) {
-      showError('Failed to create category');
-      throw error;
-    }
+    await createCategoryMutation.mutateAsync(categoryData);
   };
 
   if (authLoading) {

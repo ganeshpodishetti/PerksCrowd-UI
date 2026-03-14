@@ -9,7 +9,7 @@ interface DateSelectionProps {
 
 export default function DateSelection({ formData, handleInputChange }: DateSelectionProps) {
   return (
-    <div className="grid grid-cols-2 gap-4">
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
       <div>
         <Label htmlFor="startDate">Start Date</Label>
         <Input id="startDate" name="startDate" type="date" value={formData.startDate || ''} onChange={handleInputChange} />

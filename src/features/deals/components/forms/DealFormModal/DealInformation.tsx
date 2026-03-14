@@ -11,7 +11,7 @@ interface DealInformationProps {
 export default function DealInformation({ formData, handleInputChange }: DealInformationProps) {
   return (
     <>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div>
           <Label htmlFor="title">Title *</Label>
           <Input id="title" name="title" value={formData.title} onChange={handleInputChange} required placeholder="Deal title" />

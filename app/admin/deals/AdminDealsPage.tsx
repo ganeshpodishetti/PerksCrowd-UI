@@ -5,7 +5,6 @@ import AdminHeader from '@/features/admin/components/layout/AdminHeader/AdminHea
 import { AdminLayout } from '@/features/admin/components/layout/AdminLayout';
 import AdminDealsList from '@/features/admin/components/tables/AdminDealsList/AdminDealsList';
 import { useDeleteDealMutation, useUserDealsQuery } from '@/features/deals/hooks/useDealsQuery';
-import { useErrorHandler } from '@/shared/contexts/ErrorContext';
 import { useRouter } from 'next/navigation';
 import { useMemo, useState } from 'react';
 
@@ -13,7 +12,6 @@ export default function AdminDealsPage() {
   const router = useRouter();
   const { data: deals = [], isLoading } = useUserDealsQuery();
   const deleteDealMutation = useDeleteDealMutation();
-  const { showSuccess, showError } = useErrorHandler();
 
   const [searchTerm, setSearchTerm] = useState('');
   const filteredDeals = useMemo(() => {
@@ -41,12 +39,7 @@ export default function AdminDealsPage() {
       return;
     }
 
-    try {
-      await deleteDealMutation.mutateAsync(dealId);
-      showSuccess('Deal deleted successfully');
-    } catch (_error) {
-      showError('Failed to delete deal');
-    }
+    deleteDealMutation.mutate(dealId);
   };
 
   if (isLoading) {
