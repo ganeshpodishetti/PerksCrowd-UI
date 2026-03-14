@@ -1,5 +1,4 @@
 import { SubmittedDeal } from '@/shared/types/entities/submittedDeal';
-import { useEffect, useState } from 'react';
 import AdminSubmittedDealsCards from '../AdminSubmittedDealsCards/AdminSubmittedDealsCards';
 import AdminSubmittedDealsTable from '../AdminSubmittedDealsTable/AdminSubmittedDealsTable';
 
@@ -10,30 +9,22 @@ interface AdminSubmittedDealsListProps {
 }
 
 export default function AdminSubmittedDealsList({ deals, onMarkAsRead, onDelete }: AdminSubmittedDealsListProps) {
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkDevice = () => setIsMobile(window.innerWidth <= 768);
-    checkDevice();
-    window.addEventListener('resize', checkDevice);
-    return () => window.removeEventListener('resize', checkDevice);
-  }, []);
-
-  if (isMobile) {
-    return (
-      <AdminSubmittedDealsCards 
-        deals={deals}
-        onMarkAsRead={onMarkAsRead}
-        onDelete={onDelete}
-      />
-    );
-  }
-
   return (
-    <AdminSubmittedDealsTable 
-      deals={deals}
-      onMarkAsRead={onMarkAsRead}
-      onDelete={onDelete}
-    />
+    <>
+      <div className="md:hidden">
+        <AdminSubmittedDealsCards 
+          deals={deals}
+          onMarkAsRead={onMarkAsRead}
+          onDelete={onDelete}
+        />
+      </div>
+      <div className="hidden md:block">
+        <AdminSubmittedDealsTable 
+          deals={deals}
+          onMarkAsRead={onMarkAsRead}
+          onDelete={onDelete}
+        />
+      </div>
+    </>
   );
 }

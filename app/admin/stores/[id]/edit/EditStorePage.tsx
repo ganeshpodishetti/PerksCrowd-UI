@@ -5,7 +5,6 @@ import { AdminLayout } from '@/features/admin/components/layout/AdminLayout';
 import StoreForm from '@/features/stores/components/forms/StoreForm';
 import { useStoreQuery, useUpdateStoreMutation } from '@/features/stores/hooks/useStoresQuery';
 import { CreateStoreRequest } from '@/features/stores/services/storeService';
-import { useErrorHandler } from '@/shared/contexts/ErrorContext';
 import { use } from 'react';
 
 interface EditStorePageProps {
@@ -14,18 +13,11 @@ interface EditStorePageProps {
 
 export default function EditStorePage({ params }: EditStorePageProps) {
   const { id } = use(params);
-  const { showSuccess, showError } = useErrorHandler();
   const { data: store, isLoading, error } = useStoreQuery(id);
   const updateStoreMutation = useUpdateStoreMutation();
 
   const handleSave = async (storeData: CreateStoreRequest) => {
-    try {
-      await updateStoreMutation.mutateAsync({ id, data: storeData });
-      showSuccess('Store updated successfully');
-    } catch (error) {
-      showError('Failed to update store');
-      throw error;
-    }
+    await updateStoreMutation.mutateAsync({ id, data: storeData });
   };
 
   if (isLoading) {

@@ -6,21 +6,13 @@ import { useAuth } from '@/features/auth/contexts/AuthContext';
 import StoreForm from '@/features/stores/components/forms/StoreForm';
 import { useCreateStoreMutation } from '@/features/stores/hooks/useStoresQuery';
 import { CreateStoreRequest } from '@/features/stores/services/storeService';
-import { useErrorHandler } from '@/shared/contexts/ErrorContext';
 
 export default function NewStorePage() {
   const { isLoading: authLoading } = useAuth();
-  const { showSuccess, showError } = useErrorHandler();
   const createStoreMutation = useCreateStoreMutation();
 
   const handleSave = async (storeData: CreateStoreRequest) => {
-    try {
-      await createStoreMutation.mutateAsync(storeData);
-      showSuccess('Store created successfully');
-    } catch (error) {
-      showError('Failed to create store');
-      throw error;
-    }
+    await createStoreMutation.mutateAsync(storeData);
   };
 
   if (authLoading) {

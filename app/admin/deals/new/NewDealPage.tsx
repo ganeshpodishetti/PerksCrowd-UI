@@ -5,21 +5,13 @@ import { AdminLayout } from '@/features/admin/components/layout/AdminLayout';
 import { useAuth } from '@/features/auth/contexts/AuthContext';
 import DealForm from '@/features/deals/components/forms/DealForm';
 import { useCreateDealMutation } from '@/features/deals/hooks/useDealsQuery';
-import { useErrorHandler } from '@/shared/contexts/ErrorContext';
 
 export default function NewDealPage() {
   const { isLoading: authLoading } = useAuth();
-  const { showSuccess, showError } = useErrorHandler();
   const createDealMutation = useCreateDealMutation();
 
   const handleSave = async (dealData: any) => {
-    try {
-      await createDealMutation.mutateAsync(dealData);
-      showSuccess('Deal created successfully');
-    } catch (error) {
-      showError('Failed to create deal');
-      throw error;
-    }
+    await createDealMutation.mutateAsync(dealData);
   };
 
   if (authLoading) {

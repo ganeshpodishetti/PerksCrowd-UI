@@ -1,18 +1,12 @@
 import { AppProviders } from '@/shared/providers/AppProviders'
-import dynamic from 'next/dynamic'
+import { DeferredFooter } from '@/shared/components/layout/Footer/DeferredFooter'
 import { Outfit } from 'next/font/google'
 import './globals.css'
 
-// Lazy load Footer since it's below the fold
-const Footer = dynamic(() => import('@/shared/components/layout/Footer/Footer').then(mod => mod.Footer), {
-  ssr: true,
-})
-
 const outfit = Outfit({ 
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
   display: 'swap',
-  preload: true,
+  preload: false,
   fallback: ['system-ui', 'sans-serif'],
 })
 
@@ -39,11 +33,6 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* Preconnect to critical third-party origins */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://ik.imagekit.io" crossOrigin="anonymous" />
-        
         <link rel="icon" href="/studentperks.png" type="image/png" />
         <link rel="apple-touch-icon" href="/studentperks.png" />
       </head>
@@ -63,7 +52,7 @@ export default function RootLayout({
         }}
       >
         <AppProviders>{children}</AppProviders>
-        <Footer />
+        <DeferredFooter />
       </body>
     </html>
   );

@@ -14,14 +14,14 @@ interface DealSettingsProps {
 export default function DealSettings({ formData, handleInputChange, handleFileChange, setFormData }: DealSettingsProps) {
   return (
     <>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div>
           <Label htmlFor="url">Deal URL</Label>
           <Input id="url" name="url" value={formData.url || ''} onChange={handleInputChange} placeholder="https://example.com/deal" />
         </div>
         <div></div>
       </div>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div>
           <Label htmlFor="promo">Promo Code</Label>
           <Input id="promo" name="promo" value={formData.promo || ''} onChange={handleInputChange} placeholder="e.g., SAVE50" />
