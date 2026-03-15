@@ -2,6 +2,7 @@
 import SubmittedDealFormModal from '@/features/deals/components/forms/SubmittedDealFormModal/SubmittedDealFormModal';
 import { useToast } from '@/shared/components/ui/use-toast';
 import { GraduationCap, Menu, Plus, Search, Tag, X } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -34,10 +35,6 @@ const Navigation: React.FC<NavigationProps> = () => {
 
   const isUniversityDealsRoute = /^\/universities\/[^/]+\/deals\/?$/.test(pathname || '');
 
-  if (isUniversityDealsRoute) {
-    return null;
-  }
-  
   // Close mobile menu when route changes
   useEffect(() => {
     setIsMobileMenuOpen(false);
@@ -79,6 +76,10 @@ const Navigation: React.FC<NavigationProps> = () => {
     }
   };
 
+  if (isUniversityDealsRoute) {
+    return null;
+  }
+
   return (
     <header className="bg-white dark:bg-neutral-950 py-4 sticky top-0 z-50 w-full">
       <div className="w-full max-w-7xl mx-auto px-6 md:px-8">
@@ -87,21 +88,25 @@ const Navigation: React.FC<NavigationProps> = () => {
           <div className="flex items-center">
             <Link 
               href="/" 
-              className="flex items-center text-xl sm:text-2xl font-bold tracking-tight text-neutral-900 dark:text-white hover:text-neutral-700 dark:hover:text-neutral-200 transition-colors"
+              className="flex items-center gap-2 text-xl sm:text-2xl font-bold tracking-tight text-neutral-900 dark:text-white hover:text-neutral-700 dark:hover:text-neutral-200 transition-colors"
               onClick={closeMobileMenu}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="32px"
-                viewBox="0 -960 960 960"
-                width="32px"
-                fill="currentColor"
-                className="h-6 w-6 mr-2 sm:h-8 sm:w-8 text-black dark:text-white"
-                aria-label="StudentPerks Logo"
-              >
-                <path d="M855-316v-236L524-373q-21.48 11-45.24 10.5T436-374L99-559q-10-5-17-16.21t-7-22.74q0-11.48 6.97-22.32Q88.95-631.11 99-638l337-183q10.26-5 21.51-9 11.26-4 21.68-4 10.43 0 21.69 4 11.25 4 23.12 9l387 210q10.71 5 17.36 15.7 6.64 10.7 6.64 24.6V-315q0 17.35-11.88 28.67Q911.25-275 895.51-275q-16.74 0-28.63-11.83Q855-298.65 855-316ZM436-139 230-251q-23.19-12.98-35.6-34.24Q182-306.5 182-331v-143l254 138q18.93 13 42.86 13T524-336l253-138v143q0 24.5-12.9 45.76Q751.19-263.98 730-251L524-139q-11.87 6-23.12 9-11.26 3-21.69 3-10.42 0-21.68-3-11.25-3-21.51-9Z"/>
-              </svg>
-              {/* <span className="bg-gradient-to-r from-neutral-500 to-neutral-600 bg-clip-text text-transparent">StudentPerks</span> */}
+              <Image
+                src="/studentperks-logo-dark.svg"
+                alt="StudentPerks logo"
+                width={40}
+                height={40}
+                priority
+                className="h-7 w-7 sm:h-9 sm:w-9 dark:hidden"
+              />
+              <Image
+                src="/studentperks-logo-light.svg"
+                alt="StudentPerks logo"
+                width={40}
+                height={40}
+                priority
+                className="hidden h-7 w-7 sm:h-9 sm:w-9 dark:block"
+              />
               StudentPerks
             </Link>
           </div>
