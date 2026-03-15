@@ -34,7 +34,6 @@ export default function ForgotPasswordPage() {
       toast({
         title: "Success",
         description: response.message || "If the email is registered and confirmed, a reset link has been sent.",
-        duration: 7000,
       });
     } catch (error: any) {
       const errorMessage = error.response?.data?.message || 

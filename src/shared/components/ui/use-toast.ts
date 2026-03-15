@@ -6,7 +6,8 @@ import type {
 } from "./toast"
 
 const TOAST_LIMIT = 5
-const TOAST_REMOVE_DELAY = 1000000
+export const TOAST_DEFAULT_DURATION = 4000
+const TOAST_REMOVE_DELAY = 350
 
 type ToasterToast = ToastProps & {
   id: string
@@ -145,7 +146,7 @@ function toast({ ...props }: Toast) {
   const update = (props: ToasterToast) =>
     dispatch({
       type: "UPDATE_TOAST",
-      toast: { ...props, id },
+      toast: { ...props, id, duration: TOAST_DEFAULT_DURATION },
     })
   const dismiss = () => dispatch({ type: "DISMISS_TOAST", toastId: id })
 
@@ -154,6 +155,7 @@ function toast({ ...props }: Toast) {
     toast: {
       ...props,
       id,
+      duration: TOAST_DEFAULT_DURATION,
       open: true,
       onOpenChange: (open) => {
         if (!open) dismiss()

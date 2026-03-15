@@ -61,7 +61,6 @@ export default function RegisterPage() {
       toast({
         title: "Success",
         description: "Account created successfully! Please check your email to confirm your account.",
-        duration: 7000,
       });
       router.push('/login'); // Redirect to login page
     } catch (error: any) {

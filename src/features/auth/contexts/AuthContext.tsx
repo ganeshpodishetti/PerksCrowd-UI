@@ -39,13 +39,19 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     try {
       setIsLoading(true);
 
-      if (typeof window !== "undefined" && isPublicRoute(window.location.pathname)) {
+      const existingUser = authService.getUser();
+      if (existingUser) setUser(existingUser);
+
+      const pathname = typeof window !== 'undefined' ? window.location.pathname : '';
+      const onPublicRoute = pathname ? isPublicRoute(pathname) : false;
+      const onLoginRoute = pathname === '/login' || pathname.startsWith('/login/');
+
+      // Skip background auth checks on anonymous public pages, but keep login route
+      // eligible for silent refresh + redirect.
+      if (onPublicRoute && !onLoginRoute && !existingUser) {
         setIsLoading(false);
         return;
       }
-
-      const existingUser = authService.getUser();
-      if (existingUser) setUser(existingUser);
 
       try {
         const isAuthenticated = await authService.checkAuthStatus();

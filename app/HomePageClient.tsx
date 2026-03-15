@@ -18,8 +18,8 @@ interface HomePageClientProps {
 }
 
 const FEED_SECTIONS: Array<{ title: string; feedType: FeedType }> = [
-  { title: 'Latest', feedType: 'latest' },
   { title: 'Featured', feedType: 'featured' },
+  { title: 'Latest', feedType: 'latest' },
   { title: 'Popular', feedType: 'popular' },
   { title: 'Trending', feedType: 'trending' },
 ]
@@ -47,7 +47,8 @@ export function HomePageClient({ sectionedFeeds = false }: HomePageClientProps) 
       <main className="flex-grow py-14 md:py-16 bg-background dark:bg-background">
         <div className="w-full max-w-7xl mx-auto px-6 md:px-8 bg-background dark:bg-background">
           <div className="flex flex-col md:flex-row gap-6">
-            <aside className="w-full md:w-48 shrink-0">
+            {!sectionedFeeds && (
+              <aside className="w-full md:w-48 shrink-0">
               <div className="md:sticky md:top-24">
                 <h3 className="text-sm font-semibold text-neutral-800 dark:text-neutral-200 mb-3 flex items-center gap-2">
                   <Tag className="h-4 w-4" />
@@ -79,7 +80,8 @@ export function HomePageClient({ sectionedFeeds = false }: HomePageClientProps) 
                   ))}
                 </nav>
               </div>
-            </aside>
+              </aside>
+            )}
 
             <div className="flex-1 min-w-0">
               {searchQuery && (
@@ -99,6 +101,18 @@ export function HomePageClient({ sectionedFeeds = false }: HomePageClientProps) 
 
               {sectionedFeeds && !searchQuery ? (
                 <div className="space-y-10">
+                  <section className="max-w-2xl mx-auto text-center">
+                    <p className="text-xs uppercase tracking-[0.12em] text-neutral-500 dark:text-neutral-400 mb-2">
+                      Built for students
+                    </p>
+                    <h1 className="text-xl md:text-2xl font-semibold text-neutral-900 dark:text-neutral-100 leading-tight">
+                      Verified student offers from brands you already use.
+                    </h1>
+                    <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
+                      StudentPerks helps students save on everyday essentials by surfacing genuine deals and keeping them easy to redeem.
+                    </p>
+                  </section>
+
                   {FEED_SECTIONS.map((section) => (
                     <section key={`${section.feedType}-${selectedCategory || 'all'}`}>
                       <div className="mb-4">

@@ -75,7 +75,6 @@ const DealDetail: React.FC<DealDetailProps> = ({ deal, trigger, onView, onClick,
       toast({
         title: "Promo code copied!",
         description: `"${deal.promo}" has been copied to your clipboard.`,
-        duration: 3000,
       });
     }
   };

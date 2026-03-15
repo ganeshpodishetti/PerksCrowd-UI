@@ -31,6 +31,12 @@ const Navigation: React.FC<NavigationProps> = () => {
   const pathname = usePathname();
   const router = useRouter();
   const { toast } = useToast();
+
+  const isUniversityDealsRoute = /^\/universities\/[^/]+\/deals\/?$/.test(pathname || '');
+
+  if (isUniversityDealsRoute) {
+    return null;
+  }
   
   // Close mobile menu when route changes
   useEffect(() => {
