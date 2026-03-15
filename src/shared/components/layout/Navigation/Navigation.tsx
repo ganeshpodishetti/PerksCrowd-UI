@@ -1,7 +1,7 @@
 'use client'
 import SubmittedDealFormModal from '@/features/deals/components/forms/SubmittedDealFormModal/SubmittedDealFormModal';
 import { useToast } from '@/shared/components/ui/use-toast';
-import { GraduationCap, Menu, Plus, Search, Store, X } from 'lucide-react';
+import { GraduationCap, Menu, Plus, Search, Tag, X } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -67,8 +67,7 @@ const Navigation: React.FC<NavigationProps> = () => {
     e.preventDefault();
     const trimmedQuery = searchQuery.trim();
     if (trimmedQuery) {
-      // Navigate to home page with search query
-      router.push(`/?search=${encodeURIComponent(trimmedQuery)}`);
+      router.push(`/deals?search=${encodeURIComponent(trimmedQuery)}`);
       setSearchQuery('');
       closeMobileMenu();
     }
@@ -104,13 +103,13 @@ const Navigation: React.FC<NavigationProps> = () => {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-6 lg:space-x-8">
             <Link 
-              href="/stores"
+              href="/deals"
               className={`flex items-center text-neutral-700 dark:text-neutral-300 hover:text-black dark:hover:text-white font-medium text-sm transition-colors focus:outline-none ${
-                pathname === '/stores' ? 'text-black dark:text-white border-b-2 border-black dark:border-white pb-1' : ''
+                pathname === '/deals' ? 'text-black dark:text-white border-b-2 border-black dark:border-white pb-1' : ''
               }`}
             >
-              <Store className="mr-1.5 h-3.5 w-3.5" />
-              Brands
+              <Tag className="mr-1.5 h-3.5 w-3.5" />
+              Deals
             </Link>
             
             <Link 
@@ -198,16 +197,16 @@ const Navigation: React.FC<NavigationProps> = () => {
               
               
               <Link 
-                href="/stores"
+                href="/deals"
                 className={`flex items-center px-3 py-2 rounded-md text-base font-medium transition-colors ${
-                  pathname === '/stores'
+                  pathname === '/deals'
                     ? 'bg-neutral-200 dark:bg-neutral-800 text-black dark:text-white' 
                     : 'text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:text-black dark:hover:text-white'
                 }`}
                 onClick={closeMobileMenu}
               >
-                <Store className="mr-2 h-4 w-4" />
-                Brands
+                <Tag className="mr-2 h-4 w-4" />
+                Deals
               </Link>
               
               <Link 
