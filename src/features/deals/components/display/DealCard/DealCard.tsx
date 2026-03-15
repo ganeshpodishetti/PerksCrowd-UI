@@ -3,8 +3,10 @@ import { Badge } from "@/shared/components/ui/badge";
 import { Card } from "@/shared/components/ui/card";
 import { Deal } from '@/shared/types';
 import { Clock, ExternalLink } from 'lucide-react';
-import React, { memo } from 'react';
+import NextImage from 'next/image';
+import React, { memo, useEffect, useState } from 'react';
 import DealDetail from '../DealDetail/DealDetail';
+import { getDealLogoInitial } from '../utils/getDealLogoInitial';
 
 interface DealCardProps {
   deal: Deal;
@@ -13,16 +15,21 @@ interface DealCardProps {
   showCategoryAndStore?: boolean;
 }
 
-const DealCard: React.FC<DealCardProps> = memo(({ deal, showUniversityInfo = false, compact = false, showCategoryAndStore = true }) => {
+const DealCard: React.FC<DealCardProps> = memo((props) => {
+  const { deal, compact = false, showCategoryAndStore = true } = props;
+  const showUniversityInfo = props.showUniversityInfo ?? false;
+  const [imageError, setImageError] = useState(false);
+  const cardImageUrl = imageError ? undefined : (deal.logoUrl || deal.imageUrl);
+  const logoInitial = getDealLogoInitial(deal);
+
+  useEffect(() => {
+    setImageError(false);
+  }, [deal.id, deal.logoUrl, deal.imageUrl]);
 
   // Calculate days remaining if end date exists
   const getDaysRemaining = () => {
     // Check for null, undefined, empty string, or placeholder text
-    if (!deal.endDate || 
-        deal.endDate === null || 
-        deal.endDate === 'No date specified' || 
-        deal.endDate === '' ||
-        deal.endDate === 'null') {
+    if (!deal.endDate || deal.endDate === 'No date specified' || deal.endDate === '') {
       return null;
     }
     
@@ -33,8 +40,7 @@ const DealCard: React.FC<DealCardProps> = memo(({ deal, showUniversityInfo = fal
       
       const now = new Date();
       const diffTime = endDate.getTime() - now.getTime();
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      return diffDays;
+      return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     } catch (error) {
       return null;
     }
@@ -50,6 +56,26 @@ const DealCard: React.FC<DealCardProps> = memo(({ deal, showUniversityInfo = fal
     <Card className={`relative overflow-hidden flex flex-col group hover:shadow-lg hover:-translate-y-1 active:scale-[0.98] active:shadow-md transition-all duration-300 border border-neutral-100 dark:border-neutral-800 bg-white dark:bg-neutral-900 rounded-2xl p-3 sm:p-4 ${compact ? 'sm:p-4' : 'sm:p-5'} ${isExpired ? 'opacity-70' : ''} h-full cursor-pointer hover:border-neutral-200 dark:hover:border-neutral-700 touch-manipulation`}>
       {/* Header with Title */}
       <div className="flex items-center gap-3 sm:gap-4 mb-2 sm:mb-3">
+        <div className="w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center overflow-hidden rounded-xl bg-neutral-50 dark:bg-neutral-900 flex-shrink-0">
+          {cardImageUrl ? (
+            <NextImage
+              src={cardImageUrl}
+              alt={`${deal.storeName} logo`}
+              width={44}
+              height={44}
+              className="w-full h-full object-contain"
+              onError={() => setImageError(true)}
+              unoptimized
+              data-testid="deal-card-image"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center bg-neutral-100 dark:bg-neutral-800" data-testid="deal-card-image-fallback">
+              <span className="text-sm sm:text-base font-semibold text-neutral-700 dark:text-neutral-200" aria-label="deal logo initial">
+                {logoInitial}
+              </span>
+            </div>
+          )}
+        </div>
         {/* Deal Title and Discount */}
         <div className="flex-1 min-w-0 flex flex-col justify-center">
           <h3 className={`text-sm ${compact ? 'sm:text-sm' : 'sm:text-base'} font-medium text-neutral-800 dark:text-neutral-300 leading-tight group-hover:text-neutral-600 dark:group-hover:text-neutral-400 transition-colors duration-300 line-clamp-2`}>
@@ -97,6 +123,14 @@ const DealCard: React.FC<DealCardProps> = memo(({ deal, showUniversityInfo = fal
             <span className="text-[10px] sm:text-xs text-neutral-500 dark:text-neutral-400">
               {deal.storeName}
             </span>
+            {showUniversityInfo && deal.universityName && (
+              <>
+                <span className="text-[10px] sm:text-xs text-neutral-400 dark:text-neutral-500">•</span>
+                <span className="text-[10px] sm:text-xs text-neutral-500 dark:text-neutral-400">
+                  {deal.universityName}
+                </span>
+              </>
+            )}
           </div>
           <a
             href={deal.url}

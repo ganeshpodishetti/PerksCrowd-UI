@@ -10,9 +10,10 @@ import {
 } from "@/shared/components/ui/dialog";
 import { useToast } from "@/shared/components/ui/use-toast";
 import { Deal } from '@/shared/types';
-import { Calendar, Copy, ExternalLink, Info, Image as LucideImage, MapPin, School, Tag } from 'lucide-react';
+import { Calendar, Copy, ExternalLink, Info, MapPin, School, Tag } from 'lucide-react';
 import NextImage from 'next/image';
 import React, { useState } from 'react';
+import { getDealLogoInitial } from '../utils/getDealLogoInitial';
 
 interface DealDetailProps {
   deal: Deal;
@@ -21,13 +22,14 @@ interface DealDetailProps {
 
 const DealDetail: React.FC<DealDetailProps> = ({ deal, trigger }) => {
   const [imageError, setImageError] = useState(false);
-  const imageUrl = deal.imageUrl;
+  const imageUrl = deal.logoUrl || deal.imageUrl;
+  const logoInitial = getDealLogoInitial(deal);
   const { toast } = useToast();
   
   const handleImageError = () => {
     setImageError(true);
   };
-  
+
   // Format date
   const formatDate = (dateString?: string) => {
     if (!dateString) return 'No date specified';
@@ -47,8 +49,7 @@ const DealDetail: React.FC<DealDetailProps> = ({ deal, trigger }) => {
       if (isNaN(endDate.getTime())) return null;
       const now = new Date();
       const diffTime = endDate.getTime() - now.getTime();
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      return diffDays;
+      return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     } catch (error) {
       return null;
     }
@@ -123,8 +124,10 @@ const DealDetail: React.FC<DealDetailProps> = ({ deal, trigger }) => {
                   unoptimized
                 />
               ) : (
-                <div className="w-full h-full flex items-center justify-center">
-                  <LucideImage className="w-5 h-5 text-neutral-400 dark:text-neutral-500" />
+                <div className="w-full h-full flex items-center justify-center bg-neutral-100 dark:bg-neutral-800" data-testid="deal-detail-image-fallback">
+                  <span className="text-base font-semibold text-neutral-700 dark:text-neutral-200" aria-label="deal logo initial">
+                    {logoInitial}
+                  </span>
                 </div>
               )}
             </div>
