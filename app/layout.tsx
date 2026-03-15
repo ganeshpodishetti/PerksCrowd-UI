@@ -1,5 +1,6 @@
 import { AppProviders } from '@/shared/providers/AppProviders'
 import { DeferredFooter } from '@/shared/components/layout/Footer/DeferredFooter'
+import type { Metadata, Viewport } from 'next'
 import { Outfit } from 'next/font/google'
 import './globals.css'
 
@@ -10,20 +11,86 @@ const outfit = Outfit({
   fallback: ['system-ui', 'sans-serif'],
 })
 
-export const metadata = {
-  title: "StudentPerks - Exclusive Student Deals & Discounts",
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
+
+export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: 'StudentPerks - Exclusive Student Deals & Discounts',
+    template: '%s | StudentPerks',
+  },
   description:
-    "Discover exclusive deals and discounts for students. Save money on your favorite brands and services.",
-  keywords:
-    "student discounts, deals, offers, university perks, student savings",
+    'Discover exclusive deals and discounts for students. Save money on your favorite brands and services.',
+  keywords: [
+    'student discounts',
+    'deals',
+    'offers',
+    'university perks',
+    'student savings',
+  ],
+  applicationName: 'StudentPerks',
+  manifest: '/site.webmanifest',
   icons: {
     icon: [
-      { url: "/studentperks.png", type: "image/png" }
+      {
+        media: '(prefers-color-scheme: light)',
+        url: '/studentperks-logo-dark.svg',
+        type: 'image/svg+xml',
+      },
+      {
+        media: '(prefers-color-scheme: dark)',
+        url: '/studentperks-logo-light.svg',
+        type: 'image/svg+xml',
+      },
+      {
+        media: '(prefers-color-scheme: light)',
+        url: '/studentperks-favicon-light.png',
+        sizes: '48x48',
+        type: 'image/png',
+      },
+      {
+        media: '(prefers-color-scheme: dark)',
+        url: '/studentperks-favicon-dark.png',
+        sizes: '48x48',
+        type: 'image/png',
+      },
     ],
-    shortcut: "/studentperks.png",
-    apple: "/studentperks.png",
+    shortcut: ['/studentperks-favicon-light.png'],
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
   },
-};
+  openGraph: {
+    type: 'website',
+    siteName: 'StudentPerks',
+    title: 'StudentPerks - Exclusive Student Deals & Discounts',
+    description:
+      'Discover exclusive deals and discounts for students. Save money on your favorite brands and services.',
+    images: [
+      {
+        url: '/icon-512.png',
+        width: 512,
+        height: 512,
+        alt: 'StudentPerks logo',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary',
+    title: 'StudentPerks - Exclusive Student Deals & Discounts',
+    description:
+      'Discover exclusive deals and discounts for students. Save money on your favorite brands and services.',
+    images: ['/icon-512.png'],
+  },
+}
+
+export const viewport: Viewport = {
+  colorScheme: 'light dark',
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#0a0a0a' },
+  ],
+}
 
 export default function RootLayout({
   children,
@@ -32,28 +99,24 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        <link rel="icon" href="/studentperks.png" type="image/png" />
-        <link rel="apple-touch-icon" href="/studentperks.png" />
-      </head>
       <body
         className={
-          outfit.className + " bg-background dark:bg-background min-h-screen"
+          outfit.className + ' bg-background dark:bg-background min-h-screen'
         }
         suppressHydrationWarning
         style={{
-          backgroundColor: "hsl(var(--background))",
-          color: "hsl(var(--foreground))",
-          minHeight: "100vh",
-          WebkitOverflowScrolling: "touch",
-          WebkitTapHighlightColor: "transparent",
-          paddingTop: "env(safe-area-inset-top)",
-          paddingBottom: "env(safe-area-inset-bottom)",
+          backgroundColor: 'hsl(var(--background))',
+          color: 'hsl(var(--foreground))',
+          minHeight: '100vh',
+          WebkitOverflowScrolling: 'touch',
+          WebkitTapHighlightColor: 'transparent',
+          paddingTop: 'env(safe-area-inset-top)',
+          paddingBottom: 'env(safe-area-inset-bottom)',
         }}
       >
         <AppProviders>{children}</AppProviders>
         <DeferredFooter />
       </body>
     </html>
-  );
+  )
 }
