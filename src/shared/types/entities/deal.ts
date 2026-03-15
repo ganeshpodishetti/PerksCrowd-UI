@@ -11,20 +11,20 @@ export interface Deal {
   title: string;
   description: string;
   discount: string;
-  promo?: string;
-  logoUrl?: string;
+  promo?: string | null;
+  logoUrl?: string | null;
   imageUrl?: string;
   isActive: boolean;
   isFeatured: boolean;
   url: string;
   redeemType: RedeemType;
-  howToRedeem?: string;
-  startDate?: string;
-  endDate?: string;
+  howToRedeem?: string | null;
+  startDate?: string | null;
+  endDate?: string | null;
   isUniversitySpecific: boolean;
   categoryName: string;
   storeName: string;
-  universityName?: string;
+  universityName?: string | null;
   universityImageUrl?: string;
   createdAt?: string;
 }

@@ -8,6 +8,7 @@ import { useDealsLoadMore } from "@/features/deals/hooks/deals/useDealsLoadMore"
 import { dealService } from "@/features/deals/services/dealService";
 import { Button } from "@/shared/components/ui/button";
 import { Deal } from "@/shared/types/entities/deal";
+import type { FeedType } from '@/shared/types/api/responses';
 import React, { useCallback, useEffect, useState } from "react";
 import HeroSearchSection from "../../search/HeroSearchSection/HeroSearchSection";
 import DealSkeleton from "../DealSkeleton/DealSkeleton";
@@ -22,6 +23,10 @@ interface DealsContainerProps {
   showHeroSection?: boolean;
   excludeUniversitySpecific?: boolean;
   showFilters?: boolean;
+  useFeedApis?: boolean;
+  showLoadMore?: boolean;
+  feedType?: FeedType;
+  showStatusHeader?: boolean;
 }
 
 export const DealsContainer: React.FC<DealsContainerProps> = ({
@@ -31,8 +36,12 @@ export const DealsContainer: React.FC<DealsContainerProps> = ({
   showHeroSection = true,
   excludeUniversitySpecific = false,
   showFilters = true,
+  useFeedApis = false,
+  showLoadMore = true,
+  feedType,
+  showStatusHeader = true,
 }) => {
-  const { deals, loading, error, refetch, hasMore: serverHasMore, isFetchingNextPage, fetchNextPage } = useDealsData();
+  const { deals, loading, error, refetch, hasMore: serverHasMore, isFetchingNextPage, fetchNextPage } = useDealsData({ useFeedApis, feedType });
   const [searchResults, setSearchResults] = useState<Deal[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [hasSearched, setHasSearched] = useState(!!initialSearchQuery);
@@ -134,15 +143,16 @@ export const DealsContainer: React.FC<DealsContainerProps> = ({
   if (loading) {
     return (
       <div className="bg-white dark:bg-neutral-950">
-        {/* Header */}
-        <div className="mb-10 text-center">
-          <h1 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100">
-            Student Deals
-          </h1>
-          <p className="mt-2 text-sm text-neutral-500 dark:text-neutral-400">
-            Loading the best offers for students...
-          </p>
-        </div>
+        {showStatusHeader && (
+          <div className="mb-10 text-center">
+            <h1 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100">
+              Student Deals
+            </h1>
+            <p className="mt-2 text-sm text-neutral-500 dark:text-neutral-400">
+              Loading the best offers for students...
+            </p>
+          </div>
+        )}
         <DealSkeleton count={8} />
       </div>
     );
@@ -151,15 +161,16 @@ export const DealsContainer: React.FC<DealsContainerProps> = ({
   if (error) {
     return (
       <div className="bg-white dark:bg-neutral-950">
-        {/* Header */}
-        <div className="mb-10 text-center">
-          <h1 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100">
-            Student Deals
-          </h1>
-          <p className="mt-2 text-sm text-neutral-500 dark:text-neutral-400">
-            Exclusive offers for students
-          </p>
-        </div>
+        {showStatusHeader && (
+          <div className="mb-10 text-center">
+            <h1 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100">
+              Student Deals
+            </h1>
+            <p className="mt-2 text-sm text-neutral-500 dark:text-neutral-400">
+              Exclusive offers for students
+            </p>
+          </div>
+        )}
         <div className="text-center py-16">
           <p className="text-neutral-500 dark:text-neutral-400 font-medium mb-4">
             {error}
@@ -231,7 +242,7 @@ export const DealsContainer: React.FC<DealsContainerProps> = ({
       />
 
       {/* Load More - only show if not using search */}
-      {!hasSearched && (
+      {!hasSearched && showLoadMore && (
         <DealsLoadMore
           hasMore={hasMore}
           isLoadingMore={isLoadingMore}

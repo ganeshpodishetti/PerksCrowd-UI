@@ -17,13 +17,16 @@ import React from 'react';
 interface DealDetailProps {
   deal: Deal;
   trigger: React.ReactNode;
+  onView?: (dealId: string) => void | Promise<void>;
+  onClick?: (dealId: string) => void | Promise<void>;
+  onRedeem?: (dealId: string) => void | Promise<void>;
 }
 
-const DealDetail: React.FC<DealDetailProps> = ({ deal, trigger }) => {
+const DealDetail: React.FC<DealDetailProps> = ({ deal, trigger, onView, onClick, onRedeem }) => {
   const { toast } = useToast();
 
   // Format date
-  const formatDate = (dateString?: string) => {
+  const formatDate = (dateString?: string | null) => {
     if (!dateString) return 'No date specified';
     try {
       const date = new Date(dateString);
@@ -77,8 +80,14 @@ const DealDetail: React.FC<DealDetailProps> = ({ deal, trigger }) => {
     }
   };
   
+  const handleOpenChange = (open: boolean) => {
+    if (open) {
+      void onView?.(deal.id);
+    }
+  };
+
   return (
-    <Dialog>
+    <Dialog onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         {trigger}
       </DialogTrigger>
@@ -193,6 +202,10 @@ const DealDetail: React.FC<DealDetailProps> = ({ deal, trigger }) => {
               href={deal.url}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => {
+                void onRedeem?.(deal.id);
+                void onClick?.(deal.id);
+              }}
               className="flex items-center justify-center gap-2"
             >
               Official Deal Link

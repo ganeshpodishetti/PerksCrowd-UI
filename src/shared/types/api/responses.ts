@@ -76,26 +76,31 @@ export interface DealResponse {
   title: string;
   description: string;
   discount: string;
-  promo?: string;
+  promo?: string | null;
   /** Transitional casing from backend responses. */
   LogoUrl?: string;
-  logoUrl?: string;
+  logoUrl?: string | null;
   imageUrl?: string;
   isActive: boolean;
   isFeatured: boolean;
   url: string;
   /** enum name: Online | InStore | Both | Unknown */
   redeemType: RedeemType;
-  howToRedeem?: string;
-  startDate?: string;
-  endDate?: string;
+  howToRedeem?: string | null;
+  startDate?: string | null;
+  endDate?: string | null;
   isUniversitySpecific: boolean;
   categoryName: string;
   storeName: string;
-  universityName?: string;
+  universityName?: string | null;
   universityImageUrl?: string;
   createdAt?: string;
 }
+
+export type FeedType = 'latest' | 'featured' | 'popular' | 'trending';
+
+/** GET /api/feeds/{feedType} */
+export type FeedDealsResponse = DealResponse[];
 
 /** GET /api/deals?cursor=&pageSize= */
 export interface CursorPaginatedDealsResponse {

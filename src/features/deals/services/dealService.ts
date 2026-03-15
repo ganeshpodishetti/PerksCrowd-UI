@@ -8,8 +8,13 @@
  * Search with empty query short-circuits to [] client-side.
  */
 import { dealsApi } from '@/shared/services/api/dealsApi';
-import type { CreateDealRequest, UpdateDealRequest, CursorPaginationRequest } from '@/shared/types/api/requests';
-import type { CursorPaginatedDealsResponse, DealResponse } from '@/shared/types/api/responses';
+import type {
+  CreateDealRequest,
+  CursorPaginationRequest,
+  FeedInteractionEventType,
+  UpdateDealRequest,
+} from '@/shared/types/api/requests';
+import type { CursorPaginatedDealsResponse, DealResponse, FeedType } from '@/shared/types/api/responses';
 
 // Keep the Deal type alias so existing consumers don't break
 export type { DealResponse as Deal };
@@ -76,6 +81,85 @@ export const dealService = {
    */
   async searchDeals({ query = '' }: { query?: string }): Promise<DealResponse[]> {
     return dealsApi.search(query);
+  },
+
+  async getLatestFeed(): Promise<DealResponse[]> {
+    return dealsApi.getLatestFeed();
+  },
+
+  async getFeaturedFeed(): Promise<DealResponse[]> {
+    return dealsApi.getFeaturedFeed();
+  },
+
+  async getPopularFeed(): Promise<DealResponse[]> {
+    return dealsApi.getPopularFeed();
+  },
+
+  async getTrendingFeed(): Promise<DealResponse[]> {
+    return dealsApi.getTrendingFeed();
+  },
+
+  async getSingleFeedWithFallback(feedType: FeedType): Promise<DealResponse[]> {
+    try {
+      switch (feedType) {
+        case 'latest':
+          return await dealService.getLatestFeed();
+        case 'featured':
+          return await dealService.getFeaturedFeed();
+        case 'popular':
+          return await dealService.getPopularFeed();
+        case 'trending':
+          return await dealService.getTrendingFeed();
+      }
+    } catch {
+      const legacy = await dealService.getDeals();
+
+      if (feedType === 'featured') {
+        return legacy.items.filter((deal) => deal.isFeatured);
+      }
+
+      return legacy.items;
+    }
+  },
+
+  async getHomeFeed(): Promise<DealResponse[]> {
+    const feedResults = await Promise.allSettled([
+      dealService.getLatestFeed(),
+      dealService.getFeaturedFeed(),
+      dealService.getPopularFeed(),
+      dealService.getTrendingFeed(),
+    ]);
+
+    const successfulFeeds = feedResults
+      .filter((result): result is PromiseFulfilledResult<DealResponse[]> => result.status === 'fulfilled')
+      .flatMap((result) => result.value);
+
+    // If all feed calls fail, gracefully fall back to legacy deals endpoint.
+    if (successfulFeeds.length === 0) {
+      const legacy = await dealService.getDeals();
+      return legacy.items;
+    }
+
+    const uniqueById = new Map<string, DealResponse>();
+    for (const deal of successfulFeeds) {
+      if (!uniqueById.has(deal.id)) {
+        uniqueById.set(deal.id, deal);
+      }
+    }
+
+    return Array.from(uniqueById.values());
+  },
+
+  async trackFeedInteraction({
+    dealId,
+    eventType,
+    userId,
+  }: {
+    dealId: string;
+    eventType: FeedInteractionEventType;
+    userId?: string;
+  }): Promise<void> {
+    return dealsApi.trackInteraction({ dealId, eventType, userId });
   },
 };
 

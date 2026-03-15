@@ -9,6 +9,9 @@
 /** Must match backend RedeemType enum names exactly */
 export type RedeemType = 'Online' | 'InStore' | 'Both' | 'Unknown';
 
+/** Must match backend interaction event enum names exactly */
+export type FeedInteractionEventType = 'View' | 'Click' | 'Save' | 'Redeem';
+
 // ─── Auth ─────────────────────────────────────────────────────────────────────
 
 export interface LoginRequest {
