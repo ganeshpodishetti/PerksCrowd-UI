@@ -75,6 +75,7 @@ export interface CreateDealRequest {
   discount: string;
   promo?: string;
   isActive: boolean;
+  isFeatured: boolean;
   url: string;
   /** enum name: Online | InStore | Both | Unknown */
   redeemType: string;
@@ -93,6 +94,7 @@ export interface UpdateDealRequest {
   discount: string;
   promo?: string;
   isActive: boolean;
+  isFeatured: boolean;
   url: string;
   redeemType: string;
   howToRedeem?: string;

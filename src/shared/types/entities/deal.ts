@@ -15,6 +15,7 @@ export interface Deal {
   logoUrl?: string;
   imageUrl?: string;
   isActive: boolean;
+  isFeatured: boolean;
   url: string;
   redeemType: RedeemType;
   howToRedeem?: string;

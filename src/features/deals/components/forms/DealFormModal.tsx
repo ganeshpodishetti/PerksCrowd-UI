@@ -1,6 +1,8 @@
+import { useAuth } from '@/features/auth/contexts/AuthContext';
 import { FormModal } from '@/shared/components/forms/FormModal';
 import { useToast } from '@/shared/components/ui/use-toast';
-import { CreateDealRequest, Deal } from '@/shared/types/entities/deal';
+import type { CreateDealRequest } from '@/shared/types/api/requests';
+import type { DealResponse } from '@/shared/types/api/responses';
 import { useState } from 'react';
 import {
   CategoryStoreSelection,
@@ -32,12 +34,14 @@ interface DealFormModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSave: (dealData: CreateDealRequest) => Promise<void>;
-  deal?: Deal | null;
+  deal?: DealResponse | null;
 }
 
 export default function DealFormModal({ isOpen, onClose, onSave, deal }: DealFormModalProps) {
   const [isLoading, setIsLoading] = useState(false);
+  const { user } = useAuth();
   const { toast } = useToast();
+  const canManageFeatured = user?.roles?.includes('SuperAdmin') ?? false;
 
   const initialState: FormData = {
     title: '',
@@ -45,6 +49,7 @@ export default function DealFormModal({ isOpen, onClose, onSave, deal }: DealFor
     discount: '',
     promo: '',
     isActive: true,
+    isFeatured: false,
     url: '',
     redeemType: 'Online',
     howToRedeem: '',
@@ -62,6 +67,7 @@ export default function DealFormModal({ isOpen, onClose, onSave, deal }: DealFor
     discount: deal.discount || '',
     promo: deal.promo || '',
     isActive: deal.isActive,
+    isFeatured: deal.isFeatured ?? false,
     url: deal.url || '',
     redeemType: deal.redeemType || 'Online',
     howToRedeem: deal.howToRedeem || '',
@@ -76,11 +82,14 @@ export default function DealFormModal({ isOpen, onClose, onSave, deal }: DealFor
   const handleSubmit = async (formData: FormData) => {
     setIsLoading(true);
     try {
+      const isFeatured = canManageFeatured ? formData.isFeatured : (deal?.isFeatured ?? false);
+
       const dealData: CreateDealRequest = {
         title: formData.title,
         description: formData.description,
         discount: formData.discount,
         isActive: formData.isActive,
+        isFeatured,
         url: formData.url,
         redeemType: formData.redeemType,
         isUniversitySpecific: formData.isUniversitySpecific || false,
@@ -136,7 +145,12 @@ export default function DealFormModal({ isOpen, onClose, onSave, deal }: DealFor
             setFormData={setFormData} 
           />
           <DateSelection formData={formData} handleInputChange={handleInputChange} />
-          <UniversityAndSwitches formData={formData} setFormData={setFormData} deal={deal} />
+          <UniversityAndSwitches
+            formData={formData}
+            setFormData={setFormData}
+            deal={deal}
+            canManageFeatured={canManageFeatured}
+          />
         </>
       )}
     </FormModal>

@@ -9,9 +9,15 @@ interface UniversityAndSwitchesProps {
   formData: FormData;
   setFormData: React.Dispatch<React.SetStateAction<FormData>>;
   deal?: Deal | null;
+  canManageFeatured?: boolean;
 }
 
-export default function UniversityAndSwitches({ formData, setFormData, deal }: UniversityAndSwitchesProps) {
+export default function UniversityAndSwitches({
+  formData,
+  setFormData,
+  deal,
+  canManageFeatured = false,
+}: UniversityAndSwitchesProps) {
   const { data: universities = [] } = useUniversitiesQuery();
 
   return (
@@ -39,6 +45,16 @@ export default function UniversityAndSwitches({ formData, setFormData, deal }: U
           />
           <Label htmlFor="isUniversitySpecific">University Exclusive Deal</Label>
         </div>
+        {canManageFeatured && (
+          <div className="flex items-center space-x-2">
+            <Switch 
+              id="isFeatured" 
+              checked={formData.isFeatured} 
+              onCheckedChange={(checked) => setFormData(prev => ({ ...prev, isFeatured: checked }))} 
+            />
+            <Label htmlFor="isFeatured">Featured Deal</Label>
+          </div>
+        )}
         <div className="flex items-center space-x-2">
           <Switch 
             id="isActive" 
