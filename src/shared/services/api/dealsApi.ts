@@ -18,6 +18,16 @@ import type {
 
 const DEFAULT_PAGE_SIZE = parseInt(process.env.NEXT_PUBLIC_PAGE_SIZE ?? '10', 10);
 
+const normalizeDeal = (deal: DealResponse): DealResponse => ({
+  ...deal,
+  logoUrl: deal.logoUrl ?? deal.LogoUrl,
+});
+
+const normalizeDealList = (deals: DealResponse[] | undefined): DealResponse[] => {
+  if (!Array.isArray(deals)) return [];
+  return deals.map(normalizeDeal);
+};
+
 export const dealsApi = {
   /**
    * GET /api/deals?cursor=&pageSize=
@@ -27,16 +37,16 @@ export const dealsApi = {
     const params = new URLSearchParams({ pageSize: String(pageSize) });
     if (cursor) params.set('cursor', cursor);
     return publicApiClient
-      .get<CursorPaginatedDealsResponse>(`/api/deals?${params}`)
+      .get<CursorPaginatedDealsResponse | DealResponse[]>(`/api/deals?${params}`)
       .then((r) => {
         if (r.status === 204 || !r.data) {
           return { items: [], nextCursor: null, hasMore: false } as CursorPaginatedDealsResponse;
         }
         if (Array.isArray(r.data)) {
-          return { items: r.data, nextCursor: null, hasMore: false } as CursorPaginatedDealsResponse;
+          return { items: normalizeDealList(r.data), nextCursor: null, hasMore: false } as CursorPaginatedDealsResponse;
         }
         return {
-          items: Array.isArray(r.data.items) ? r.data.items : [],
+          items: normalizeDealList(r.data.items as DealResponse[]),
           nextCursor: r.data.nextCursor ?? null,
           hasMore: r.data.hasMore === true || (r.data.hasMore as unknown) === 'true',
         } as CursorPaginatedDealsResponse;
@@ -47,7 +57,7 @@ export const dealsApi = {
   getById: (id: string) =>
     publicApiClient
       .get<DealResponse>(`/api/deals/${id}`)
-      .then((r) => r.data),
+      .then((r) => normalizeDeal(r.data)),
 
   /**
    * GET /api/deals/search?query=
@@ -59,7 +69,7 @@ export const dealsApi = {
       .get<DealResponse[]>(`/api/deals/search?query=${encodeURIComponent(query.trim())}`)
       .then((r) => {
         if (r.status === 204 || !r.data) return [];
-        return Array.isArray(r.data) ? r.data : [];
+        return normalizeDealList(r.data);
       });
   },
 
@@ -67,19 +77,19 @@ export const dealsApi = {
   getByCategory: (name: string) =>
     publicApiClient
       .get<DealResponse[]>(`/api/deals/category?name=${encodeURIComponent(name)}`)
-      .then((r) => (Array.isArray(r.data) ? r.data : [])),
+      .then((r) => normalizeDealList(r.data)),
 
   /** GET /api/deals/store?name= → 200 DealResponse[] | 400 */
   getByStore: (name: string) =>
     publicApiClient
       .get<DealResponse[]>(`/api/deals/store?name=${encodeURIComponent(name)}`)
-      .then((r) => (Array.isArray(r.data) ? r.data : [])),
+      .then((r) => normalizeDealList(r.data)),
 
   /** GET /api/deals/university?name= → 200 DealResponse[] | 400 */
   getByUniversity: (name: string) =>
     publicApiClient
       .get<DealResponse[]>(`/api/deals/university?name=${encodeURIComponent(name)}`)
-      .then((r) => (Array.isArray(r.data) ? r.data : [])),
+      .then((r) => normalizeDealList(r.data)),
 
   /** GET /api/deals/user (auth required) → 200 DealResponse[] | 401 */
   getForUser: () =>
@@ -87,14 +97,14 @@ export const dealsApi = {
       .get<DealResponse[]>('/api/deals/user')
       .then((r) => {
         if (r.status === 204 || !r.data) return [];
-        return Array.isArray(r.data) ? r.data : [];
+        return normalizeDealList(r.data);
       }),
 
   /** POST /api/deals (auth) → 201 DealResponse */
   create: (data: CreateDealRequest) =>
     apiClient
       .post<DealResponse>('/api/deals', data)
-      .then((r) => r.data),
+      .then((r) => normalizeDeal(r.data)),
 
   /** PUT /api/deals/{id} (SuperAdminOnly) → 204 */
   update: (id: string, data: UpdateDealRequest): Promise<void> =>

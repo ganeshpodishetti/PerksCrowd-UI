@@ -12,6 +12,7 @@ export interface Deal {
   description: string;
   discount: string;
   promo?: string;
+  logoUrl?: string;
   imageUrl?: string;
   isActive: boolean;
   url: string;

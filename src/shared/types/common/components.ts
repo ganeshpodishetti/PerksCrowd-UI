@@ -31,6 +31,7 @@ export interface DealCardProps {
     title: string;
     description: string;
     discount?: string;
+    logoUrl?: string;
     imageUrl?: string;
     storeName: string;
     categoryName: string;

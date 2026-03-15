@@ -77,6 +77,9 @@ export interface DealResponse {
   description: string;
   discount: string;
   promo?: string;
+  /** Transitional casing from backend responses. */
+  LogoUrl?: string;
+  logoUrl?: string;
   imageUrl?: string;
   isActive: boolean;
   url: string;
