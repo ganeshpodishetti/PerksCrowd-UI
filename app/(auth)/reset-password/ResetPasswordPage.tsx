@@ -101,7 +101,6 @@ export default function ResetPasswordPage() {
       toast({
         title: "Success",
         description: response.message || "Your password has been reset successfully!",
-        duration: 7000,
       });
     } catch (error: any) {
       const errorMessage = error.response?.data?.message || 

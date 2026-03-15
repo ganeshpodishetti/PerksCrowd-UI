@@ -6,13 +6,13 @@ import {
     ToastTitle,
     ToastViewport,
 } from "@/shared/components/ui/toast"
-import { useToast } from "@/shared/components/ui/use-toast"
+import { TOAST_DEFAULT_DURATION, useToast } from "@/shared/components/ui/use-toast"
 
 export function Toaster() {
   const { toasts } = useToast()
 
   return (
-    <ToastProvider>
+    <ToastProvider duration={TOAST_DEFAULT_DURATION}>
       {toasts.map(function ({ id, title, description, action, ...props }) {
         return (
           <Toast key={id} {...props}>

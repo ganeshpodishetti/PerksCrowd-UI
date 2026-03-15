@@ -45,7 +45,6 @@ const ThemeToggle: React.FC = () => {
     toast({
       title: `${newTheme === 'dark' ? 'Dark' : 'Light'} mode activated`,
       description: `The site is now in ${newTheme} mode.`,
-      duration: 2000
     });
   };
 

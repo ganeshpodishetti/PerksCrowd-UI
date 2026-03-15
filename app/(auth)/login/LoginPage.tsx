@@ -73,7 +73,6 @@ const LoginPage: React.FC = () => {
           title: "Email Verification Required",
           description: "For security reasons, you must verify your email address before logging in. Redirecting you to resend confirmation email...",
           variant: "default",
-          duration: 3000,
         });
         
         // Redirect to resend confirmation page with email pre-filled
@@ -85,7 +84,6 @@ const LoginPage: React.FC = () => {
           title: "Error",
           description: errorMessage,
           variant: "destructive",
-          duration: 5000,
         });
       }
     } finally {

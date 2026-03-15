@@ -23,13 +23,12 @@ export default function CategoryStoreSelection({ formData, setFormData, deal }: 
           options={categories.filter(cat => cat.title).map(cat => ({ value: cat.title!, label: cat.title! }))}
           value={formData.categoryName}
           onValueChange={(value) => setFormData(prev => ({ ...prev, categoryName: value }))}
-          placeholder={deal ? "Select category" : "Select or create category"}
+          placeholder="Select category"
           searchPlaceholder="Search categories..."
-          emptyText={deal ? "No categories found." : "No categories found. Type to create new."}
-          customText="Create category"
-          allowCustom={!deal}
+          emptyText="No categories found."
+          allowCustom={false}
         />
-        <p className="text-xs text-gray-500 mt-1">{deal ? "Select from existing categories" : "Select existing or type new category name"}</p>
+        <p className="text-xs text-gray-500 mt-1">Select from existing categories</p>
       </div>
       <div>
         <Label htmlFor="storeName">Store *</Label>

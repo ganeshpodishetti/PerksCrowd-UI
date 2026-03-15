@@ -44,7 +44,6 @@ export default function ResendConfirmationPage() {
       toast({
         title: "Success",
         description: response.message || "Confirmation email sent! Please check your inbox.",
-        duration: 7000,
       });
     } catch (error: any) {
       const errorMessage = error.response?.data?.message || 
