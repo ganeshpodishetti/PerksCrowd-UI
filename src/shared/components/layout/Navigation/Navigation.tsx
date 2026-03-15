@@ -104,7 +104,7 @@ const Navigation: React.FC<NavigationProps> = () => {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-6 lg:space-x-8">
             <Link 
-              href="/stores" 
+              href="/stores"
               className={`flex items-center text-neutral-700 dark:text-neutral-300 hover:text-black dark:hover:text-white font-medium text-sm transition-colors focus:outline-none ${
                 pathname === '/stores' ? 'text-black dark:text-white border-b-2 border-black dark:border-white pb-1' : ''
               }`}
@@ -198,9 +198,9 @@ const Navigation: React.FC<NavigationProps> = () => {
               
               
               <Link 
-                href="/stores" 
+                href="/stores"
                 className={`flex items-center px-3 py-2 rounded-md text-base font-medium transition-colors ${
-                  pathname === '/stores' 
+                  pathname === '/stores'
                     ? 'bg-neutral-200 dark:bg-neutral-800 text-black dark:text-white' 
                     : 'text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:text-black dark:hover:text-white'
                 }`}
