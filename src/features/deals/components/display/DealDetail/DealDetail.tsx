@@ -9,11 +9,10 @@ import {
   DialogTrigger,
 } from "@/shared/components/ui/dialog";
 import { useToast } from "@/shared/components/ui/use-toast";
+import StoreLogoAvatar from '@/shared/components/branding/StoreLogoAvatar';
 import { Deal } from '@/shared/types';
 import { Calendar, Copy, ExternalLink, Info, MapPin, School, Tag } from 'lucide-react';
-import NextImage from 'next/image';
-import React, { useState } from 'react';
-import { getDealLogoInitial } from '../utils/getDealLogoInitial';
+import React from 'react';
 
 interface DealDetailProps {
   deal: Deal;
@@ -21,14 +20,7 @@ interface DealDetailProps {
 }
 
 const DealDetail: React.FC<DealDetailProps> = ({ deal, trigger }) => {
-  const [imageError, setImageError] = useState(false);
-  const imageUrl = deal.logoUrl || deal.imageUrl;
-  const logoInitial = getDealLogoInitial(deal);
   const { toast } = useToast();
-  
-  const handleImageError = () => {
-    setImageError(true);
-  };
 
   // Format date
   const formatDate = (dateString?: string) => {
@@ -111,26 +103,14 @@ const DealDetail: React.FC<DealDetailProps> = ({ deal, trigger }) => {
         
         <div className="space-y-3">
           <div className="flex items-start gap-2.5">
-            <div className="w-12 h-12 flex items-center justify-center overflow-hidden rounded-xl bg-neutral-50 dark:bg-neutral-900 flex-shrink-0">
-              {!imageError && imageUrl ? (
-                <NextImage
-                  src={imageUrl}
-                  alt={deal.title}
-                  fill={false}
-                  width={48}
-                  height={48}
-                  className="w-full h-full object-contain"
-                  onError={handleImageError}
-                  unoptimized
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center bg-neutral-100 dark:bg-neutral-800" data-testid="deal-detail-image-fallback">
-                  <span className="text-base font-semibold text-neutral-700 dark:text-neutral-200" aria-label="deal logo initial">
-                    {logoInitial}
-                  </span>
-                </div>
-              )}
-            </div>
+            <StoreLogoAvatar
+              name={deal.storeName}
+              fallbackName={deal.title}
+              logoUrl={deal.logoUrl || deal.imageUrl}
+              className="w-12 h-12"
+              initialClassName="text-base"
+              testIdPrefix="deal-detail-logo"
+            />
             <div className="flex-1 min-w-0">
               <DialogTitle className="text-sm font-semibold leading-tight text-neutral-800 dark:text-neutral-200 mb-1.5">{deal.title}</DialogTitle>
               <div className="flex flex-col gap-1 text-xs text-neutral-500 dark:text-neutral-400">
