@@ -1,14 +1,16 @@
-import { Suspense } from 'react'
-import { HomePageClient, HomePageLoadingFallback } from './HomePageClient'
+import nextDynamic from 'next/dynamic'
 
-// Force prerendering of the home document so it can be served from cache/CDN.
-export const dynamic = 'force-static'
+const Navigation = nextDynamic(() => import('@/shared/components/layout/Navigation/Navigation'), {
+  ssr: true,
+})
+
 export const revalidate = 3600
 
 export default function HomePage() {
   return (
-    <Suspense fallback={<HomePageLoadingFallback />}>
-      <HomePageClient />
-    </Suspense>
+    <div className="min-h-screen h-full w-full bg-background dark:bg-background flex flex-col">
+      <Navigation />
+      <main className="flex-grow bg-background dark:bg-background" />
+    </div>
   )
 }

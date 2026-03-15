@@ -72,10 +72,10 @@ export function HomePageClient() {
               {searchQuery && (
                 <div className="mb-4 flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-400">
                   <span>
-                    Searching for: <strong className="text-neutral-900 dark:text-white">"{searchQuery}"</strong>
+                    Searching for: <strong className="text-neutral-900 dark:text-white">&quot;{searchQuery}&quot;</strong>
                   </span>
                   <Link
-                    href="/"
+                    href="/deals"
                     className="inline-flex items-center gap-1 px-2 py-1 text-xs bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 rounded-full transition-colors"
                   >
                     <X className="h-3 w-3" />
