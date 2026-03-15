@@ -41,7 +41,7 @@ describe('DealCard', () => {
       />,
     );
 
-    const image = screen.getByTestId('deal-card-image');
+    const image = screen.getByTestId('deal-card-logo-image');
     expect(image).toHaveAttribute('src', 'https://cdn.example.com/logo.png');
   });
 
@@ -55,7 +55,7 @@ describe('DealCard', () => {
       />,
     );
 
-    const image = screen.getByTestId('deal-card-image');
+    const image = screen.getByTestId('deal-card-logo-image');
     expect(image).toHaveAttribute('src', 'https://cdn.example.com/image.png');
   });
 
@@ -69,10 +69,24 @@ describe('DealCard', () => {
       />,
     );
 
-    fireEvent.error(screen.getByTestId('deal-card-image'));
+    fireEvent.error(screen.getByTestId('deal-card-logo-image'));
 
-    expect(screen.queryByTestId('deal-card-image')).not.toBeInTheDocument();
-    expect(screen.getByTestId('deal-card-image-fallback')).toHaveTextContent('S');
+    expect(screen.queryByTestId('deal-card-logo-image')).not.toBeInTheDocument();
+    expect(screen.getByTestId('deal-card-logo-fallback')).toHaveTextContent('S');
+  });
+
+  it('shows first-letter fallback for placeholder logo URLs', () => {
+    render(
+      <DealCard
+        deal={{
+          ...baseDeal,
+          logoUrl: 'https://cdn.example.com/placeholder-logo.png',
+        }}
+      />,
+    );
+
+    expect(screen.queryByTestId('deal-card-logo-image')).not.toBeInTheDocument();
+    expect(screen.getByTestId('deal-card-logo-fallback')).toHaveTextContent('S');
   });
 });
 
