@@ -5,8 +5,8 @@ import type {
   ToastProps,
 } from "./toast"
 
-const TOAST_LIMIT = 5
-export const TOAST_DEFAULT_DURATION = 4000
+const TOAST_LIMIT = 3
+export const TOAST_DEFAULT_DURATION = 2000
 const TOAST_REMOVE_DELAY = 350
 
 type ToasterToast = ToastProps & {
