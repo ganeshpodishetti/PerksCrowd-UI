@@ -1,7 +1,9 @@
 'use client'
+import { useAuth } from '@/features/auth/contexts/AuthContext';
 import { Button } from '@/shared/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/components/ui/card';
-import { CreateDealRequest, Deal } from '@/shared/types/entities/deal';
+import type { CreateDealRequest } from '@/shared/types/api/requests';
+import type { DealResponse } from '@/shared/types/api/responses';
 import { ArrowLeft, Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -13,6 +15,14 @@ import {
   FormData,
   UniversityAndSwitches,
 } from './DealFormModal/';
+
+type DealFormDeal = DealResponse & {
+  isFeatured?: boolean;
+};
+
+type DealFormPayload = CreateDealRequest & {
+  isFeatured: boolean;
+};
 
 const formatDateForBackend = (date: string): string | null => {
   if (!date) return null;
@@ -32,7 +42,7 @@ const formatDateForInput = (date: string): string => {
 };
 
 interface DealFormProps {
-  deal?: Deal | null;
+  deal?: DealFormDeal | null;
   onSave: (dealData: CreateDealRequest) => Promise<void>;
   title: string;
   description: string;
@@ -40,7 +50,9 @@ interface DealFormProps {
 
 export default function DealForm({ deal, onSave, title, description }: DealFormProps) {
   const router = useRouter();
+  const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
+  const canManageFeatured = user?.roles?.includes('SuperAdmin') ?? false;
 
   const [formData, setFormData] = useState<FormData>(() => {
     if (deal) {
@@ -50,6 +62,7 @@ export default function DealForm({ deal, onSave, title, description }: DealFormP
         discount: deal.discount || '',
         promo: deal.promo || '',
         isActive: deal.isActive,
+        isFeatured: deal.isFeatured ?? false,
         url: deal.url || '',
         redeemType: deal.redeemType || 'Online',
         howToRedeem: deal.howToRedeem || '',
@@ -67,6 +80,7 @@ export default function DealForm({ deal, onSave, title, description }: DealFormP
       discount: '',
       promo: '',
       isActive: true,
+      isFeatured: false,
       url: '',
       redeemType: 'Online',
       howToRedeem: '',
@@ -93,11 +107,14 @@ export default function DealForm({ deal, onSave, title, description }: DealFormP
     e.preventDefault();
     setIsLoading(true);
     try {
-      const dealData: CreateDealRequest = {
+      const isFeatured = canManageFeatured ? formData.isFeatured : (deal?.isFeatured ?? false);
+
+      const dealData: DealFormPayload = {
         title: formData.title,
         description: formData.description,
         discount: formData.discount,
         isActive: formData.isActive,
+        isFeatured,
         url: formData.url,
         redeemType: formData.redeemType,
         isUniversitySpecific: formData.isUniversitySpecific || false,
@@ -153,7 +170,12 @@ export default function DealForm({ deal, onSave, title, description }: DealFormP
               setFormData={setFormData} 
             />
             <DateSelection formData={formData} handleInputChange={handleInputChange} />
-            <UniversityAndSwitches formData={formData} setFormData={setFormData} deal={deal} />
+            <UniversityAndSwitches
+              formData={formData}
+              setFormData={setFormData}
+              deal={deal}
+              canManageFeatured={canManageFeatured}
+            />
 
             <div className="flex justify-end gap-3 pt-4 border-t">
               <Button

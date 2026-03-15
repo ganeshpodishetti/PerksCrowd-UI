@@ -6,6 +6,7 @@ export interface FormData {
   discount: string;
   promo?: string;
   isActive: boolean;
+  isFeatured: boolean;
   url: string;
   redeemType: RedeemType;
   howToRedeem?: string;

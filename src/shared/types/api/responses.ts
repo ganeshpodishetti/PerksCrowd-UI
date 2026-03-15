@@ -82,6 +82,7 @@ export interface DealResponse {
   logoUrl?: string;
   imageUrl?: string;
   isActive: boolean;
+  isFeatured: boolean;
   url: string;
   /** enum name: Online | InStore | Both | Unknown */
   redeemType: RedeemType;
