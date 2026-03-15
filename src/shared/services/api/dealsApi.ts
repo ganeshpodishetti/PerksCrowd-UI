@@ -9,18 +9,25 @@ import { apiClient, publicApiClient } from './apiClient';
 import type {
   CreateDealRequest,
   CursorPaginationRequest,
+  FeedInteractionEventType,
   UpdateDealRequest,
 } from '@/shared/types/api/requests';
 import type {
   CursorPaginatedDealsResponse,
   DealResponse,
+  FeedDealsResponse,
 } from '@/shared/types/api/responses';
 
 const DEFAULT_PAGE_SIZE = parseInt(process.env.NEXT_PUBLIC_PAGE_SIZE ?? '10', 10);
 
 const normalizeDeal = (deal: DealResponse): DealResponse => ({
   ...deal,
-  logoUrl: deal.logoUrl ?? deal.LogoUrl,
+  promo: deal.promo ?? null,
+  logoUrl: deal.logoUrl ?? deal.LogoUrl ?? null,
+  howToRedeem: deal.howToRedeem ?? null,
+  startDate: deal.startDate ?? null,
+  endDate: deal.endDate ?? null,
+  universityName: deal.universityName ?? null,
 });
 
 const normalizeDealList = (deals: DealResponse[] | undefined): DealResponse[] => {
@@ -117,5 +124,59 @@ export const dealsApi = {
     apiClient
       .delete(`/api/deals/${id}`)
       .then(() => undefined),
+
+  /** GET /api/feeds/latest */
+  getLatestFeed: (): Promise<FeedDealsResponse> =>
+    publicApiClient
+      .get<DealResponse[]>('/api/feeds/latest')
+      .then((r) => {
+        if (r.status === 204 || !r.data) return [];
+        return normalizeDealList(r.data);
+      }),
+
+  /** GET /api/feeds/featured */
+  getFeaturedFeed: (): Promise<FeedDealsResponse> =>
+    publicApiClient
+      .get<DealResponse[]>('/api/feeds/featured')
+      .then((r) => {
+        if (r.status === 204 || !r.data) return [];
+        return normalizeDealList(r.data);
+      }),
+
+  /** GET /api/feeds/popular */
+  getPopularFeed: (): Promise<FeedDealsResponse> =>
+    publicApiClient
+      .get<DealResponse[]>('/api/feeds/popular')
+      .then((r) => {
+        if (r.status === 204 || !r.data) return [];
+        return normalizeDealList(r.data);
+      }),
+
+  /** GET /api/feeds/trending */
+  getTrendingFeed: (): Promise<FeedDealsResponse> =>
+    publicApiClient
+      .get<DealResponse[]>('/api/feeds/trending')
+      .then((r) => {
+        if (r.status === 204 || !r.data) return [];
+        return normalizeDealList(r.data);
+      }),
+
+  /** POST /api/feeds/{id}/interactions?eventType=&userId= */
+  trackInteraction: ({
+    dealId,
+    eventType,
+    userId,
+  }: {
+    dealId: string;
+    eventType: FeedInteractionEventType;
+    userId?: string;
+  }): Promise<void> => {
+    const params = new URLSearchParams({ eventType });
+    if (userId) params.set('userId', userId);
+
+    return publicApiClient
+      .post(`/api/feeds/${dealId}/interactions?${params.toString()}`)
+      .then(() => undefined);
+  },
 };
 

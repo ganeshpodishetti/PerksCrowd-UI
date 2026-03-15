@@ -1,6 +1,6 @@
 import { dealService } from '@/features/deals/services/dealService';
 import { useErrorHandler } from '@/shared/contexts/ErrorContext';
-import type { CursorPaginatedDealsResponse, DealResponse } from '@/shared/types/api/responses';
+import type { CursorPaginatedDealsResponse, DealResponse, FeedType } from '@/shared/types/api/responses';
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 // Query keys for caching
@@ -15,10 +15,34 @@ export const dealKeys = {
   byUniversity: (university: string) => [...dealKeys.all, 'university', university] as const,
   userDeals: () => [...dealKeys.all, 'user'] as const,
   infinite: () => [...dealKeys.all, 'infinite'] as const,
+  homeFeed: () => [...dealKeys.all, 'home-feed'] as const,
+  feed: (feedType: FeedType) => [...dealKeys.all, 'feed', feedType] as const,
 };
 
+const feedQueryOptions = (
+  feedType: FeedType,
+  fetchFn: () => Promise<DealResponse[]>,
+  handleApiError: (error: unknown) => void,
+  enabled = true,
+) => ({
+  queryKey: dealKeys.feed(feedType),
+  queryFn: fetchFn,
+  enabled,
+  staleTime: 5 * 60 * 1000,
+  gcTime: 10 * 60 * 1000,
+  retry: (failureCount: number, error: any) => {
+    if (error?.response?.status >= 400 && error?.response?.status < 500) {
+      return false;
+    }
+    return failureCount < 3;
+  },
+  meta: {
+    onError: handleApiError,
+  },
+});
+
 // Fetch all deals with cursor-based pagination
-export const useDealsInfiniteQuery = () => {
+export const useDealsInfiniteQuery = ({ enabled = true }: { enabled?: boolean } = {}) => {
   const { handleApiError } = useErrorHandler();
   
   return useInfiniteQuery<CursorPaginatedDealsResponse, Error>({
@@ -26,6 +50,7 @@ export const useDealsInfiniteQuery = () => {
     queryFn: ({ pageParam }) =>
       dealService.getDeals({ cursor: pageParam as string | null }),
     initialPageParam: null as string | null,
+    enabled,
     getNextPageParam: (lastPage) => {
       if (lastPage.hasMore && lastPage.nextCursor && lastPage.nextCursor !== '') {
         return lastPage.nextCursor;
@@ -45,6 +70,48 @@ export const useDealsInfiniteQuery = () => {
       onError: handleApiError,
     },
   });
+};
+
+// Fetches and merges latest/featured/popular/trending feeds for the home experience
+export const useHomeFeedQuery = ({ enabled = true }: { enabled?: boolean } = {}) => {
+  const { handleApiError } = useErrorHandler();
+
+  return useQuery({
+    queryKey: dealKeys.homeFeed(),
+    queryFn: () => dealService.getHomeFeed(),
+    enabled,
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
+    retry: (failureCount, error: any) => {
+      if (error?.response?.status >= 400 && error?.response?.status < 500) {
+        return false;
+      }
+      return failureCount < 3;
+    },
+    meta: {
+      onError: handleApiError,
+    },
+  });
+};
+
+export const useLatestFeedQuery = ({ enabled = true }: { enabled?: boolean } = {}) => {
+  const { handleApiError } = useErrorHandler();
+  return useQuery(feedQueryOptions('latest', () => dealService.getSingleFeedWithFallback('latest'), handleApiError, enabled));
+};
+
+export const useFeaturedFeedQuery = ({ enabled = true }: { enabled?: boolean } = {}) => {
+  const { handleApiError } = useErrorHandler();
+  return useQuery(feedQueryOptions('featured', () => dealService.getSingleFeedWithFallback('featured'), handleApiError, enabled));
+};
+
+export const usePopularFeedQuery = ({ enabled = true }: { enabled?: boolean } = {}) => {
+  const { handleApiError } = useErrorHandler();
+  return useQuery(feedQueryOptions('popular', () => dealService.getSingleFeedWithFallback('popular'), handleApiError, enabled));
+};
+
+export const useTrendingFeedQuery = ({ enabled = true }: { enabled?: boolean } = {}) => {
+  const { handleApiError } = useErrorHandler();
+  return useQuery(feedQueryOptions('trending', () => dealService.getSingleFeedWithFallback('trending'), handleApiError, enabled));
 };
 
 // Legacy hook for backward compatibility (fetches first page only)

@@ -2,6 +2,7 @@
 
 import { Category, fetchCategories } from '@/features/categories/services/categoryService'
 import { DealsContainer } from '@/features/deals/components/display/DealList/DealsContainer'
+import type { FeedType } from '@/shared/types/api/responses'
 import { Tag, X } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
@@ -12,9 +13,21 @@ const Navigation = dynamic(() => import('@/shared/components/layout/Navigation/N
   ssr: true,
 })
 
-export function HomePageClient() {
+interface HomePageClientProps {
+  sectionedFeeds?: boolean
+}
+
+const FEED_SECTIONS: Array<{ title: string; feedType: FeedType }> = [
+  { title: 'Latest', feedType: 'latest' },
+  { title: 'Featured', feedType: 'featured' },
+  { title: 'Popular', feedType: 'popular' },
+  { title: 'Trending', feedType: 'trending' },
+]
+
+export function HomePageClient({ sectionedFeeds = false }: HomePageClientProps) {
   const searchParams = useSearchParams()
   const searchQuery = searchParams.get('search') || ''
+  const clearSearchHref = sectionedFeeds ? '/' : '/deals'
   const [categories, setCategories] = useState<Category[]>([])
   const [selectedCategory, setSelectedCategory] = useState<string | undefined>(undefined)
 
@@ -75,7 +88,7 @@ export function HomePageClient() {
                     Searching for: <strong className="text-neutral-900 dark:text-white">&quot;{searchQuery}&quot;</strong>
                   </span>
                   <Link
-                    href="/deals"
+                    href={clearSearchHref}
                     className="inline-flex items-center gap-1 px-2 py-1 text-xs bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 rounded-full transition-colors"
                   >
                     <X className="h-3 w-3" />
@@ -83,14 +96,41 @@ export function HomePageClient() {
                   </Link>
                 </div>
               )}
-              <DealsContainer
-                excludeUniversitySpecific={true}
-                initialCategory={selectedCategory}
-                initialSearchQuery={searchQuery}
-                showHeroSection={false}
-                showFilters={false}
-                key={`${selectedCategory}-${searchQuery}`}
-              />
+
+              {sectionedFeeds && !searchQuery ? (
+                <div className="space-y-10">
+                  {FEED_SECTIONS.map((section) => (
+                    <section key={`${section.feedType}-${selectedCategory || 'all'}`}>
+                      <div className="mb-4">
+                        <h2 className="text-xl md:text-2xl font-semibold text-neutral-900 dark:text-neutral-100">
+                          {section.title}
+                        </h2>
+                      </div>
+                      <DealsContainer
+                        excludeUniversitySpecific={true}
+                        initialCategory={selectedCategory}
+                        showHeroSection={false}
+                        showFilters={false}
+                        showLoadMore={false}
+                        feedType={section.feedType}
+                        showStatusHeader={false}
+                        key={`${section.feedType}-${selectedCategory || 'all'}`}
+                      />
+                    </section>
+                  ))}
+                </div>
+              ) : (
+                <DealsContainer
+                  excludeUniversitySpecific={true}
+                  initialCategory={selectedCategory}
+                  initialSearchQuery={searchQuery}
+                  showHeroSection={false}
+                  showFilters={false}
+                  useFeedApis={true}
+                  showLoadMore={false}
+                  key={`${selectedCategory}-${searchQuery}`}
+                />
+              )}
             </div>
           </div>
         </div>
