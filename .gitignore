@@ -63,6 +63,10 @@ Thumbs.db
 # Optional eslint cache
 .eslintcache
 
+# Local tool reports
+.eslint-report.json
+.knip-report.json
+
 # Microbundle cache
 .rpt2_cache/
 .rts2_cache_cjs/
