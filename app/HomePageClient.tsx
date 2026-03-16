@@ -172,4 +172,3 @@ export function HomePageLoadingFallback() {
     </div>
   )
 }
-

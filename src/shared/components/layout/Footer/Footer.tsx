@@ -1,4 +1,5 @@
 'use client'
+import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 export function Footer() {
@@ -72,6 +73,13 @@ export function Footer() {
           </div>
         </div>
         <div className="border-t border-gray-100 dark:border-gray-900 mt-8 pt-8 text-center text-xs">
+          <div className="mb-2 flex items-center justify-center gap-4">
+            <Link href="/terms" className="hover:underline">Terms</Link>
+            <Link href="/brand-use" className="hover:underline">Brand & Fair Use</Link>
+          </div>
+          <p className="mb-2 text-neutral-600 dark:text-neutral-400">
+            All trademarks and logos are property of their respective owners.
+          </p>
           <span>
             &copy; {new Date().getFullYear()} StudentPerks · All rights
             reserved
