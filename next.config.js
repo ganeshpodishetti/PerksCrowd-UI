@@ -6,6 +6,8 @@ const nextConfig = {
   // Turbopack configuration (path aliases are picked up from tsconfig.json)
   turbopack: {},
   experimental: {
+    // Inlines critical CSS and defers non-critical rules where possible.
+    optimizeCss: true,
     optimizePackageImports: [
       "@radix-ui/react-accordion",
       "@radix-ui/react-avatar",
