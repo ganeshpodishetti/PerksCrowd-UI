@@ -5,20 +5,7 @@ import AdminHeader from '@/features/admin/components/layout/AdminHeader/AdminHea
 import { AdminLayout } from '@/features/admin/components/layout/AdminLayout';
 import AdminUniversitiesList from '@/features/admin/components/tables/AdminUniversitiesList/AdminUniversitiesList';
 import { useAdminUniversities } from '@/features/admin/hooks/useAdminUniversities';
-import { useAuth } from '@/features/auth/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
-
-// Export hook for university selection in other components
-export const useUniversityOptions = () => {
-  const { universities, isLoading } = useAdminUniversities();
-  
-  const universityOptions = universities?.map(university => ({
-    value: university.id,
-    label: university.name
-  })) || [];
-
-  return { universityOptions, isLoading };
-};
 
 export default function AdminUniversitiesPage() {
   const router = useRouter();
@@ -28,8 +15,6 @@ export default function AdminUniversitiesPage() {
     user,
     handleDeleteUniversity,
   } = useAdminUniversities();
-
-  const { } = useAuth();
   
   const isSuperAdmin = user?.roles?.includes('SuperAdmin') ?? false;
 

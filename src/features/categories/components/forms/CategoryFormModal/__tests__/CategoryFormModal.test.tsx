@@ -18,17 +18,13 @@ describe('CategoryFormModal', () => {
     );
 
     expect(screen.getByText('Create New Category')).toBeInTheDocument();
-    expect(screen.getByLabelText('Category Name *')).toBeInTheDocument();
-    expect(screen.getByLabelText('Description')).toBeInTheDocument();
-    expect(screen.getByLabelText('Category Image')).toBeInTheDocument();
+    expect(screen.getByLabelText('Category Title *')).toBeInTheDocument();
   });
 
   it('renders the modal for editing an existing category', () => {
     const mockCategory = {
       id: '1',
-      name: 'Test Category',
-      description: 'Test Description',
-      imageUrl: 'http://example.com/image.png',
+      title: 'Test Category',
     };
 
     render(
@@ -42,7 +38,6 @@ describe('CategoryFormModal', () => {
 
     expect(screen.getByText('Edit Category')).toBeInTheDocument();
     expect(screen.getByDisplayValue('Test Category')).toBeInTheDocument();
-    expect(screen.getByDisplayValue('Test Description')).toBeInTheDocument();
   });
 
   it('calls onSave with the correct data when the form is submitted', async () => {
@@ -54,11 +49,8 @@ describe('CategoryFormModal', () => {
       />
     );
 
-    fireEvent.change(screen.getByLabelText('Category Name *'), {
+    fireEvent.change(screen.getByLabelText('Category Title *'), {
       target: { value: 'New Category' },
-    });
-    fireEvent.change(screen.getByLabelText('Description'), {
-      target: { value: 'New Description' },
     });
 
     fireEvent.click(screen.getByText('Create Category'));
@@ -66,8 +58,7 @@ describe('CategoryFormModal', () => {
     await waitFor(() => {
       expect(mockOnSave).toHaveBeenCalledWith(
         expect.objectContaining({
-          name: 'New Category',
-          description: 'New Description',
+          title: 'New Category',
         })
       );
     });
