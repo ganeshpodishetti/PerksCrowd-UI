@@ -140,8 +140,8 @@ export function HomePageClient({ sectionedFeeds = false }: HomePageClientProps) 
                   initialSearchQuery={searchQuery}
                   showHeroSection={false}
                   showFilters={false}
-                  useFeedApis={true}
-                  showLoadMore={false}
+                  useFeedApis={false}
+                  showLoadMore={true}
                   key={`${selectedCategory}-${searchQuery}`}
                 />
               )}

@@ -2,6 +2,7 @@ import { AppProviders } from '@/shared/providers/AppProviders'
 import { DeferredFooter } from '@/shared/components/layout/Footer/DeferredFooter'
 import type { Metadata, Viewport } from 'next'
 import { Outfit } from 'next/font/google'
+import { preconnect, prefetchDNS } from 'react-dom'
 import './globals.css'
 
 const outfit = Outfit({ 
@@ -12,6 +13,29 @@ const outfit = Outfit({
 })
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
+
+const getPreconnectOrigins = (): string[] => {
+  const origins = new Set<string>()
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL?.trim()
+
+  if (apiUrl) {
+    try {
+      const parsedApiUrl = new URL(apiUrl)
+      if (parsedApiUrl.protocol === 'http:' || parsedApiUrl.protocol === 'https:') {
+        const siteOrigin = new URL(siteUrl).origin
+        if (parsedApiUrl.origin !== siteOrigin) {
+          origins.add(parsedApiUrl.origin)
+        }
+      }
+    } catch {
+      // Ignore invalid API URLs; no preconnect hint is emitted.
+    }
+  }
+
+  return Array.from(origins)
+}
+
+const preconnectOrigins = getPreconnectOrigins()
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -97,6 +121,11 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  for (const origin of preconnectOrigins) {
+    preconnect(origin, { crossOrigin: '' })
+    prefetchDNS(origin)
+  }
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
