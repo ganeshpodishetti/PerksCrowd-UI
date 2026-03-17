@@ -3,6 +3,7 @@ import { DeferredFooter } from '@/shared/components/layout/Footer/DeferredFooter
 import type { Metadata, Viewport } from 'next'
 import { Outfit } from 'next/font/google'
 import { preconnect, prefetchDNS } from 'react-dom'
+import { API_BASE_URL } from '@/shared/config/env'
 import './globals.css'
 
 const outfit = Outfit({ 
@@ -16,7 +17,7 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
 
 const getPreconnectOrigins = (): string[] => {
   const origins = new Set<string>()
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL?.trim()
+  const apiUrl = API_BASE_URL
 
   if (apiUrl) {
     try {

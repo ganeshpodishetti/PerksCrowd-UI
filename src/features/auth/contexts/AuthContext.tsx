@@ -30,52 +30,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const isPublicRoute = (pathname: string): boolean => {
-    const publicPaths = ["/", "/categories", "/stores", "/universities", "/login"];
-    return publicPaths.some((path) => pathname === path || pathname.startsWith(path + "/"));
-  };
-
   const checkAuthStatus = async () => {
     try {
       setIsLoading(true);
 
-      const existingUser = authService.getUser();
-      if (existingUser) setUser(existingUser);
-
-      const pathname = typeof window !== 'undefined' ? window.location.pathname : '';
-      const onPublicRoute = pathname ? isPublicRoute(pathname) : false;
-      const onLoginRoute = pathname === '/login' || pathname.startsWith('/login/');
-
-      // Skip background auth checks on anonymous public pages, but keep login route
-      // eligible for silent refresh + redirect.
-      if (onPublicRoute && !onLoginRoute && !existingUser) {
-        setIsLoading(false);
-        return;
-      }
-
-      try {
-        const isAuthenticated = await authService.checkAuthStatus();
-
-        if (isAuthenticated) {
-          // getUserProfile() now takes no arguments
-          const userProfile = await authService.getUserProfile();
-          if (userProfile) {
-            authService.setUser(userProfile);
-            setUser(userProfile);
-          }
-        } else if (!existingUser) {
-          setUser(null);
-          authService.clearUser();
-        }
-      } catch (authError) {
-        if (!existingUser) {
-          setUser(null);
-          authService.clearUser();
-        }
-      }
+      const userProfile = await authService.getUserProfile();
+      setUser(userProfile);
     } catch {
       setUser(null);
-      authService.clearUser();
     } finally {
       setIsLoading(false);
     }
@@ -83,7 +45,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   useEffect(() => {
     checkAuthStatus();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const login = async (email: string, password: string) => {
@@ -91,19 +52,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setIsLoading(true);
       await authService.login({ email, password });
 
-      const userData = authService.getUser();
-      if (userData) {
-        setUser(userData);
-      } else {
-        // getUserProfile() now takes no arguments
-        const userProfile = await authService.getUserProfile();
-        if (userProfile) {
-          authService.setUser(userProfile);
-          setUser(userProfile);
-        }
-      }
+      const userProfile = await authService.getUserProfile();
+      setUser(userProfile);
     } catch (error) {
-      authService.clearUser();
       setUser(null);
       throw error;
     } finally {
@@ -125,6 +76,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     } finally {
       setUser(null);
       setIsLoading(false);
+      if (typeof window !== "undefined") {
+        window.location.href = "/auth/login";
+      }
     }
   };
 

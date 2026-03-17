@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
+import { API_BASE_URL } from '@/shared/config/env';
 
 // Lazy import avoids a circular-dep: authService imports apiClient
 let _refreshTokenFn: (() => Promise<void>) | null = null;
@@ -6,10 +7,8 @@ export const setRefreshTokenFn = (fn: () => Promise<void>) => {
   _refreshTokenFn = fn;
 };
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? '';
-
 if (!API_BASE_URL && process.env.NODE_ENV === 'production') {
-  console.warn('NEXT_PUBLIC_API_URL is not set. API calls will fail in production.');
+  console.warn('NEXT_PUBLIC_API_BASE_URL is not set. API calls will fail in production.');
 }
 
 // ─── Refresh-queue machinery ─────────────────────────────────────────────────
@@ -66,15 +65,14 @@ const createApiClient = (isPublic = false): AxiosInstance => {
           } catch (refreshError) {
             processQueue(refreshError);
             if (typeof window !== 'undefined') {
-              localStorage.removeItem('user');
               const authPaths = [
-                '/login', '/register', '/forgot-password',
-                '/reset-password', '/resend-confirmation', '/confirm-email',
+                '/login', '/auth/login', '/register', '/forgot-password',
+                '/reset-password', '/resend-confirmation', '/confirm-email', '/auth',
               ];
               const onAuthPage = authPaths.some((p) =>
                 window.location.pathname.startsWith(p),
               );
-              if (!onAuthPage) window.location.href = '/login';
+              if (!onAuthPage) window.location.href = '/auth/login';
             }
             return Promise.reject(refreshError);
           } finally {

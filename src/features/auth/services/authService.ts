@@ -1,7 +1,7 @@
 /**
  * authService – all authentication operations.
  *
- * Delegates HTTP calls to authApi / usersApi; adds localStorage helpers
+ * Delegates HTTP calls to authApi / usersApi; keeps session state cookie-based
  * and the changePassword endpoint that was previously missing.
  */
 import { authApi } from '@/shared/services/api/authApi';
@@ -42,39 +42,21 @@ export const authService = {
   },
 
   getUser(): UserProfile | null {
-    if (typeof window === 'undefined') return null;
-    try {
-      const raw = localStorage.getItem('user');
-      return raw ? (JSON.parse(raw) as UserProfile) : null;
-    } catch {
-      return null;
-    }
+    return null;
   },
 
-  setUser(user: UserProfile): void {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('user', JSON.stringify(user));
-    }
+  setUser(_user: UserProfile): void {
+    // Session lives in HttpOnly cookies; user profile is kept in memory only.
   },
 
   clearUser(): void {
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('user');
-    }
+    // No-op: no local/session storage is used for auth state.
   },
 
   // ── Auth operations ────────────────────────────────────────────────────────
 
   async login(loginData: LoginRequest): Promise<LoginResponse> {
-    const response = await authApi.login(loginData);
-    // Fetch & cache the user profile after successful login
-    try {
-      const profile = await authApi.getMe();
-      if (profile) this.setUser(profile);
-    } catch {
-      // Non-fatal – profile fetch may fail on first login attempt
-    }
-    return response;
+    return authApi.login(loginData);
   },
 
   async register(registerData: RegisterRequest): Promise<RegisterResponse> {
@@ -99,7 +81,7 @@ export const authService = {
 
   async checkAuthStatus(): Promise<boolean> {
     try {
-      await this.refreshToken();
+      await authApi.getMe();
       return true;
     } catch {
       return false;

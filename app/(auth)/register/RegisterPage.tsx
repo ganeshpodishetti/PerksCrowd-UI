@@ -5,6 +5,7 @@ import { Button } from '@/shared/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/shared/components/ui/card';
 import { Input } from '@/shared/components/ui/input';
 import { useToast } from '@/shared/components/ui/use-toast';
+import { getGoogleAuthUrl } from '@/shared/config/env';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -78,6 +79,10 @@ export default function RegisterPage() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleGoogleLogin = () => {
+    window.location.href = getGoogleAuthUrl();
   };
 
   return (
@@ -182,6 +187,16 @@ export default function RegisterPage() {
                 size="lg"
               >
                 {isLoading ? 'Creating account...' : 'Create account'}
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                disabled={isLoading}
+                className="w-full"
+                size="lg"
+                onClick={handleGoogleLogin}
+              >
+                Continue with Google
               </Button>
             </CardContent>
 

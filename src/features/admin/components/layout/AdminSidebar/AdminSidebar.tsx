@@ -20,7 +20,7 @@ import {
     X
 } from 'lucide-react';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
 interface AdminSidebarProps {
   isCollapsed: boolean;
@@ -87,7 +87,6 @@ export default function AdminSidebar({
   onMobileClose
 }: AdminSidebarProps) {
   const pathname = usePathname();
-  const router = useRouter();
   const { unreadCount } = useUnreadDealsCount();
   const { user, logout } = useAuth();
 
@@ -100,7 +99,6 @@ export default function AdminSidebar({
   const handleLogout = async () => {
     try {
       await logout();
-      router.push('/');
     } catch (error) {
       console.error('Logout error:', error);
     }
