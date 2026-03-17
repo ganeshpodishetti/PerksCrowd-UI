@@ -24,6 +24,7 @@ interface DealDetailProps {
 
 const DealDetail: React.FC<DealDetailProps> = ({ deal, trigger, onView, onClick, onRedeem }) => {
   const { toast } = useToast();
+  const dealUrl = deal.url?.trim();
 
   // Format date
   const formatDate = (dateString?: string | null) => {
@@ -190,26 +191,28 @@ const DealDetail: React.FC<DealDetailProps> = ({ deal, trigger, onView, onClick,
           )}
         </div>
         
-        <DialogFooter className="pt-4">
-          <Button 
-            className="w-full bg-black hover:bg-neutral-800 dark:bg-white dark:text-black dark:hover:bg-neutral-200 group text-sm font-medium py-2.5 rounded-xl"
-            asChild
-          >
-            <a
-              href={deal.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => {
-                void onRedeem?.(deal.id);
-                void onClick?.(deal.id);
-              }}
-              className="flex items-center justify-center gap-2"
+        {dealUrl ? (
+          <DialogFooter className="pt-4">
+            <Button
+              className="w-full bg-black hover:bg-neutral-800 dark:bg-white dark:text-black dark:hover:bg-neutral-200 group text-sm font-medium py-2.5 rounded-xl"
+              asChild
             >
-              Official Deal Link
-              <ExternalLink className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
-            </a>
-          </Button>
-        </DialogFooter>
+              <a
+                href={dealUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => {
+                  void onRedeem?.(deal.id);
+                  void onClick?.(deal.id);
+                }}
+                className="flex items-center justify-center gap-2"
+              >
+                Official Deal Link
+                <ExternalLink className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+              </a>
+            </Button>
+          </DialogFooter>
+        ) : null}
       </DialogContent>
     </Dialog>
   );

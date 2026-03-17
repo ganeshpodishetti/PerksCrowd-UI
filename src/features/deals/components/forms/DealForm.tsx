@@ -110,7 +110,6 @@ export default function DealForm({ deal, onSave, title, description }: DealFormP
         discount: formData.discount,
         isActive: formData.isActive,
         isFeatured,
-        url: formData.url,
         redeemType: formData.redeemType,
         isUniversitySpecific: formData.isUniversitySpecific || false,
         categoryName: formData.categoryName,
