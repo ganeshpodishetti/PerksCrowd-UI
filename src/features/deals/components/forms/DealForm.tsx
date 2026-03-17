@@ -58,7 +58,6 @@ export default function DealForm({ deal, onSave, title, description }: DealFormP
     if (deal) {
       return {
         title: deal.title,
-        description: deal.description,
         discount: deal.discount || '',
         promo: deal.promo || '',
         isActive: deal.isActive,
@@ -66,7 +65,6 @@ export default function DealForm({ deal, onSave, title, description }: DealFormP
         url: deal.url || '',
         redeemType: deal.redeemType || 'Online',
         howToRedeem: deal.howToRedeem || '',
-        startDate: formatDateForInput(deal.startDate || '') || '',
         endDate: formatDateForInput(deal.endDate || '') || '',
         categoryName: deal.categoryName,
         storeName: deal.storeName,
@@ -76,7 +74,6 @@ export default function DealForm({ deal, onSave, title, description }: DealFormP
     }
     return {
       title: '',
-      description: '',
       discount: '',
       promo: '',
       isActive: true,
@@ -84,7 +81,6 @@ export default function DealForm({ deal, onSave, title, description }: DealFormP
       url: '',
       redeemType: 'Online',
       howToRedeem: '',
-      startDate: '',
       endDate: '',
       categoryName: '',
       storeName: '',
@@ -111,7 +107,6 @@ export default function DealForm({ deal, onSave, title, description }: DealFormP
 
       const dealData: DealFormPayload = {
         title: formData.title,
-        description: formData.description,
         discount: formData.discount,
         isActive: formData.isActive,
         isFeatured,
@@ -126,10 +121,6 @@ export default function DealForm({ deal, onSave, title, description }: DealFormP
       if (formData.howToRedeem?.trim()) dealData.howToRedeem = formData.howToRedeem.trim();
       if (formData.universityName?.trim()) dealData.universityName = formData.universityName.trim();
       if (formData.url?.trim()) dealData.url = formData.url.trim();
-      if (formData.startDate?.trim()) {
-        const formattedStartDate = formatDateForBackend(formData.startDate);
-        if (formattedStartDate) dealData.startDate = formattedStartDate;
-      }
       if (formData.endDate?.trim()) {
         const formattedEndDate = formatDateForBackend(formData.endDate);
         if (formattedEndDate) dealData.endDate = formattedEndDate;

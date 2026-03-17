@@ -25,7 +25,6 @@ const normalizeDeal = (deal: DealResponse): DealResponse => ({
   promo: deal.promo ?? null,
   logoUrl: deal.logoUrl ?? deal.LogoUrl ?? null,
   howToRedeem: deal.howToRedeem ?? null,
-  startDate: deal.startDate ?? null,
   endDate: deal.endDate ?? null,
   universityName: deal.universityName ?? null,
 });

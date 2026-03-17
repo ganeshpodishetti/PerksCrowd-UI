@@ -19,7 +19,6 @@ export default function AdminDealsPage() {
     const term = searchTerm.toLowerCase();
     return deals.filter(d =>
       d.title.toLowerCase().includes(term) ||
-      d.description.toLowerCase().includes(term) ||
       d.storeName.toLowerCase().includes(term) ||
       d.categoryName.toLowerCase().includes(term) ||
       (d.discount?.toLowerCase().includes(term) ?? false)

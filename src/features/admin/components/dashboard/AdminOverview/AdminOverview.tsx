@@ -13,7 +13,7 @@ export default function AdminOverview({ deals }: AdminOverviewProps) {
   // Calculate some basic stats
   const recentDeals = deals
     .filter(deal => deal.isActive)
-    .sort((a, b) => new Date(b.startDate || '').getTime() - new Date(a.startDate || '').getTime())
+    .sort((a, b) => new Date(b.createdAt || '').getTime() - new Date(a.createdAt || '').getTime())
     .slice(0, 5);
 
   const expiringDeals = deals

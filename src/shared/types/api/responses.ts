@@ -74,7 +74,6 @@ export interface CreateStoreResponse {
 export interface DealResponse {
   id: string;
   title: string;
-  description: string;
   discount: string;
   promo?: string | null;
   /** Transitional casing from backend responses. */
@@ -87,7 +86,6 @@ export interface DealResponse {
   /** enum name: Online | InStore | Both | Unknown */
   redeemType: RedeemType;
   howToRedeem?: string | null;
-  startDate?: string | null;
   endDate?: string | null;
   isUniversitySpecific: boolean;
   categoryName: string;
