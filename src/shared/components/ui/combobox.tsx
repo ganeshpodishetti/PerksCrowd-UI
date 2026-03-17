@@ -107,8 +107,8 @@ export function Combobox({
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          role="combobox"
           aria-expanded={open}
+          aria-haspopup="listbox"
           className={cn(
             "w-full justify-between h-10 px-3 py-2 border border-neutral-200 dark:border-neutral-700",
             "bg-white dark:bg-neutral-900 hover:bg-neutral-50 dark:hover:bg-neutral-800",
@@ -149,7 +149,8 @@ export function Combobox({
             {filteredOptions.length > 0 ? (
               <div className="py-1">
                 {filteredOptions.map((option) => (
-                  <div
+                  <button
+                    type="button"
                     key={option.value}
                     onClick={() => handleSelect(option.value)}
                     className={cn(
@@ -158,15 +159,6 @@ export function Combobox({
                       "focus:bg-blue-50 dark:focus:bg-blue-950/50 outline-none",
                       value === option.value && "bg-blue-100 dark:bg-blue-950/70 text-blue-900 dark:text-blue-100"
                     )}
-                    role="option"
-                    aria-selected={value === option.value}
-                    tabIndex={0}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" || e.key === " ") {
-                        e.preventDefault()
-                        handleSelect(option.value)
-                      }
-                    }}
                   >
                     <Check
                       className={cn(
@@ -175,7 +167,7 @@ export function Combobox({
                       )}
                     />
                     <span className="truncate font-medium">{option.label}</span>
-                  </div>
+                  </button>
                 ))}
               </div>
             ) : searchValue.trim() ? (
@@ -192,26 +184,18 @@ export function Combobox({
             
             {showCreateOption && (
               <div className="border-t border-neutral-200 dark:border-neutral-700 pt-1 pb-1">
-                <div
+                <button
+                  type="button"
                   onClick={handleCreateCustom}
                   className={cn(
                     "flex items-center px-3 py-2.5 text-sm cursor-pointer transition-colors mx-1 rounded-md",
                     "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/30",
                     "hover:bg-blue-100 dark:hover:bg-blue-950/50 font-medium"
                   )}
-                  role="option"
-                  aria-selected={false}
-                  tabIndex={0}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault()
-                      handleCreateCustom()
-                    }
-                  }}
                 >
                   <Plus className="mr-3 h-4 w-4" />
                   <span className="truncate">{customText} &quot;{searchValue}&quot;</span>
-                </div>
+                </button>
               </div>
             )}
           </div>

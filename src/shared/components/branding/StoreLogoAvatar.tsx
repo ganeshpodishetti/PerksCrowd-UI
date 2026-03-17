@@ -68,10 +68,9 @@ const StoreLogoAvatar: React.FC<StoreLogoAvatarProps> = ({
           src={logoUrl as string}
           alt={`${name || fallbackName || 'Store'} logo`}
           fill
-          sizes="64px"
+          sizes="(max-width: 640px) 40px, 44px"
           className={cn('w-full h-full', imageFitClass, imageClassName)}
           onError={() => setImageError(true)}
-          unoptimized
           data-testid={testIdPrefix ? `${testIdPrefix}-image` : undefined}
         />
       ) : (

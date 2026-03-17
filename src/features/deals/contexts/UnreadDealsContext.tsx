@@ -1,3 +1,5 @@
+'use client';
+
 import { useAuth } from '@/features/auth/contexts/AuthContext';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import React, { createContext, ReactNode, useCallback, useMemo } from 'react';

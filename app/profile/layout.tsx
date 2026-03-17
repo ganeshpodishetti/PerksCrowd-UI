@@ -1,3 +1,4 @@
+import { AuthProvider } from '@/features/auth/contexts/AuthContext'
 import { ProtectedRoute } from '@/features/auth/components/ProtectedRoute/ProtectedRoute'
 
 export default function ProfileLayout({
@@ -5,6 +6,10 @@ export default function ProfileLayout({
 }: {
   children: React.ReactNode
 }) {
-  return <ProtectedRoute>{children}</ProtectedRoute>
+  return (
+    <AuthProvider>
+      <ProtectedRoute>{children}</ProtectedRoute>
+    </AuthProvider>
+  )
 }
 

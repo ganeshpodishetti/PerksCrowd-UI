@@ -205,7 +205,6 @@ const LoginPage: React.FC = () => {
               </Button>
               <Button
                 type="button"
-                variant="outline"
                 className="w-full"
                 disabled={isSubmitting || isGoogleRedirecting}
                 onClick={handleGoogleLogin}

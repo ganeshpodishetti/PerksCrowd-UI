@@ -1,12 +1,9 @@
-import dynamic from 'next/dynamic'
+import type { Metadata } from 'next'
+import Navigation from '@/shared/components/layout/Navigation/Navigation'
 import StoresPage from './StoresPage'
 
-// Dynamically import Navigation to reduce initial bundle size
-const Navigation = dynamic(() => import('@/shared/components/layout/Navigation/Navigation'), {
-  ssr: true,
-})
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Brands - StudentPerks',
   description: 'Browse deals by brand',
 }

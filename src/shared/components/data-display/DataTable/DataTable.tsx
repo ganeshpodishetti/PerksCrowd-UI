@@ -163,6 +163,7 @@ export const cellRenderers = {
           alt={alt} 
           width={40}
           height={40}
+          sizes="(max-width: 640px) 32px, 40px"
           className="w-8 h-8 sm:w-10 sm:h-10 rounded-md object-cover"
         />
       ) : (
@@ -172,6 +173,7 @@ export const cellRenderers = {
             alt="No image available" 
             width={40}
             height={40}
+            sizes="(max-width: 640px) 32px, 40px"
             className="w-full h-full object-cover"
           />
         </div>

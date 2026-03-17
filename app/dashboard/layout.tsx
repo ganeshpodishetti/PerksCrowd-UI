@@ -1,3 +1,5 @@
+import { AuthProvider } from '@/features/auth/contexts/AuthContext'
+import { UnreadDealsProvider } from '@/features/deals/contexts/UnreadDealsContext'
 import { ProtectedRoute } from '@/features/auth/components/ProtectedRoute/ProtectedRoute'
 
 export default function AdminLayout({
@@ -6,8 +8,12 @@ export default function AdminLayout({
   children: React.ReactNode
 }) {
   return (
-    <ProtectedRoute>
-      {children}
-    </ProtectedRoute>
+    <AuthProvider>
+      <UnreadDealsProvider>
+        <ProtectedRoute>
+          {children}
+        </ProtectedRoute>
+      </UnreadDealsProvider>
+    </AuthProvider>
   )
 }

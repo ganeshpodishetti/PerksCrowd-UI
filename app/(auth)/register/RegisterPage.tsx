@@ -190,7 +190,6 @@ export default function RegisterPage() {
               </Button>
               <Button
                 type="button"
-                variant="outline"
                 disabled={isLoading}
                 className="w-full"
                 size="lg"

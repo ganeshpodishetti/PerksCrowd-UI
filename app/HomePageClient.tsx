@@ -2,16 +2,13 @@
 
 import { Category, fetchCategories } from '@/features/categories/services/categoryService'
 import { DealsContainer } from '@/features/deals/components/display/DealList/DealsContainer'
+import Navigation from '@/shared/components/layout/Navigation/Navigation'
 import type { FeedType } from '@/shared/types/api/responses'
 import { Tag, X } from 'lucide-react'
-import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
-const Navigation = dynamic(() => import('@/shared/components/layout/Navigation/Navigation'), {
-  ssr: true,
-})
 
 interface HomePageClientProps {
   sectionedFeeds?: boolean

@@ -116,13 +116,14 @@ const DealCard: React.FC<DealCardProps> = memo((props) => {
             href={deal.url}
             target="_blank"
             rel="noopener noreferrer"
+            aria-label={`Open ${deal.title} deal in a new tab`}
             onClick={(e) => {
               e.stopPropagation();
               void trackDealClick(deal.id);
             }}
             className="text-neutral-400 hover:text-neutral-600 dark:text-neutral-500 dark:hover:text-neutral-300 transition-colors touch-manipulation"
           >
-            <ExternalLink className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+            <ExternalLink className="h-3.5 w-3.5 sm:h-4 sm:w-4" aria-hidden="true" />
           </a>
         </div>
       )}

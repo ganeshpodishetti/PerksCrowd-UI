@@ -1,12 +1,23 @@
 'use client'
-import SubmittedDealFormModal from '@/features/deals/components/forms/SubmittedDealFormModal/SubmittedDealFormModal';
 import { useToast } from '@/shared/components/ui/use-toast';
 import { GraduationCap, Menu, Plus, Search, Tag, X } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-import ThemeToggle from '../ThemeToggle/ThemeToggle';
+
+const ThemeToggle = dynamic(() => import('../ThemeToggle/ThemeToggle'), {
+  ssr: false,
+  loading: () => <div aria-hidden className="h-9 w-9 rounded-md" />,
+});
+
+const SubmittedDealFormModal = dynamic(
+  () => import('@/features/deals/components/forms/SubmittedDealFormModal/SubmittedDealFormModal'),
+  {
+    ssr: false,
+  },
+);
 
 interface NavigationProps {
   // Props removed as admin/user functionality is hidden
@@ -253,16 +264,18 @@ const Navigation: React.FC<NavigationProps> = () => {
       </div>
       
       {/* Submit Deal Modal */}
-      <SubmittedDealFormModal
-        isOpen={isSubmitDealModalOpen}
-        onClose={() => setIsSubmitDealModalOpen(false)}
-        onSuccess={() => {
-          toast({
-            title: "Deal Submitted!",
-            description: "Thanks for sharing! We'll review your deal and add it to the platform soon.",
-          });
-        }}
-      />
+      {isSubmitDealModalOpen ? (
+        <SubmittedDealFormModal
+          isOpen={isSubmitDealModalOpen}
+          onClose={() => setIsSubmitDealModalOpen(false)}
+          onSuccess={() => {
+            toast({
+              title: "Deal Submitted!",
+              description: "Thanks for sharing! We'll review your deal and add it to the platform soon.",
+            });
+          }}
+        />
+      ) : null}
     </header>
   );
 };

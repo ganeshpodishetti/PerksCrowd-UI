@@ -102,6 +102,7 @@ const UniversityDealsPage: React.FC = () => {
                 alt={university.name}
                 width={80}
                 height={80}
+                sizes="80px"
                 className="w-20 h-20 rounded-lg object-cover"
                 unoptimized={university.imageUrl.startsWith('/')}
               />

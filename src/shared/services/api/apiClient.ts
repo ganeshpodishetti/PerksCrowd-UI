@@ -40,6 +40,9 @@ const createApiClient = (isPublic = false): AxiosInstance => {
       (response) => response,
       async (error) => {
         const originalRequest = error.config;
+        const skipAuthRedirect = Boolean(
+          (originalRequest as { skipAuthRedirect?: boolean } | undefined)?.skipAuthRedirect,
+        );
 
         if (error.response?.status === 401 && !originalRequest._retry) {
           if (isRefreshing) {
@@ -64,7 +67,7 @@ const createApiClient = (isPublic = false): AxiosInstance => {
             return instance(originalRequest);
           } catch (refreshError) {
             processQueue(refreshError);
-            if (typeof window !== 'undefined') {
+            if (!skipAuthRedirect && typeof window !== 'undefined') {
               const authPaths = [
                 '/login', '/auth/login', '/register', '/forgot-password',
                 '/reset-password', '/resend-confirmation', '/confirm-email', '/auth',
