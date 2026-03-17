@@ -1,9 +1,9 @@
-import { AppProviders } from '@/shared/providers/AppProviders'
 import { DeferredFooter } from '@/shared/components/layout/Footer/DeferredFooter'
+import { API_BASE_URL } from '@/shared/config/env'
+import { AppProviders } from '@/shared/providers/AppProviders'
 import type { Metadata, Viewport } from 'next'
 import { Outfit } from 'next/font/google'
 import { preconnect, prefetchDNS } from 'react-dom'
-import { API_BASE_URL } from '@/shared/config/env'
 import './globals.css'
 
 const outfit = Outfit({ 

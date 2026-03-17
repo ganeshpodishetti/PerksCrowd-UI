@@ -4,25 +4,22 @@
  * Delegates HTTP calls to authApi / usersApi; keeps session state cookie-based
  * and the changePassword endpoint that was previously missing.
  */
+import { setRefreshTokenFn } from '@/shared/services/api/apiClient';
 import { authApi } from '@/shared/services/api/authApi';
 import { usersApi } from '@/shared/services/api/usersApi';
-import { setRefreshTokenFn } from '@/shared/services/api/apiClient';
 import type {
-  ChangePasswordRequest,
-  ForgotPasswordRequest,
-  LoginRequest,
-  RegisterRequest,
-  ResetPasswordRequest,
-  SendConfirmationEmailRequest,
+    ChangePasswordRequest,
+    ForgotPasswordRequest,
+    LoginRequest,
+    RegisterRequest,
+    ResetPasswordRequest,
+    SendConfirmationEmailRequest
 } from '@/shared/types/api/requests';
 import type {
-  ChangePasswordResponse,
-  CurrentUserResponse,
-  ForgotPasswordResponse,
-  LoginResponse,
-  RegisterResponse,
-  GetUserResponse,
-  ResetPasswordResponse,
+    ChangePasswordResponse,
+    CurrentUserResponse,
+    ForgotPasswordResponse, GetUserResponse, LoginResponse,
+    RegisterResponse, ResetPasswordResponse
 } from '@/shared/types/api/responses';
 
 // Re-export for consumers that import types from this module

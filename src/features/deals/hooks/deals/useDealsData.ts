@@ -1,13 +1,13 @@
 import {
-  useDealsInfiniteQuery,
-  useFeaturedFeedQuery,
-  useHomeFeedQuery,
-  useLatestFeedQuery,
-  usePopularFeedQuery,
-  useTrendingFeedQuery,
+    useDealsInfiniteQuery,
+    useFeaturedFeedQuery,
+    useHomeFeedQuery,
+    useLatestFeedQuery,
+    usePopularFeedQuery,
+    useTrendingFeedQuery
 } from '@/features/deals/hooks/useDealsQuery';
-import { Deal } from '@/shared/types/entities/deal';
 import type { FeedType } from '@/shared/types/api/responses';
+import { Deal } from '@/shared/types/entities/deal';
 import { useMemo } from 'react';
 
 interface UseDealsDataReturn {

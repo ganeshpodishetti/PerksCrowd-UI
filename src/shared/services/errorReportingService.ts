@@ -33,7 +33,7 @@ class ErrorReportingService {
       enabled: process.env.NODE_ENV === 'production',
       maxReports: 50,
       throttleMs: 1000, // 1 second throttle
-      enableConsoleLogging: process.env.NODE_ENV === 'development',
+      enableConsoleLogging: process.env.NEXT_PUBLIC_ENABLE_ERROR_CONSOLE === 'true',
       ...config,
     };
 

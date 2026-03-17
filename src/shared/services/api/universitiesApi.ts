@@ -6,15 +6,15 @@
  * 204 responses return void.
  */
 
-import { apiClient, buildFormData, publicApiClient } from './apiClient';
 import type {
-  CreateUniversityRequest,
-  UpdateUniversityRequest,
+    CreateUniversityRequest,
+    UpdateUniversityRequest
 } from '@/shared/types/api/requests';
 import type {
-  CreateUniversityResponse,
-  UniversityResponse,
+    CreateUniversityResponse,
+    UniversityResponse
 } from '@/shared/types/api/responses';
+import { apiClient, buildFormData, publicApiClient } from './apiClient';
 
 export const universitiesApi = {
   /** GET /api/universities → 200 UniversityResponse[] */

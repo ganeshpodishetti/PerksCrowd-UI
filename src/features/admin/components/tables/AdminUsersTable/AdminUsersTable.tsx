@@ -1,6 +1,6 @@
 import { UserItem } from '@/features/auth/services/authService';
+import { cellRenderers, ColumnDef, DataTable } from '@/shared/components/data-display/DataTable';
 import { Badge } from '@/shared/components/ui/badge';
-import { ColumnDef, DataTable, cellRenderers } from '@/shared/components/data-display/DataTable';
 import { CheckCircle, XCircle } from 'lucide-react';
 
 interface AdminUsersTableProps {

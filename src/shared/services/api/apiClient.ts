@@ -1,5 +1,5 @@
-import axios, { AxiosInstance } from 'axios';
 import { API_BASE_URL } from '@/shared/config/env';
+import axios, { AxiosInstance } from 'axios';
 
 // Lazy import avoids a circular-dep: authService imports apiClient
 let _refreshTokenFn: (() => Promise<void>) | null = null;

@@ -1,6 +1,6 @@
 // Migrated from src/components/pages/UniversitiesPage.tsx
 'use client'
-import { University, fetchUniversities } from '@/features/universities/services/universityService';
+import { fetchUniversities, University } from '@/features/universities/services/universityService';
 import { Card } from "@/shared/components/ui/card";
 import { Skeleton } from "@/shared/components/ui/skeleton";
 import { useToast } from "@/shared/components/ui/use-toast";

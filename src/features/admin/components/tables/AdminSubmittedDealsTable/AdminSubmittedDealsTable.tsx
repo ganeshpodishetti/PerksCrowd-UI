@@ -1,5 +1,5 @@
-import { Button } from '@/shared/components/ui/button';
 import { ColumnDef } from '@/shared/components/data-display/DataTable';
+import { Button } from '@/shared/components/ui/button';
 import { SubmittedDeal } from '@/shared/types/entities/submittedDeal';
 import { CheckCircle, ExternalLink, Trash2, XCircle } from 'lucide-react';
 

@@ -1,8 +1,8 @@
+import type { Deal } from '@/shared/types';
 import { describe, expect, it, jest } from '@jest/globals';
 import '@testing-library/jest-dom/jest-globals';
 import { fireEvent, render, screen } from '@testing-library/react';
 import type { ImgHTMLAttributes } from 'react';
-import type { Deal } from '@/shared/types';
 import DealCard from '../DealCard';
 
 jest.mock('../../DealDetail/DealDetail', () => ({

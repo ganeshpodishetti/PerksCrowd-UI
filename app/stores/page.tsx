@@ -1,5 +1,5 @@
-import type { Metadata } from 'next'
 import Navigation from '@/shared/components/layout/Navigation/Navigation'
+import type { Metadata } from 'next'
 import StoresPage from './StoresPage'
 
 

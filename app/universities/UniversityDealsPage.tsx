@@ -1,10 +1,10 @@
 // Migrated from src/components/pages/UniversityDealsPage.tsx
 'use client'
 import DealCard from '@/features/deals/components/display/DealCard/DealCard';
-import { Button } from '@/shared/components/ui/button';
-import { Skeleton } from '@/shared/components/ui/skeleton';
 import { useDealsByUniversityQuery } from '@/features/deals/hooks/useDealsQuery';
 import { useUniversityQuery } from '@/features/universities/hooks/useUniversitiesQuery';
+import { Button } from '@/shared/components/ui/button';
+import { Skeleton } from '@/shared/components/ui/skeleton';
 import { ArrowLeft } from 'lucide-react';
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';

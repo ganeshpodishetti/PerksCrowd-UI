@@ -5,18 +5,18 @@
  * 204 mutations return void.
  */
 
-import { apiClient, publicApiClient } from './apiClient';
 import type {
-  CreateDealRequest,
-  CursorPaginationRequest,
-  FeedInteractionEventType,
-  UpdateDealRequest,
+    CreateDealRequest,
+    CursorPaginationRequest,
+    FeedInteractionEventType,
+    UpdateDealRequest
 } from '@/shared/types/api/requests';
 import type {
-  CursorPaginatedDealsResponse,
-  DealResponse,
-  FeedDealsResponse,
+    CursorPaginatedDealsResponse,
+    DealResponse,
+    FeedDealsResponse
 } from '@/shared/types/api/responses';
+import { apiClient, publicApiClient } from './apiClient';
 
 const DEFAULT_PAGE_SIZE = parseInt(process.env.NEXT_PUBLIC_PAGE_SIZE ?? '10', 10);
 

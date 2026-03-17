@@ -1,5 +1,5 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { authService, UserItem } from '@/features/auth/services/authService';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 export const useAdminUsers = () => {
   const queryClient = useQueryClient();

@@ -5,8 +5,8 @@
  * DELETE /{id} (SuperAdminOnly) → 204 void.
  */
 
-import { apiClient } from './apiClient';
 import type { GetUserResponse } from '@/shared/types/api/responses';
+import { apiClient } from './apiClient';
 
 export const usersApi = {
   /** GET /api/users (SuperAdminOnly) → 200 GetUserResponse[] */

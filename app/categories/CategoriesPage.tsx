@@ -4,6 +4,7 @@ import { Category, fetchCategories } from '@/features/categories/services/catego
 import DealList from '@/features/deals/components/display/DealList';
 import { Skeleton } from "@/shared/components/ui/skeleton";
 import { useToast } from "@/shared/components/ui/use-toast";
+import { errorReportingService } from '@/shared/services/errorReportingService';
 import React, { useEffect, useState } from 'react';
 
 const CategoriesPage: React.FC = () => {
@@ -21,7 +22,10 @@ const CategoriesPage: React.FC = () => {
         setCategories(categoriesData);
         setLoading(false);
       } catch (err) {
-        console.error("Error loading categories:", err);
+        errorReportingService.reportNetworkError(err, {
+          feature: 'categories',
+          action: 'loadCategories',
+        });
         setError("Failed to load categories. Please try again later.");
         setLoading(false);
         

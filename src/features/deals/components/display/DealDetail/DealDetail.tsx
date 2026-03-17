@@ -1,15 +1,15 @@
+import StoreLogoAvatar from '@/shared/components/branding/StoreLogoAvatar';
 import { Badge } from "@/shared/components/ui/badge";
 import { Button } from "@/shared/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
+    Dialog,
+    DialogContent,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger
 } from "@/shared/components/ui/dialog";
 import { useToast } from "@/shared/components/ui/use-toast";
-import StoreLogoAvatar from '@/shared/components/branding/StoreLogoAvatar';
 import { Deal } from '@/shared/types';
 import { Calendar, Copy, ExternalLink, Info, MapPin, School, Tag } from 'lucide-react';
 import React from 'react';

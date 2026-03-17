@@ -5,24 +5,24 @@
  * All errors propagate as axios errors; callers should use normalizeApiError.
  */
 
-import { apiClient, publicApiClient } from './apiClient';
 import type {
-  ChangePasswordRequest,
-  ForgotPasswordRequest,
-  LoginRequest,
-  RegisterRequest,
-  ResetPasswordRequest,
-  SendConfirmationEmailRequest,
+    ChangePasswordRequest,
+    ForgotPasswordRequest,
+    LoginRequest,
+    RegisterRequest,
+    ResetPasswordRequest,
+    SendConfirmationEmailRequest
 } from '@/shared/types/api/requests';
 import type {
-  ChangePasswordResponse,
-  CurrentUserResponse,
-  ForgotPasswordResponse,
-  LoginResponse,
-  RefreshTokenResponse,
-  RegisterResponse,
-  ResetPasswordResponse,
+    ChangePasswordResponse,
+    CurrentUserResponse,
+    ForgotPasswordResponse,
+    LoginResponse,
+    RefreshTokenResponse,
+    RegisterResponse,
+    ResetPasswordResponse
 } from '@/shared/types/api/responses';
+import { apiClient, publicApiClient } from './apiClient';
 
 export const authApi = {
   /** POST /api/auth/login  – sets accessToken / refreshToken cookies */

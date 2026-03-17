@@ -9,10 +9,10 @@
  */
 import { dealsApi } from '@/shared/services/api/dealsApi';
 import type {
-  CreateDealRequest,
-  CursorPaginationRequest,
-  FeedInteractionEventType,
-  UpdateDealRequest,
+    CreateDealRequest,
+    CursorPaginationRequest,
+    FeedInteractionEventType,
+    UpdateDealRequest
 } from '@/shared/types/api/requests';
 import type { CursorPaginatedDealsResponse, DealResponse, FeedType } from '@/shared/types/api/responses';
 

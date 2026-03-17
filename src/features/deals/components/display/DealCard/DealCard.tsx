@@ -1,8 +1,8 @@
 'use client'
 import { useDealInteractionTracker } from '@/features/deals/hooks/useDealInteractionTracker';
+import StoreLogoAvatar from '@/shared/components/branding/StoreLogoAvatar';
 import { Badge } from "@/shared/components/ui/badge";
 import { Card } from "@/shared/components/ui/card";
-import StoreLogoAvatar from '@/shared/components/branding/StoreLogoAvatar';
 import { Deal } from '@/shared/types';
 import { Clock, ExternalLink } from 'lucide-react';
 import React, { memo } from 'react';

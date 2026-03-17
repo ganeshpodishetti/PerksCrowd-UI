@@ -4,15 +4,15 @@
  * Create/Update use plain JSON.  204 responses return void.
  */
 
-import { apiClient, publicApiClient } from './apiClient';
 import type {
-  CreateStoreRequest,
-  UpdateStoreRequest,
+    CreateStoreRequest,
+    UpdateStoreRequest
 } from '@/shared/types/api/requests';
 import type {
-  CreateStoreResponse,
-  StoreResponse,
+    CreateStoreResponse,
+    StoreResponse
 } from '@/shared/types/api/responses';
+import { apiClient, publicApiClient } from './apiClient';
 
 export const storesApi = {
   /** GET /api/stores → 200 StoreResponse[] */
