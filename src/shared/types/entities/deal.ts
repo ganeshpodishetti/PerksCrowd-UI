@@ -4,6 +4,12 @@
  */
 import type { RedeemType } from '@/shared/types/api/requests';
 
+export type {
+    CreateDealRequest, CursorPaginationRequest, UpdateDealRequest
+} from '@/shared/types/api/requests';
+export type {
+    CursorPaginatedDealsResponse, DealResponse
+} from '@/shared/types/api/responses';
 export type { RedeemType };
 
 export interface Deal {
@@ -27,13 +33,4 @@ export interface Deal {
   createdAt?: string;
 }
 
-export type {
-  CreateDealRequest,
-  UpdateDealRequest,
-  CursorPaginationRequest,
-} from '@/shared/types/api/requests';
 
-export type {
-  DealResponse,
-  CursorPaginatedDealsResponse,
-} from '@/shared/types/api/responses';

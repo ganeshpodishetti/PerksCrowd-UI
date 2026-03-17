@@ -1,5 +1,5 @@
-import { useErrorHandler } from '@/shared/contexts/ErrorContext';
 import { universityService } from '@/features/universities/services/universityService';
+import { useErrorHandler } from '@/shared/contexts/ErrorContext';
 import { CreateUniversityRequest, UpdateUniversityRequest } from '@/shared/types/entities/university';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 

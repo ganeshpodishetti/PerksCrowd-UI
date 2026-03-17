@@ -1,5 +1,5 @@
 import { Category } from '@/features/categories/services/categoryService';
-import { ColumnDef, DataTable, cellRenderers } from '@/shared/components/data-display/DataTable';
+import { cellRenderers, ColumnDef, DataTable } from '@/shared/components/data-display/DataTable';
 
 interface AdminCategoriesTableProps {
   categories: Category[];

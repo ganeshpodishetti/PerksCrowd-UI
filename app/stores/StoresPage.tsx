@@ -1,9 +1,10 @@
 // Migrated from src/components/pages/StoresPage.tsx
 'use client'
-import { Store as StoreType, fetchStores } from '@/features/stores/services/storeService';
+import { fetchStores, Store as StoreType } from '@/features/stores/services/storeService';
 import { Card } from "@/shared/components/ui/card";
 import { Skeleton } from "@/shared/components/ui/skeleton";
 import { useToast } from "@/shared/components/ui/use-toast";
+import { errorReportingService } from '@/shared/services/errorReportingService';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -23,7 +24,10 @@ const StoresPage: React.FC = () => {
         setStores(storesData);
         setLoading(false);
       } catch (err) {
-        console.error("Error loading stores:", err);
+        errorReportingService.reportNetworkError(err, {
+          feature: 'stores',
+          action: 'loadStores',
+        });
         setError("Failed to load brands. Please try again later.");
         setLoading(false);
         

@@ -7,4 +7,4 @@ export interface Store {
 }
 
 export type { CreateStoreRequest, UpdateStoreRequest } from '@/shared/types/api/requests';
-export type { StoreResponse, CreateStoreResponse } from '@/shared/types/api/responses';
+export type { CreateStoreResponse, StoreResponse } from '@/shared/types/api/responses';

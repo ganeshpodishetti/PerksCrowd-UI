@@ -6,8 +6,8 @@
  * PUT returns 204 → void.
  */
 import { storesApi } from '@/shared/services/api/storesApi';
-import type { StoreResponse, CreateStoreResponse } from '@/shared/types/api/responses';
 import type { CreateStoreRequest, UpdateStoreRequest } from '@/shared/types/api/requests';
+import type { CreateStoreResponse, StoreResponse } from '@/shared/types/api/responses';
 
 export type { StoreResponse as Store, CreateStoreRequest, UpdateStoreRequest, CreateStoreResponse };
 

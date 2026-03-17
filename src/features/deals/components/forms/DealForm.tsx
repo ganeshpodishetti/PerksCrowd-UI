@@ -8,12 +8,12 @@ import { ArrowLeft, Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import {
-  CategoryStoreSelection,
-  DateSelection,
-  DealInformation,
-  DealSettings,
-  FormData,
-  UniversityAndSwitches,
+    CategoryStoreSelection,
+    DateSelection,
+    DealInformation,
+    DealSettings,
+    FormData,
+    UniversityAndSwitches
 } from './DealFormModal/';
 
 type DealFormDeal = DealResponse & {

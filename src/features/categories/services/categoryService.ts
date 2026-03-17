@@ -5,8 +5,8 @@
  * expects { title: string }, not multipart/form-data.
  */
 import { categoriesApi } from '@/shared/services/api/categoriesApi';
-import type { CategoryResponse, CreateCategoryResponse } from '@/shared/types/api/responses';
 import type { CreateCategoryRequest, UpdateCategoryRequest } from '@/shared/types/api/requests';
+import type { CategoryResponse, CreateCategoryResponse } from '@/shared/types/api/responses';
 
 // Re-export types for consumers importing from this module
 export type { CategoryResponse as Category, CreateCategoryRequest, UpdateCategoryRequest, CreateCategoryResponse };

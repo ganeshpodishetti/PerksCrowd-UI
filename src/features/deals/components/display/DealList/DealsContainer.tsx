@@ -1,14 +1,15 @@
 "use client";
 import { useDealsData } from "@/features/deals/hooks/deals/useDealsData";
 import {
-  sortOptions,
-  useDealsFilter,
+    sortOptions,
+    useDealsFilter
 } from "@/features/deals/hooks/deals/useDealsFilter";
 import { useDealsLoadMore } from "@/features/deals/hooks/deals/useDealsLoadMore";
 import { dealService } from "@/features/deals/services/dealService";
 import { Button } from "@/shared/components/ui/button";
-import { Deal } from "@/shared/types/entities/deal";
+import { errorReportingService } from '@/shared/services/errorReportingService';
 import type { FeedType } from '@/shared/types/api/responses';
+import { Deal } from "@/shared/types/entities/deal";
 import React, { useCallback, useEffect, useState } from "react";
 import HeroSearchSection from "../../search/HeroSearchSection/HeroSearchSection";
 import DealSkeleton from "../DealSkeleton/DealSkeleton";
@@ -67,7 +68,11 @@ export const DealsContainer: React.FC<DealsContainerProps> = ({
           setHasSearched(true);
         })
         .catch(err => {
-          console.error('Search error:', err);
+          errorReportingService.reportNetworkError(err, {
+            feature: 'deals',
+            action: 'searchDeals',
+            query: initialSearchQuery,
+          });
           setIsSearching(false);
           setSearchResults([]);
           setHasSearched(true);

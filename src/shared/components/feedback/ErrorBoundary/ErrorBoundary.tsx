@@ -1,5 +1,6 @@
 import { Button } from '@/shared/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/components/ui/card';
+import { errorReportingService } from '@/shared/services/errorReportingService';
 import { AlertTriangle, RefreshCw } from 'lucide-react';
 import { Component, ErrorInfo, ReactNode } from 'react';
 
@@ -26,7 +27,10 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('ErrorBoundary caught an error:', error, errorInfo);
+    const componentStack = errorInfo.componentStack ?? '';
+    errorReportingService.reportBoundaryError(error, componentStack, {
+      boundary: 'AppProviders',
+    });
     this.setState({ errorInfo });
     this.props.onError?.(error, errorInfo);
   }

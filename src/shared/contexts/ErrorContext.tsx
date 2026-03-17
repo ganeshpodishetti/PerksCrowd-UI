@@ -2,8 +2,8 @@
 
 import { useToast } from '@/shared/components/ui/use-toast';
 import { normalizeApiError } from '@/shared/utils/normalizeApiError';
-import { errorReportingService } from '../services/errorReportingService';
 import { createContext, ReactNode, useCallback, useContext } from 'react';
+import { errorReportingService } from '../services/errorReportingService';
 
 interface ErrorContextType {
   showError: (message: string, title?: string) => void;

@@ -1,5 +1,5 @@
 import { Store } from '@/features/stores/services/storeService';
-import { ColumnDef, DataTable, cellRenderers } from '@/shared/components/data-display/DataTable';
+import { cellRenderers, ColumnDef, DataTable } from '@/shared/components/data-display/DataTable';
 
 interface AdminStoresTableProps {
   stores: Store[];

@@ -11,10 +11,10 @@ export interface University {
 }
 
 export type {
-  CreateUniversityRequest,
-  UpdateUniversityRequest,
+    CreateUniversityRequest,
+    UpdateUniversityRequest
 } from '@/shared/types/api/requests';
-
 export type {
-  CreateUniversityResponse,
+    CreateUniversityResponse
 } from '@/shared/types/api/responses';
+

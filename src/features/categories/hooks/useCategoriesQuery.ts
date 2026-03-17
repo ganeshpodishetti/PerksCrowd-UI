@@ -1,6 +1,6 @@
 import { categoryService } from '@/features/categories/services/categoryService';
-import type { CreateCategoryRequest, UpdateCategoryRequest } from '@/shared/types/api/requests';
 import { useErrorHandler } from '@/shared/contexts/ErrorContext';
+import type { CreateCategoryRequest, UpdateCategoryRequest } from '@/shared/types/api/requests';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 // Query keys factory for better cache management

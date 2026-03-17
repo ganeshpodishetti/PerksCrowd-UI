@@ -3,7 +3,7 @@ import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuTrigger,
+    DropdownMenuTrigger
 } from "@/shared/components/ui/dropdown-menu";
 import { Deal } from '@/shared/types/entities/deal';
 import { ArrowUpDown } from "lucide-react";

@@ -16,21 +16,10 @@ export interface UserItem {
 }
 
 export type {
-  LoginRequest,
-  RegisterRequest,
-  ForgotPasswordRequest,
-  ResetPasswordRequest,
-  ChangePasswordRequest,
-  SendConfirmationEmailRequest,
+    ChangePasswordRequest, ForgotPasswordRequest, LoginRequest,
+    RegisterRequest, ResetPasswordRequest, SendConfirmationEmailRequest
 } from '@/shared/types/api/requests';
-
 export type {
-  LoginResponse,
-  RegisterResponse,
-  RefreshTokenResponse,
-  ChangePasswordResponse,
-  ForgotPasswordResponse,
-  ResetPasswordResponse,
-  CurrentUserResponse,
-  GetUserResponse,
+    ChangePasswordResponse, CurrentUserResponse, ForgotPasswordResponse, GetUserResponse, LoginResponse, RefreshTokenResponse, RegisterResponse, ResetPasswordResponse
 } from '@/shared/types/api/responses';
+

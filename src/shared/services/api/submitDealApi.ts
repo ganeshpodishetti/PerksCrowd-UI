@@ -6,12 +6,12 @@
  * 204 from mutations → void.
  */
 
-import { apiClient, publicApiClient } from './apiClient';
 import type {
-  MarkAsReadDealRequest,
-  SubmitDealRequest,
+    MarkAsReadDealRequest,
+    SubmitDealRequest
 } from '@/shared/types/api/requests';
 import type { SubmittedDealResponse } from '@/shared/types/api/responses';
+import { apiClient, publicApiClient } from './apiClient';
 
 export const submitDealApi = {
   /**

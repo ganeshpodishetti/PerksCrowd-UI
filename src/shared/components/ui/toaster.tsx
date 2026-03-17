@@ -4,7 +4,7 @@ import {
     ToastDescription,
     ToastProvider,
     ToastTitle,
-    ToastViewport,
+    ToastViewport
 } from "@/shared/components/ui/toast"
 import { TOAST_DEFAULT_DURATION, useToast } from "@/shared/components/ui/use-toast"
 

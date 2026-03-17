@@ -4,15 +4,15 @@
  * Create/Update use JSON (not FormData).  204 responses return void.
  */
 
-import { apiClient, publicApiClient } from './apiClient';
 import type {
-  CreateCategoryRequest,
-  UpdateCategoryRequest,
+    CreateCategoryRequest,
+    UpdateCategoryRequest
 } from '@/shared/types/api/requests';
 import type {
-  CategoryResponse,
-  CreateCategoryResponse,
+    CategoryResponse,
+    CreateCategoryResponse
 } from '@/shared/types/api/responses';
+import { apiClient, publicApiClient } from './apiClient';
 
 export const categoriesApi = {
   /** GET /api/categories → 200 CategoryResponse[] */

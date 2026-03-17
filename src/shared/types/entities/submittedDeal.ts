@@ -14,8 +14,7 @@ export interface SubmittedDeal {
 }
 
 export type {
-  SubmitDealRequest,
-  MarkAsReadDealRequest,
+    MarkAsReadDealRequest, SubmitDealRequest
 } from '@/shared/types/api/requests';
-
 export type { SubmittedDealResponse } from '@/shared/types/api/responses';
+

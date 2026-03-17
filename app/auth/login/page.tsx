@@ -1,6 +1,6 @@
+import LoginPage from '@/app/(auth)/login/LoginPage'
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
-import LoginPage from '@/app/(auth)/login/LoginPage'
 
 export const metadata: Metadata = {
   title: 'Login - StudentPerks',
