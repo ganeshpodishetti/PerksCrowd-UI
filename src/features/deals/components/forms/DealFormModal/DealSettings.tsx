@@ -7,16 +7,15 @@ import { FormData } from './types';
 interface DealSettingsProps {
   formData: FormData;
   handleInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-  handleFileChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   setFormData: React.Dispatch<React.SetStateAction<FormData>>;
 }
 
-export default function DealSettings({ formData, handleInputChange, handleFileChange, setFormData }: DealSettingsProps) {
+export default function DealSettings({ formData, handleInputChange, setFormData }: DealSettingsProps) {
   return (
     <>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div>
-          <Label htmlFor="url">Deal URL</Label>
+          <Label htmlFor="url">Deal URL (Optional)</Label>
           <Input id="url" name="url" value={formData.url || ''} onChange={handleInputChange} placeholder="https://example.com/deal" />
         </div>
         <div></div>
