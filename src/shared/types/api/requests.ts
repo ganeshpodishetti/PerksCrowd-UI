@@ -74,7 +74,6 @@ export interface UpdateStoreRequest {
 
 export interface CreateDealRequest {
   title: string;
-  description: string;
   discount: string;
   promo?: string;
   isActive: boolean;
@@ -83,7 +82,6 @@ export interface CreateDealRequest {
   /** enum name: Online | InStore | Both | Unknown */
   redeemType: string;
   howToRedeem?: string;
-  startDate?: string;
   endDate?: string;
   categoryName: string;
   universityName?: string;
@@ -93,7 +91,6 @@ export interface CreateDealRequest {
 
 export interface UpdateDealRequest {
   title: string;
-  description: string;
   discount: string;
   promo?: string;
   isActive: boolean;
@@ -101,7 +98,6 @@ export interface UpdateDealRequest {
   url: string;
   redeemType: string;
   howToRedeem?: string;
-  startDate?: string;
   endDate?: string;
   isUniversitySpecific?: boolean;
   categoryName: string;

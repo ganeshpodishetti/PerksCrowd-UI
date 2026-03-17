@@ -20,8 +20,8 @@ interface UseDealsFilterReturn {
 }
 
 const sortOptions: SortOption[] = [
-  { label: 'Newest First', value: 'startDate', direction: 'desc' },
-  { label: 'Oldest First', value: 'startDate', direction: 'asc' },
+  { label: 'Newest First', value: 'createdAt', direction: 'desc' },
+  { label: 'Oldest First', value: 'createdAt', direction: 'asc' },
   { label: 'Alphabetical (A-Z)', value: 'title', direction: 'asc' },
   { label: 'Alphabetical (Z-A)', value: 'title', direction: 'desc' },
   { label: 'Brand Name (A-Z)', value: 'storeName', direction: 'asc' },
@@ -78,7 +78,6 @@ export const useDealsFilter = ({
     const term = searchTerm.toLowerCase();
     return (
       deal.title.toLowerCase().includes(term) ||
-      deal.description.toLowerCase().includes(term) ||
       deal.storeName.toLowerCase().includes(term) ||
       deal.categoryName.toLowerCase().includes(term) ||
       (deal.promo && deal.promo.toLowerCase().includes(term))
@@ -103,8 +102,8 @@ export const useDealsFilter = ({
           : valueB.localeCompare(valueA);
       }
       
-      // Handle date sorting for startDate and endDate fields
-      if (activeSort.value === 'startDate' || activeSort.value === 'endDate') {
+      // Handle date sorting for createdAt and endDate fields
+      if (activeSort.value === 'createdAt' || activeSort.value === 'endDate') {
         const dateA = new Date(valueA as string);
         const dateB = new Date(valueB as string);
         const comparison = dateA.getTime() - dateB.getTime();

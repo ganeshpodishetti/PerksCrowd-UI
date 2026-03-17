@@ -125,7 +125,7 @@ const DealDetail: React.FC<DealDetailProps> = ({ deal, trigger, onView, onClick,
                 <div className="flex items-start flex-wrap gap-1">
                   <div className="flex items-center">
                     <Calendar className="h-3 w-3 mr-1 flex-shrink-0" />
-                    <span className="text-xs">{formatDate(deal.startDate)} - {formatDate(deal.endDate)}</span>
+                    <span className="text-xs">Expires: {formatDate(deal.endDate)}</span>
                   </div>
                   {daysRemaining !== null && (
                     <span className={`text-xs font-medium ${daysRemaining > 0 ? 'text-amber-600 dark:text-amber-500' : 'text-red-600 dark:text-red-500'}`}>
@@ -140,8 +140,6 @@ const DealDetail: React.FC<DealDetailProps> = ({ deal, trigger, onView, onClick,
               </div>
             </div>
           </div>
-          
-          <p className="text-neutral-600 dark:text-neutral-300 text-xs leading-relaxed">{deal.description}</p>
           
           <div className="bg-neutral-100/70 dark:bg-neutral-900/70 p-3 rounded-xl border border-neutral-200 dark:border-neutral-800">
             <div className="flex items-center justify-between gap-2">

@@ -12,7 +12,7 @@ export default function AdminDealsTable({ deals, onEditDeal, onDeleteDeal }: Adm
     {
       key: 'title',
       header: 'Title',
-      render: (_, deal) => cellRenderers.titleWithDescription(deal.title, deal.description)
+      render: (_, deal) => cellRenderers.text(deal.title, 'text-neutral-700 dark:text-neutral-300')
     },
     {
       key: 'storeName',

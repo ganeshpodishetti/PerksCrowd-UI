@@ -19,7 +19,6 @@ jest.mock('next/image', () => ({
 const baseDeal: Deal = {
   id: 'deal-1',
   title: 'Student Discount',
-  description: 'Save on your order',
   discount: '20% OFF',
   isFeatured: false,
   isActive: true,

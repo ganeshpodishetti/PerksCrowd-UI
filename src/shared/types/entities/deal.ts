@@ -9,7 +9,6 @@ export type { RedeemType };
 export interface Deal {
   id: string;
   title: string;
-  description: string;
   discount: string;
   promo?: string | null;
   logoUrl?: string | null;
@@ -19,7 +18,6 @@ export interface Deal {
   url: string;
   redeemType: RedeemType;
   howToRedeem?: string | null;
-  startDate?: string | null;
   endDate?: string | null;
   isUniversitySpecific: boolean;
   categoryName: string;
