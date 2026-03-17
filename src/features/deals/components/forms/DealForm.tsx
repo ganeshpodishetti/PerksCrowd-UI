@@ -136,7 +136,7 @@ export default function DealForm({ deal, onSave, title, description }: DealFormP
       }
 
       await onSave(dealData);
-      router.push('/admin/deals');
+      router.push('/dashboard/deals');
     } catch (error) {
       // Error handling is done by the parent component
     } finally {
@@ -148,7 +148,7 @@ export default function DealForm({ deal, onSave, title, description }: DealFormP
     <div className="space-y-6">
       <Button
         variant="ghost"
-        onClick={() => router.push('/admin/deals')}
+        onClick={() => router.push('/dashboard/deals')}
         className="mb-4"
       >
         <ArrowLeft className="h-4 w-4 mr-2" />
@@ -181,7 +181,7 @@ export default function DealForm({ deal, onSave, title, description }: DealFormP
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => router.push('/admin/deals')}
+                onClick={() => router.push('/dashboard/deals')}
                 disabled={isLoading}
               >
                 Cancel

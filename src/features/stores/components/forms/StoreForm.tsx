@@ -55,7 +55,7 @@ export default function StoreForm({ store, onSave, title, description }: StoreFo
         ...(formData.logoUrl && { logoUrl: formData.logoUrl }),
       };
       await onSave(storeData);
-      router.push('/admin/stores');
+      router.push('/dashboard/stores');
     } catch (error) {
       // Error handling is done by the parent component
     } finally {
@@ -67,7 +67,7 @@ export default function StoreForm({ store, onSave, title, description }: StoreFo
     <div className="space-y-6">
       <Button
         variant="ghost"
-        onClick={() => router.push('/admin/stores')}
+        onClick={() => router.push('/dashboard/stores')}
         className="mb-4"
       >
         <ArrowLeft className="h-4 w-4 mr-2" />
@@ -121,7 +121,7 @@ export default function StoreForm({ store, onSave, title, description }: StoreFo
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => router.push('/admin/stores')}
+                onClick={() => router.push('/dashboard/stores')}
                 disabled={isLoading}
               >
                 Cancel

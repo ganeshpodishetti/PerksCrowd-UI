@@ -31,49 +31,49 @@ interface AdminSidebarProps {
 
 const navItems = [
   {
-    path: '/admin',
+    path: '/dashboard',
     label: 'Dashboard',
     icon: LayoutDashboard,
     requiresSuperAdmin: false,
   },
   {
-    path: '/admin/deals',
+    path: '/dashboard/deals',
     label: 'Deals',
     icon: ShoppingBag,
     requiresSuperAdmin: false,
   },
   {
-    path: '/admin/submitted-deals',
+    path: '/dashboard/submitted-deals',
     label: 'Submitted Deals',
     icon: MessagesSquare,
     requiresSuperAdmin: true,
   },
   {
-    path: '/admin/stores',
+    path: '/dashboard/stores',
     label: 'Brands',
     icon: Store,
     requiresSuperAdmin: false,
   },
   {
-    path: '/admin/categories',
+    path: '/dashboard/categories',
     label: 'Categories',
     icon: Tag,
     requiresSuperAdmin: false,
   },
   {
-    path: '/admin/universities',
+    path: '/dashboard/universities',
     label: 'Universities',
     icon: GraduationCap,
     requiresSuperAdmin: false,
   },
   {
-    path: '/admin/users',
+    path: '/dashboard/users',
     label: 'Users',
     icon: Users,
     requiresSuperAdmin: true,
   },
   {
-    path: '/admin/profile',
+    path: '/dashboard/profile',
     label: 'Profile',
     icon: UserIcon,
     requiresSuperAdmin: false,
@@ -114,7 +114,7 @@ export default function AdminSidebar({
         isCollapsed ? "justify-center" : "justify-between"
       )}>
         {!isCollapsed && (
-          <Link href="/admin" className="flex items-center gap-2">
+          <Link href="/dashboard" className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
               <span className="text-primary-foreground font-bold text-sm">SP</span>
             </div>
@@ -174,7 +174,7 @@ export default function AdminSidebar({
               {!isCollapsed && (
                 <>
                   <span className="text-sm font-medium">{item.label}</span>
-                  {item.path === '/admin/submitted-deals' && unreadCount > 0 && (
+                  {item.path === '/dashboard/submitted-deals' && unreadCount > 0 && (
                     <Badge
                       variant="destructive"
                       className="ml-auto text-xs px-1.5 py-0.5 h-5 min-w-[20px] flex items-center justify-center"
@@ -184,7 +184,7 @@ export default function AdminSidebar({
                   )}
                 </>
               )}
-              {isCollapsed && item.path === '/admin/submitted-deals' && unreadCount > 0 && (
+              {isCollapsed && item.path === '/dashboard/submitted-deals' && unreadCount > 0 && (
                 <span className="absolute -top-1 -right-1 w-5 h-5 bg-destructive text-destructive-foreground text-xs rounded-full flex items-center justify-center">
                   {unreadCount > 9 ? '9+' : unreadCount}
                 </span>

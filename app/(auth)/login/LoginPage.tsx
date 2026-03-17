@@ -44,7 +44,7 @@ const LoginPage: React.FC = () => {
         title: "Success",
         description: "Logged in successfully!",
       });
-      // router.push('/admin'); // Remove direct push, let useEffect handle it
+      // router.push('/dashboard'); // Remove direct push, let useEffect handle it
     } catch (error: any) {
       const errorMessage = error.response?.data?.detail ||
                           error.response?.data?.message ||
@@ -91,10 +91,10 @@ const LoginPage: React.FC = () => {
     }
   };
 
-  // Redirect to /admin if authenticated
+  // Redirect to /dashboard if authenticated
   React.useEffect(() => {
     if (isAuthenticated && !isLoading) {
-      router.push('/admin');
+      router.push('/dashboard');
     }
   }, [isAuthenticated, isLoading, router]);
 

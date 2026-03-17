@@ -54,7 +54,7 @@ export default function AdminOverview({ deals }: AdminOverviewProps) {
                   </div>
                 ))}
                 <Button asChild variant="outline" size="sm" className="w-full mt-3">
-                  <Link href="/admin/deals">View All Deals</Link>
+                  <Link href="/dashboard/deals">View All Deals</Link>
                 </Button>
               </div>
             ) : (
@@ -88,7 +88,7 @@ export default function AdminOverview({ deals }: AdminOverviewProps) {
                   </div>
                 ))}
                 <Button asChild variant="outline" size="sm" className="w-full mt-3">
-                  <Link href="/admin/deals">Manage Expiring Deals</Link>
+                  <Link href="/dashboard/deals">Manage Expiring Deals</Link>
                 </Button>
               </div>
             ) : (
