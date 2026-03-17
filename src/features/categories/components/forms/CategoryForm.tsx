@@ -47,7 +47,7 @@ export default function CategoryForm({ category, onSave, title, description }: C
         title: formData.title,
       };
       await onSave(categoryData);
-      router.push('/admin/categories');
+      router.push('/dashboard/categories');
     } catch (error) {
       // Error handling is done by the parent component
     } finally {
@@ -59,7 +59,7 @@ export default function CategoryForm({ category, onSave, title, description }: C
     <div className="space-y-6">
       <Button
         variant="ghost"
-        onClick={() => router.push('/admin/categories')}
+        onClick={() => router.push('/dashboard/categories')}
         className="mb-4"
       >
         <ArrowLeft className="h-4 w-4 mr-2" />
@@ -89,7 +89,7 @@ export default function CategoryForm({ category, onSave, title, description }: C
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => router.push('/admin/categories')}
+                onClick={() => router.push('/dashboard/categories')}
                 disabled={isLoading}
               >
                 Cancel

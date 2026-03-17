@@ -53,6 +53,20 @@ const nextConfig = {
   generateEtags: true,
   // Enable compression
   compress: true,
+  async redirects() {
+    return [
+      {
+        source: '/admin',
+        destination: '/dashboard',
+        permanent: true,
+      },
+      {
+        source: '/admin/:path*',
+        destination: '/dashboard/:path*',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;

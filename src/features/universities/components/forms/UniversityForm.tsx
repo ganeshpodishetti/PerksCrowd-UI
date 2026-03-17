@@ -89,7 +89,7 @@ export default function UniversityForm({ university, onSave, title, description 
         };
       }
       await onSave(universityData);
-      router.push('/admin/universities');
+      router.push('/dashboard/universities');
     } catch (error) {
       // Error handling is done by the parent component
     } finally {
@@ -101,7 +101,7 @@ export default function UniversityForm({ university, onSave, title, description 
     <div className="space-y-6">
       <Button
         variant="ghost"
-        onClick={() => router.push('/admin/universities')}
+        onClick={() => router.push('/dashboard/universities')}
         className="mb-4"
       >
         <ArrowLeft className="h-4 w-4 mr-2" />
@@ -204,7 +204,7 @@ export default function UniversityForm({ university, onSave, title, description 
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => router.push('/admin/universities')}
+                onClick={() => router.push('/dashboard/universities')}
                 disabled={isLoading}
               >
                 Cancel
