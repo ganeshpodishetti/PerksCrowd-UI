@@ -5,9 +5,16 @@ import { Button } from '@/shared/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/shared/components/ui/card';
 import { Input } from '@/shared/components/ui/input';
 import { useToast } from "@/shared/components/ui/use-toast";
+import { getGoogleAuthUrl } from '@/shared/config/env';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import React, { useState } from 'react';
+
+const OAUTH_ERROR_MESSAGES: Record<string, string> = {
+  oauth_failed: 'Google sign-in failed. Please try again.',
+  oauth_missing_claims: 'Google account is missing required info (email).',
+  oauth_auth_failed: 'Could not complete Google login. Please try again.',
+};
 
 const LoginPage: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -15,9 +22,12 @@ const LoginPage: React.FC = () => {
     password: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isGoogleRedirecting, setIsGoogleRedirecting] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const { toast } = useToast();
-  const { login, isAuthenticated, isLoading, user } = useAuth();
+  const { login, isAuthenticated, isLoading } = useAuth();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -25,6 +35,11 @@ const LoginPage: React.FC = () => {
       ...prev,
       [name]: value
     }));
+  };
+
+  const handleGoogleLogin = () => {
+    setIsGoogleRedirecting(true);
+    window.location.href = getGoogleAuthUrl();
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -98,6 +113,29 @@ const LoginPage: React.FC = () => {
     }
   }, [isAuthenticated, isLoading, router]);
 
+  React.useEffect(() => {
+    const errorCode = searchParams.get('error');
+    if (!errorCode) {
+      return;
+    }
+
+    const description = OAUTH_ERROR_MESSAGES[errorCode];
+    if (!description) {
+      return;
+    }
+
+    toast({
+      title: 'Error',
+      description,
+      variant: 'destructive',
+    });
+
+    const nextParams = new URLSearchParams(searchParams.toString());
+    nextParams.delete('error');
+    const nextUrl = nextParams.toString() ? `${pathname}?${nextParams.toString()}` : pathname;
+    router.replace(nextUrl);
+  }, [pathname, router, searchParams, toast]);
+
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -161,9 +199,18 @@ const LoginPage: React.FC = () => {
               <Button
                 type="submit"
                 className="w-full"
-                disabled={isSubmitting}
+                disabled={isSubmitting || isGoogleRedirecting}
               >
                 {isSubmitting ? "Signing in..." : "Sign in"}
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full"
+                disabled={isSubmitting || isGoogleRedirecting}
+                onClick={handleGoogleLogin}
+              >
+                Continue with Google
               </Button>
             </form>
           </CardContent>

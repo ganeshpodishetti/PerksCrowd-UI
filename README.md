@@ -18,6 +18,16 @@ npm run build
 npm run test
 ```
 
+## 🔐 Environment
+
+Set the backend origin for auth and API calls:
+
+```bash
+NEXT_PUBLIC_API_BASE_URL="http://localhost:5254"
+```
+
+`NEXT_PUBLIC_API_URL` is still supported as a fallback for older setups.
+
 ## 🛠️ Technology Stack
 
 - **React 19** - Modern React with concurrent features

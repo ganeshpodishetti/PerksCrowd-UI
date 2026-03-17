@@ -1,6 +1,6 @@
 'use client'
 import { useAuth } from '../../contexts/AuthContext';
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { ReactNode, useEffect } from 'react';
 
 interface ProtectedRouteProps {
@@ -8,9 +8,8 @@ interface ProtectedRouteProps {
   redirectTo?: string;
 }
 
-export const ProtectedRoute = ({ children, redirectTo = '/login' }: ProtectedRouteProps) => {
-  const { isAuthenticated, isLoading, user } = useAuth();
-  const pathname = usePathname();
+export const ProtectedRoute = ({ children, redirectTo = '/auth/login' }: ProtectedRouteProps) => {
+  const { isAuthenticated, isLoading } = useAuth();
   const router = useRouter();
 
 
