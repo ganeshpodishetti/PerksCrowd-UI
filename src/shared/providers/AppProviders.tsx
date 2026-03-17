@@ -1,7 +1,5 @@
 'use client'
 
-import { AuthProvider } from '@/features/auth/contexts/AuthContext'
-import { UnreadDealsProvider } from '@/features/deals/contexts/UnreadDealsContext'
 import { ErrorBoundary } from '@/shared/components/feedback/ErrorBoundary'
 import { ErrorProvider } from '@/shared/contexts/ErrorContext'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
@@ -55,12 +53,8 @@ export const AppProviders: React.FC<AppProvidersProps> = ({ children }) => {
     <ErrorBoundary>
       <QueryClientProvider client={queryClient}>
         <ErrorProvider>
-          <AuthProvider>
-            <UnreadDealsProvider>
-              {children}
-              <Toaster />
-            </UnreadDealsProvider>
-          </AuthProvider>
+          {children}
+          <Toaster />
         </ErrorProvider>
       </QueryClientProvider>
     </ErrorBoundary>

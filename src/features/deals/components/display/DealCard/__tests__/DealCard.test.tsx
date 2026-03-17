@@ -21,6 +21,7 @@ const baseDeal: Deal = {
   title: 'Student Discount',
   description: 'Save on your order',
   discount: '20% OFF',
+  isFeatured: false,
   isActive: true,
   url: 'https://example.com/deal',
   redeemType: 'Online',
@@ -31,32 +32,36 @@ const baseDeal: Deal = {
 
 describe('DealCard', () => {
   it('uses logoUrl first when both logoUrl and imageUrl are present', () => {
+    const expectedLogoUrl = 'https://cdn.example.com/logo.png';
+
     render(
       <DealCard
         deal={{
           ...baseDeal,
-          logoUrl: 'https://cdn.example.com/logo.png',
+          logoUrl: expectedLogoUrl,
           imageUrl: 'https://cdn.example.com/image.png',
         }}
       />,
     );
 
     const image = screen.getByTestId('deal-card-logo-image');
-    expect(image).toHaveAttribute('src', 'https://cdn.example.com/logo.png');
+    expect(image).toHaveAttribute('src', expect.stringContaining(encodeURIComponent(expectedLogoUrl)));
   });
 
   it('falls back to imageUrl when logoUrl is missing', () => {
+    const expectedImageUrl = 'https://cdn.example.com/image.png';
+
     render(
       <DealCard
         deal={{
           ...baseDeal,
-          imageUrl: 'https://cdn.example.com/image.png',
+          imageUrl: expectedImageUrl,
         }}
       />,
     );
 
     const image = screen.getByTestId('deal-card-logo-image');
-    expect(image).toHaveAttribute('src', 'https://cdn.example.com/image.png');
+    expect(image).toHaveAttribute('src', expect.stringContaining(encodeURIComponent(expectedImageUrl)));
   });
 
   it('shows first-letter fallback when image fails to load', () => {
