@@ -17,11 +17,9 @@ interface HomePageClientProps {
 const FEED_SECTIONS: Array<{ title: string; feedType: FeedType }> = [
   { title: 'Featured', feedType: 'featured' },
   { title: 'Latest', feedType: 'latest' },
-  { title: 'Popular', feedType: 'popular' },
   { title: 'Trending', feedType: 'trending' },
+  { title: 'Popular', feedType: 'popular' },
 ]
-
-const INITIAL_SECTION_COUNT = 1
 
 export function HomePageClient({ sectionedFeeds = false }: HomePageClientProps) {
   const searchParams = useSearchParams()
@@ -29,7 +27,6 @@ export function HomePageClient({ sectionedFeeds = false }: HomePageClientProps) 
   const clearSearchHref = sectionedFeeds ? '/' : '/deals'
   const [categories, setCategories] = useState<Category[]>([])
   const [selectedCategory, setSelectedCategory] = useState<string | undefined>(undefined)
-  const [visibleSectionCount, setVisibleSectionCount] = useState(INITIAL_SECTION_COUNT)
 
   useEffect(() => {
     if (sectionedFeeds) {
@@ -44,15 +41,6 @@ export function HomePageClient({ sectionedFeeds = false }: HomePageClientProps) 
     loadCategories()
   }, [sectionedFeeds])
 
-  useEffect(() => {
-    if (!sectionedFeeds || searchQuery) {
-      return
-    }
-
-    setVisibleSectionCount(INITIAL_SECTION_COUNT)
-  }, [sectionedFeeds, searchQuery])
-
-  const visibleSections = FEED_SECTIONS.slice(0, visibleSectionCount)
 
   return (
     <div className="min-h-screen h-full w-full bg-background dark:bg-background flex flex-col">
@@ -113,53 +101,41 @@ export function HomePageClient({ sectionedFeeds = false }: HomePageClientProps) 
                 </div>
               )}
 
-              {sectionedFeeds && !searchQuery ? (
-                <div className="space-y-10">
-                  <section className="max-w-2xl mx-auto text-center">
-                    <p className="text-xs uppercase tracking-[0.12em] text-neutral-500 dark:text-neutral-400 mb-2">
-                      Built for smart savers
-                    </p>
-                    <h1 className="text-xl md:text-2xl font-semibold text-neutral-900 dark:text-neutral-100 leading-tight">
-                      Verified offers and everyday savings from brands you already use.
-                    </h1>
-                    <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
-                      PerksCrowd helps students and everyday shoppers discover trusted deals, unlock real value, and redeem offers in seconds.
-                    </p>
-                  </section>
+               {sectionedFeeds && !searchQuery ? (
+                 <div className="space-y-10">
+                   <section className="max-w-2xl mx-auto text-center">
+                     <p className="text-xs uppercase tracking-[0.12em] text-neutral-500 dark:text-neutral-400 mb-2">
+                       Built for smart savers
+                     </p>
+                     <h1 className="text-xl md:text-2xl font-semibold text-neutral-900 dark:text-neutral-100 leading-tight">
+                       Verified offers and everyday savings from brands you already use.
+                     </h1>
+                     <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
+                       PerksCrowd helps students and everyday shoppers discover trusted deals, unlock real value, and redeem offers in seconds.
+                     </p>
+                   </section>
 
-                  {visibleSections.map((section) => (
-                    <section key={`${section.feedType}-${selectedCategory || 'all'}`}>
-                      <div className="mb-4">
-                        <h2 className="text-xl md:text-2xl font-semibold text-neutral-900 dark:text-neutral-100">
-                          {section.title}
-                        </h2>
-                      </div>
-                      <DealsContainer
-                        excludeUniversitySpecific={true}
-                        initialCategory={selectedCategory}
-                        showHeroSection={false}
-                        showFilters={false}
-                        showLoadMore={false}
-                        feedType={section.feedType}
-                        showStatusHeader={false}
-                        key={`${section.feedType}-${selectedCategory || 'all'}`}
-                      />
-                    </section>
-                  ))}
-
-                  {visibleSectionCount < FEED_SECTIONS.length && (
-                    <div className="flex justify-center">
-                      <button
-                        type="button"
-                        onClick={() => setVisibleSectionCount(FEED_SECTIONS.length)}
-                        className="px-4 py-2 text-sm font-medium rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-100 hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors"
-                      >
-                        Load More Deals
-                      </button>
-                    </div>
-                  )}
-                </div>
-              ) : (
+                   {FEED_SECTIONS.map((section) => (
+                     <section key={`${section.feedType}-${selectedCategory || 'all'}`}>
+                       <div className="mb-4">
+                         <h2 className="text-xl md:text-2xl font-semibold text-neutral-900 dark:text-neutral-100">
+                           {section.title}
+                         </h2>
+                       </div>
+                       <DealsContainer
+                         excludeUniversitySpecific={true}
+                         initialCategory={selectedCategory}
+                         showHeroSection={false}
+                         showFilters={false}
+                         showLoadMore={false}
+                         feedType={section.feedType}
+                         showStatusHeader={false}
+                         key={`${section.feedType}-${selectedCategory || 'all'}`}
+                       />
+                     </section>
+                   ))}
+                 </div>
+               ) : (
                 <DealsContainer
                   excludeUniversitySpecific={true}
                   initialCategory={selectedCategory}
