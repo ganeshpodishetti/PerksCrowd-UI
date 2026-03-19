@@ -1,6 +1,7 @@
 'use client';
 
 import { useToast } from '@/shared/components/ui/use-toast';
+import { ensureClientContext } from '@/shared/utils/runtimeSafety';
 import { normalizeApiError } from '@/shared/utils/normalizeApiError';
 import { createContext, ReactNode, useCallback, useContext } from 'react';
 import { errorReportingService } from '../services/errorReportingService';
@@ -19,12 +20,23 @@ interface ErrorContextType {
 
 const ErrorContext = createContext<ErrorContextType | undefined>(undefined);
 
+const fallbackErrorContext: ErrorContextType = {
+  showError: () => undefined,
+  showSuccess: () => undefined,
+  showWarning: () => undefined,
+  showInfo: () => undefined,
+  handleApiError: () => undefined,
+  handleNetworkError: () => undefined,
+  handleValidationError: () => undefined,
+  handleBoundaryError: () => undefined,
+};
+
 export const useErrorHandler = () => {
-  const context = useContext(ErrorContext);
-  if (context === undefined) {
-    throw new Error('useErrorHandler must be used within an ErrorProvider');
-  }
-  return context;
+  return ensureClientContext(
+    useContext(ErrorContext),
+    fallbackErrorContext,
+    'useErrorHandler must be used within an ErrorProvider',
+  );
 };
 
 interface ErrorProviderProps {

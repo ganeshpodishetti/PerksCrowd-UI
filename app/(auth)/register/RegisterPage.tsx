@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from '@/shared/components/ui/input';
 import { useToast } from '@/shared/components/ui/use-toast';
 import { getGoogleAuthUrl } from '@/shared/config/env';
+import { browserConsole } from '@/shared/utils/runtimeSafety';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -65,7 +66,7 @@ export default function RegisterPage() {
       });
       router.push('/login'); // Redirect to login page
     } catch (error: any) {
-      console.error('Registration error:', error);
+      browserConsole.error('Registration error:', error);
       const errorMessage = error.response?.data?.message ||
                           error.response?.data?.title ||
                           error.response?.data?.error ||

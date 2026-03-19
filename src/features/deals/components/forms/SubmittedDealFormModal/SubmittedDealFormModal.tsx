@@ -3,6 +3,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from '@/shared/components/ui/input';
 import { Label } from '@/shared/components/ui/label';
 import { useToast } from '@/shared/components/ui/use-toast';
+import { browserConsole } from '@/shared/utils/runtimeSafety';
 import type { SubmitDealRequest } from '@/shared/types/api/requests';
 import { useEffect, useState } from 'react';
 import { submittedDealService } from '../../../services/submittedDealService';
@@ -76,7 +77,7 @@ export default function SubmittedDealFormModal({ isOpen, onClose, onSuccess }: S
         onSuccess();
       }
     } catch (error) {
-      console.error('Error submitting deal:', error);
+      browserConsole.error('Error submitting deal:', error);
       
       // Show error toast
       toast({

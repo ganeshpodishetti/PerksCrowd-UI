@@ -5,6 +5,7 @@ import {
     useStoresQuery,
     useUpdateStoreMutation
 } from '@/features/stores/hooks/useStoresQuery';
+import { browserConsole } from '@/shared/utils/runtimeSafety';
 import { CreateStoreRequest, Store, UpdateStoreRequest } from '@/features/stores/services/storeService';
 import { useState } from 'react';
 
@@ -50,7 +51,7 @@ export const useAdminStores = () => {
       closeModal();
     } catch (error) {
       // Error handling is done in the mutation hooks
-      console.error('Error saving store:', error);
+      browserConsole.error('Error saving store:', error);
     }
   };
 

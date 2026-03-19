@@ -4,6 +4,7 @@ import { fetchUniversities, University } from '@/features/universities/services/
 import { Card } from "@/shared/components/ui/card";
 import { Skeleton } from "@/shared/components/ui/skeleton";
 import { useToast } from "@/shared/components/ui/use-toast";
+import { browserConsole } from '@/shared/utils/runtimeSafety';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -23,7 +24,7 @@ const UniversitiesPage: React.FC = () => {
         setUniversities(universitiesData);
         setLoading(false);
       } catch (err) {
-        console.error("Error loading universities:", err);
+        browserConsole.error('Error loading universities:', err);
         setError("Failed to load universities. Please try again later.");
         setLoading(false);
         

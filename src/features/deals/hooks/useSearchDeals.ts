@@ -1,4 +1,5 @@
 import type { DealResponse } from '@/shared/types/api/responses';
+import { browserConsole } from '@/shared/utils/runtimeSafety';
 import { useQuery } from '@tanstack/react-query';
 import { useCallback, useRef, useState } from 'react';
 import { dealService } from '../services/dealService';
@@ -33,7 +34,6 @@ export const useSearchDeals = (): UseSearchDealsResult => {
     data: deals = [],
     isLoading,
     error,
-    refetch,
     isFetching
   } = useQuery({
     queryKey: ['deals', 'search', searchParams],
@@ -46,7 +46,7 @@ export const useSearchDeals = (): UseSearchDealsResult => {
   });
 
   const searchDeals = useCallback((params: SearchParams) => {
-    console.log('useSearchDeals: searchDeals called with:', params);
+    browserConsole.log('useSearchDeals: searchDeals called with:', params);
     setSearchParams(params);
     setHasSearched(true);
   }, []);

@@ -13,6 +13,7 @@ import {
     DialogTitle
 } from '@/shared/components/ui/dialog';
 import { Input } from '@/shared/components/ui/input';
+import { browserConsole } from '@/shared/utils/runtimeSafety';
 import { User } from '@/shared/types/entities/user';
 import { AlertTriangle, AtSign, CheckCircle, Eye, EyeOff, KeyRound, Loader2, Mail, Shield, XCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -89,7 +90,7 @@ export default function UserProfile({ user }: UserProfileProps) {
     setChangePasswordError(null);
 
     try {
-      const response = await authService.changePassword({ currentPassword, newPassword });
+      await authService.changePassword({ currentPassword, newPassword });
       setChangePasswordSuccess(true);
       setPasswordForm({ currentPassword: '', newPassword: '', confirmNewPassword: '' });
     } catch (error: any) {
@@ -115,7 +116,7 @@ export default function UserProfile({ user }: UserProfileProps) {
       // Redirect to login page after successful deletion
       router.push('/login');
     } catch (error: any) {
-      console.error('Failed to delete account:', error);
+      browserConsole.error('Failed to delete account:', error);
       if (error.response?.status === 403) {
         setDeleteError('You are not authorized to delete your account. Contact an administrator.');
       } else if (error.response?.status === 401) {
@@ -131,12 +132,9 @@ export default function UserProfile({ user }: UserProfileProps) {
   // Check if user is SuperAdmin (case-insensitive)
   // Handle cases where roles might be undefined or not an array
   const isSuperAdmin = Array.isArray(user.roles) && 
-    user.roles.some(role => 
-      typeof role === 'string' && role.toLowerCase() === 'superadmin'
-    );
+    user.roles.some(role => role.toLowerCase() === 'superadmin');
 
-  // Debug: Show roles in console
-  console.log('User roles:', user.roles, 'isSuperAdmin:', isSuperAdmin);
+  browserConsole.log('User roles:', user.roles, 'isSuperAdmin:', isSuperAdmin);
 
   const handleConfirmDelete = () => {
     // If user is a SuperAdmin, show error since they cannot delete their own account

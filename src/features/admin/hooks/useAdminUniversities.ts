@@ -5,6 +5,7 @@ import {
     useUniversitiesQuery,
     useUpdateUniversityMutation
 } from '@/features/universities/hooks/useUniversitiesQuery';
+import { browserConsole } from '@/shared/utils/runtimeSafety';
 import { CreateUniversityRequest, University, UpdateUniversityRequest } from '@/shared/types/entities/university';
 import { useState } from 'react';
 
@@ -50,7 +51,7 @@ export const useAdminUniversities = () => {
       closeModal();
     } catch (error) {
       // Error handling is done in the mutation hooks
-      console.error('Error saving university:', error);
+      browserConsole.error('Error saving university:', error);
     }
   };
 
