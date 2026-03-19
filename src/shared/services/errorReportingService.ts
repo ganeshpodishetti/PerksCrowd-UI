@@ -29,6 +29,7 @@ class ErrorReportingService {
   private reportQueue: ErrorReport[] = [];
   private lastReportTime = 0;
   private sessionId: string;
+  private static fallbackSessionCounter = 0;
 
   constructor(config: Partial<ErrorReportingConfig> = {}) {
     this.config = {
@@ -44,7 +45,23 @@ class ErrorReportingService {
   }
 
   private generateSessionId(): string {
-    return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    const timestamp = Date.now();
+    const cryptoObj = globalThis.crypto;
+
+    if (cryptoObj?.randomUUID) {
+      return `${timestamp}-${cryptoObj.randomUUID()}`;
+    }
+
+    if (cryptoObj?.getRandomValues) {
+      const randomBytes = new Uint8Array(16);
+      cryptoObj.getRandomValues(randomBytes);
+      const randomHex = Array.from(randomBytes, (byte) => byte.toString(16).padStart(2, '0')).join('');
+      return `${timestamp}-${randomHex}`;
+    }
+
+    // Non-random fallback keeps IDs unique in test/legacy environments without insecure PRNG usage.
+    ErrorReportingService.fallbackSessionCounter += 1;
+    return `${timestamp}-fallback-${ErrorReportingService.fallbackSessionCounter}`;
   }
 
   private setupGlobalErrorHandlers(): void {

@@ -108,6 +108,7 @@ const UniversitiesPage: React.FC = () => {
                       alt={university.name || 'University logo'}
                       width={40}
                       height={40}
+                      loading="lazy"
                       sizes="(max-width: 640px) 32px, 40px"
                       className="object-contain rounded-md"
                       unoptimized={university.imageUrl.startsWith('/')}

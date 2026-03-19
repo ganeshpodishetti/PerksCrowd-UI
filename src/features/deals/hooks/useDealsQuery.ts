@@ -114,6 +114,32 @@ export const useTrendingFeedQuery = ({ enabled = true }: { enabled?: boolean } =
   return useQuery(feedQueryOptions('trending', () => dealService.getSingleFeedWithFallback('trending'), handleApiError, enabled));
 };
 
+export const useSingleFeedQuery = (feedType?: FeedType, { enabled = true }: { enabled?: boolean } = {}) => {
+  const { handleApiError } = useErrorHandler();
+
+  return useQuery({
+    queryKey: [...dealKeys.all, 'single-feed', feedType ?? 'none'],
+    queryFn: () => {
+      if (!feedType) {
+        return Promise.resolve([] as DealResponse[]);
+      }
+      return dealService.getSingleFeedWithFallback(feedType);
+    },
+    enabled: Boolean(feedType) && enabled,
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
+    retry: (failureCount, error: any) => {
+      if (error?.response?.status >= 400 && error?.response?.status < 500) {
+        return false;
+      }
+      return failureCount < 3;
+    },
+    meta: {
+      onError: handleApiError,
+    },
+  });
+};
+
 // Legacy hook for backward compatibility (fetches first page only)
 export const useDealsQuery = () => {
   const { handleApiError } = useErrorHandler();

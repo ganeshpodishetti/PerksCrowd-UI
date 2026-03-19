@@ -107,7 +107,6 @@ const Navigation: React.FC<NavigationProps> = () => {
                 alt="PerksCrowd logo"
                 width={40}
                 height={40}
-                priority
                 className="h-7 w-7 sm:h-9 sm:w-9 dark:hidden"
               />
               <Image
@@ -115,7 +114,6 @@ const Navigation: React.FC<NavigationProps> = () => {
                 alt="PerksCrowd logo"
                 width={40}
                 height={40}
-                priority
                 className="hidden h-7 w-7 sm:h-9 sm:w-9 dark:block"
               />
               PerksCrowd

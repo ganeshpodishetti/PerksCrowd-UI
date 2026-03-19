@@ -21,21 +21,38 @@ const FEED_SECTIONS: Array<{ title: string; feedType: FeedType }> = [
   { title: 'Trending', feedType: 'trending' },
 ]
 
+const INITIAL_SECTION_COUNT = 1
+
 export function HomePageClient({ sectionedFeeds = false }: HomePageClientProps) {
   const searchParams = useSearchParams()
   const searchQuery = searchParams.get('search') || ''
   const clearSearchHref = sectionedFeeds ? '/' : '/deals'
   const [categories, setCategories] = useState<Category[]>([])
   const [selectedCategory, setSelectedCategory] = useState<string | undefined>(undefined)
+  const [visibleSectionCount, setVisibleSectionCount] = useState(INITIAL_SECTION_COUNT)
 
   useEffect(() => {
+    if (sectionedFeeds) {
+      return
+    }
+
     const loadCategories = async () => {
       const data = await fetchCategories()
       setCategories(data)
     }
 
     loadCategories()
-  }, [])
+  }, [sectionedFeeds])
+
+  useEffect(() => {
+    if (!sectionedFeeds || searchQuery) {
+      return
+    }
+
+    setVisibleSectionCount(INITIAL_SECTION_COUNT)
+  }, [sectionedFeeds, searchQuery])
+
+  const visibleSections = FEED_SECTIONS.slice(0, visibleSectionCount)
 
   return (
     <div className="min-h-screen h-full w-full bg-background dark:bg-background flex flex-col">
@@ -110,7 +127,7 @@ export function HomePageClient({ sectionedFeeds = false }: HomePageClientProps) 
                     </p>
                   </section>
 
-                  {FEED_SECTIONS.map((section) => (
+                  {visibleSections.map((section) => (
                     <section key={`${section.feedType}-${selectedCategory || 'all'}`}>
                       <div className="mb-4">
                         <h2 className="text-xl md:text-2xl font-semibold text-neutral-900 dark:text-neutral-100">
@@ -129,6 +146,18 @@ export function HomePageClient({ sectionedFeeds = false }: HomePageClientProps) 
                       />
                     </section>
                   ))}
+
+                  {visibleSectionCount < FEED_SECTIONS.length && (
+                    <div className="flex justify-center">
+                      <button
+                        type="button"
+                        onClick={() => setVisibleSectionCount(FEED_SECTIONS.length)}
+                        className="px-4 py-2 text-sm font-medium rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-100 hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors"
+                      >
+                        Load More Deals
+                      </button>
+                    </div>
+                  )}
                 </div>
               ) : (
                 <DealsContainer
