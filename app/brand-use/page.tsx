@@ -2,7 +2,10 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Brand & Fair Use',
-  description: 'Policy for use of third-party logos, trademarks, and brand images on StudentPerks.',
+  description: 'Policy for use of third-party logos, trademarks, and brand images on PerksCrowd.',
+  alternates: {
+    canonical: '/brand-use',
+  },
 }
 
 export default function BrandUsePage() {
@@ -46,7 +49,7 @@ export default function BrandUsePage() {
         <section>
           <h2 className="text-lg font-medium text-neutral-900 dark:text-white">Rights Holder Contact</h2>
           <p className="mt-2">
-            Rights holders can request updates or removal of brand assets by contacting StudentPerks with the listing URL and
+            Rights holders can request updates or removal of brand assets by contacting PerksCrowd with the listing URL and
             proof of ownership.
           </p>
         </section>

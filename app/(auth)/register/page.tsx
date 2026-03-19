@@ -1,8 +1,8 @@
 import RegisterPage from './RegisterPage'
 
 export const metadata = {
-  title: 'Register - StudentPerks',
-  description: 'Create your StudentPerks account',
+  title: 'Register - PerksCrowd',
+  description: 'Create your PerksCrowd account',
 }
 
 export default function Register() {

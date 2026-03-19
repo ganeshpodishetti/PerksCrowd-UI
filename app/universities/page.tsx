@@ -4,8 +4,11 @@ import UniversitiesPage from './UniversitiesPage'
 
 
 export const metadata: Metadata = {
-  title: 'Universities - StudentPerks',
+  title: 'Universities - PerksCrowd',
   description: 'Browse deals by university',
+  alternates: {
+    canonical: '/universities',
+  },
 }
 
 export default function Universities() {

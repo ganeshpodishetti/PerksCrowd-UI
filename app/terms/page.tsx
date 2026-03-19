@@ -2,7 +2,10 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Terms',
-  description: 'Terms of use for submitting and sharing deals on StudentPerks.',
+  description: 'Terms of use for submitting and sharing deals on PerksCrowd.',
+  alternates: {
+    canonical: '/terms',
+  },
 }
 
 export default function TermsPage() {
@@ -27,7 +30,7 @@ export default function TermsPage() {
         <section>
           <h2 className="text-lg font-medium text-neutral-900 dark:text-white">2. Trademarks and Copyrights</h2>
           <p className="mt-2">
-            Brand assets remain the property of their respective owners. StudentPerks does not claim ownership of third-party
+            Brand assets remain the property of their respective owners. PerksCrowd does not claim ownership of third-party
             logos or trademarks and may remove any content that appears unauthorized or misleading.
           </p>
         </section>
@@ -35,7 +38,7 @@ export default function TermsPage() {
         <section>
           <h2 className="text-lg font-medium text-neutral-900 dark:text-white">3. Fair and Informational Use</h2>
           <p className="mt-2">
-            Brand references on StudentPerks are intended for deal identification and informational purposes only. Listings
+            Brand references on PerksCrowd are intended for deal identification and informational purposes only. Listings
             should not imply endorsement, sponsorship, or partnership unless explicitly approved by the brand.
           </p>
         </section>
@@ -51,7 +54,7 @@ export default function TermsPage() {
         <section>
           <h2 className="text-lg font-medium text-neutral-900 dark:text-white">5. Changes</h2>
           <p className="mt-2">
-            We may update these terms at any time. Continued use of StudentPerks after updates means you accept the revised
+            We may update these terms at any time. Continued use of PerksCrowd after updates means you accept the revised
             terms.
           </p>
         </section>

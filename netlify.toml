@@ -9,9 +9,27 @@
 [[plugins]]
   package = "@netlify/plugin-nextjs"
 
+[[redirects]]
+  from = "https://www.perkscrowd.com/*"
+  to = "https://perkscrowd.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://studentperks.com/*"
+  to = "https://perkscrowd.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.studentperks.com/*"
+  to = "https://perkscrowd.com/:splat"
+  status = 301
+  force = true
+
 # Proxy API requests to avoid CORS issues
 [[redirects]]
   from = "/api/*"
-  to = "https://api.studentperks.org/api/:splat"
+  to = "https://api.perkscrowd.com/api/:splat"
   status = 200
   force = true

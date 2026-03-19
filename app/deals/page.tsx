@@ -3,8 +3,11 @@ import { Suspense } from 'react'
 import { HomePageClient, HomePageLoadingFallback } from '../HomePageClient'
 
 export const metadata: Metadata = {
-  title: 'Deals - StudentPerks',
+  title: 'Deals - PerksCrowd',
   description: 'Browse the latest student deals and discounts.',
+  alternates: {
+    canonical: '/deals',
+  },
 }
 
 export const dynamic = 'force-static'

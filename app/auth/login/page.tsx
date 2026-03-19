@@ -3,8 +3,8 @@ import type { Metadata } from 'next'
 import { Suspense } from 'react'
 
 export const metadata: Metadata = {
-  title: 'Login - StudentPerks',
-  description: 'Sign in to your StudentPerks account',
+  title: 'Login - PerksCrowd',
+  description: 'Sign in to your PerksCrowd account',
 }
 
 function LoginPageFallback() {

@@ -1,7 +1,7 @@
 import EditDealPage from './EditDealPage'
 
 export const metadata = {
-  title: 'Edit Deal - StudentPerks Admin',
+  title: 'Edit Deal - PerksCrowd Admin',
   description: 'Edit deal details',
 }
 

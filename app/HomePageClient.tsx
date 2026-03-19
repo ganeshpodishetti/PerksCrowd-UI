@@ -106,7 +106,7 @@ export function HomePageClient({ sectionedFeeds = false }: HomePageClientProps) 
                       Verified student offers from brands you already use.
                     </h1>
                     <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
-                      StudentPerks helps students save on everyday essentials by surfacing genuine deals and keeping them easy to redeem.
+                      PerksCrowd helps students save on everyday essentials by surfacing genuine deals and keeping them easy to redeem.
                     </p>
                   </section>
 

@@ -13,7 +13,11 @@ const outfit = Outfit({
   fallback: ['system-ui', 'sans-serif'],
 })
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://perkscrowd.com'
+const brandName = 'PerksCrowd'
+const defaultTitle = `${brandName} - Exclusive Student Deals & Discounts`
+const defaultDescription =
+  'Discover exclusive student deals and discounts from top brands and local favorites. Save more with PerksCrowd.'
 
 const getPreconnectOrigins = (): string[] => {
   const origins = new Set<string>()
@@ -40,73 +44,108 @@ const preconnectOrigins = getPreconnectOrigins()
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: {
-    default: 'StudentPerks - Exclusive Student Deals & Discounts',
-    template: '%s | StudentPerks',
+  alternates: {
+    canonical: '/',
   },
-  description:
-    'Discover exclusive deals and discounts for students. Save money on your favorite brands and services.',
+  title: {
+    default: defaultTitle,
+    template: `%s | ${brandName}`,
+  },
+  description: defaultDescription,
   keywords: [
     'student discounts',
     'deals',
     'offers',
     'university perks',
     'student savings',
+    'perkscrowd',
   ],
-  applicationName: 'StudentPerks',
+  applicationName: brandName,
   manifest: '/site.webmanifest',
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
+  },
   icons: {
     icon: [
       {
         media: '(prefers-color-scheme: light)',
-        url: '/studentperks-logo-dark.svg',
+        url: '/perkscrowd-logo-dark.svg',
         type: 'image/svg+xml',
       },
       {
         media: '(prefers-color-scheme: dark)',
-        url: '/studentperks-logo-light.svg',
+        url: '/perkscrowd-logo-light.svg',
         type: 'image/svg+xml',
       },
       {
         media: '(prefers-color-scheme: light)',
-        url: '/studentperks-favicon-light.png',
+        url: '/perkscrowd-favicon-light.png',
         sizes: '48x48',
         type: 'image/png',
       },
       {
         media: '(prefers-color-scheme: dark)',
-        url: '/studentperks-favicon-dark.png',
+        url: '/perkscrowd-favicon-dark.png',
         sizes: '48x48',
         type: 'image/png',
       },
     ],
-    shortcut: ['/studentperks-favicon-light.png'],
+    shortcut: ['/perkscrowd-favicon-light.png'],
     apple: [
       { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
     ],
   },
   openGraph: {
     type: 'website',
-    siteName: 'StudentPerks',
-    title: 'StudentPerks - Exclusive Student Deals & Discounts',
-    description:
-      'Discover exclusive deals and discounts for students. Save money on your favorite brands and services.',
+    url: siteUrl,
+    siteName: brandName,
+    title: defaultTitle,
+    description: defaultDescription,
     images: [
       {
         url: '/icon-512.png',
         width: 512,
         height: 512,
-        alt: 'StudentPerks logo',
+        alt: `${brandName} logo`,
       },
     ],
   },
   twitter: {
     card: 'summary',
-    title: 'StudentPerks - Exclusive Student Deals & Discounts',
-    description:
-      'Discover exclusive deals and discounts for students. Save money on your favorite brands and services.',
+    title: defaultTitle,
+    description: defaultDescription,
     images: ['/icon-512.png'],
   },
+}
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      name: brandName,
+      url: siteUrl,
+      logo: `${siteUrl}/icon-512.png`,
+    },
+    {
+      '@type': 'WebSite',
+      name: brandName,
+      url: siteUrl,
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: `${siteUrl}/deals?search={search_term_string}`,
+        'query-input': 'required name=search_term_string',
+      },
+    },
+  ],
 }
 
 export const viewport: Viewport = {
@@ -144,6 +183,11 @@ export default function RootLayout({
           paddingBottom: 'env(safe-area-inset-bottom)',
         }}
       >
+        <script
+          type="application/ld+json"
+          // Structured data helps search engines understand the brand and on-site search.
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
         <AppProviders>{children}</AppProviders>
         <DeferredFooter />
       </body>

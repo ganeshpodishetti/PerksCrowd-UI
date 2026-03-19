@@ -1,8 +1,8 @@
 import AdminDashboard from './AdminDashboard'
 
 export const metadata = {
-  title: 'Admin Dashboard - StudentPerks',
-  description: 'Admin dashboard for managing StudentPerks',
+  title: 'Admin Dashboard - PerksCrowd',
+  description: 'Admin dashboard for managing PerksCrowd',
 }
 
 export default function Admin() {

@@ -25,8 +25,8 @@ export function Footer() {
               <a
                 target="_blank"
                 rel="noopener noreferrer"
-                href="https://www.instagram.com/studentperks_/"
-                aria-label="StudentPerks on Instagram"
+                href="https://www.instagram.com/perkscrowd/"
+                aria-label="PerksCrowd on Instagram"
                 className="text-neutral-700 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white transition-colors"
               >
                 <svg
@@ -56,7 +56,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 href="#"
-                aria-label="StudentPerks on X (Twitter)"
+                aria-label="PerksCrowd on X (Twitter)"
                 className="text-neutral-700 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white transition-colors"
               >
                 <svg
@@ -85,7 +85,7 @@ export function Footer() {
             All trademarks and logos are property of their respective owners.
           </p>
           <span>
-            &copy; {new Date().getFullYear()} StudentPerks · All rights
+            &copy; {new Date().getFullYear()} PerksCrowd · All rights
             reserved
           </span>
         </div>

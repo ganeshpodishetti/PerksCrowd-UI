@@ -1,7 +1,7 @@
 import AdminProfilePage from './AdminProfilePage'
 
 export const metadata = {
-  title: 'Profile - StudentPerks Admin',
+  title: 'Profile - PerksCrowd Admin',
   description: 'Your account profile and details',
 }
 

@@ -1,4 +1,4 @@
-# StudentPerks Frontend
+# PerksCrowd Frontend
 
 A modern, performant React application for discovering and managing student deals and discounts.
 
