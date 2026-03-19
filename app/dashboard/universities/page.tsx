@@ -1,7 +1,7 @@
 import AdminUniversitiesPage from './AdminUniversitiesPage'
 
 export const metadata = {
-  title: 'Universities - StudentPerks Admin',
+  title: 'Universities - PerksCrowd Admin',
   description: 'Manage universities and institutions',
 }
 

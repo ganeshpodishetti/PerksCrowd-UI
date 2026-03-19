@@ -1,7 +1,7 @@
 import NewDealPage from './NewDealPage'
 
 export const metadata = {
-  title: 'Create Deal - StudentPerks Admin',
+  title: 'Create Deal - PerksCrowd Admin',
   description: 'Create a new deal',
 }
 

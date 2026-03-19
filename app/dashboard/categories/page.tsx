@@ -1,7 +1,7 @@
 import AdminCategoriesPage from './AdminCategoriesPage'
 
 export const metadata = {
-  title: 'Categories - StudentPerks Admin',
+  title: 'Categories - PerksCrowd Admin',
   description: 'Manage deal categories',
 }
 

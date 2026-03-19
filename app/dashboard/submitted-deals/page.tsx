@@ -1,7 +1,7 @@
 import AdminSubmittedDealsPage from './AdminSubmittedDealsPage'
 
 export const metadata = {
-  title: 'Submitted Deals - StudentPerks Admin',
+  title: 'Submitted Deals - PerksCrowd Admin',
   description: 'Manage submitted deals from students',
 }
 

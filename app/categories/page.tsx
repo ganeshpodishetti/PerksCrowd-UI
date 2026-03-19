@@ -4,8 +4,11 @@ import CategoriesPage from './CategoriesPage'
 
 
 export const metadata: Metadata = {
-  title: 'Categories - StudentPerks',
+  title: 'Categories - PerksCrowd',
   description: 'Browse deals by category',
+  alternates: {
+    canonical: '/categories',
+  },
 }
 
 export default function Categories() {

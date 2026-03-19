@@ -1,7 +1,9 @@
 {
-  "name": "StudentPerks",
-  "short_name": "StudentPerks",
-  "description": "Exclusive student deals and discounts.",
+  "name": "PerksCrowd",
+  "short_name": "PerksCrowd",
+  "description": "Exclusive student deals and discounts from PerksCrowd.",
+  "id": "https://perkscrowd.com",
+  "scope": "/",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

@@ -1,7 +1,7 @@
 import AdminStoresPage from './AdminStoresPage'
 
 export const metadata = {
-  title: 'Brands - StudentPerks Admin',
+  title: 'Brands - PerksCrowd Admin',
   description: 'Manage brands and retailers',
 }
 

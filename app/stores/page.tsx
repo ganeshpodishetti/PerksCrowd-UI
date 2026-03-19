@@ -4,8 +4,11 @@ import StoresPage from './StoresPage'
 
 
 export const metadata: Metadata = {
-  title: 'Brands - StudentPerks',
+  title: 'Brands - PerksCrowd',
   description: 'Browse deals by brand',
+  alternates: {
+    canonical: '/stores',
+  },
 }
 
 export default function Stores() {

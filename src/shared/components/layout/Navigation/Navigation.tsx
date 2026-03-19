@@ -103,22 +103,22 @@ const Navigation: React.FC<NavigationProps> = () => {
               onClick={closeMobileMenu}
             >
               <Image
-                src="/studentperks-logo-dark.svg"
-                alt="StudentPerks logo"
+                src="/perkscrowd-logo-dark.svg"
+                alt="PerksCrowd logo"
                 width={40}
                 height={40}
                 priority
                 className="h-7 w-7 sm:h-9 sm:w-9 dark:hidden"
               />
               <Image
-                src="/studentperks-logo-light.svg"
-                alt="StudentPerks logo"
+                src="/perkscrowd-logo-light.svg"
+                alt="PerksCrowd logo"
                 width={40}
                 height={40}
                 priority
                 className="hidden h-7 w-7 sm:h-9 sm:w-9 dark:block"
               />
-              StudentPerks
+              PerksCrowd
             </Link>
           </div>
 
