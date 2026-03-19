@@ -15,6 +15,7 @@ if (process.env.NODE_ENV !== 'production' && !getApiBaseUrl()) {
 // ─── Refresh-queue machinery ─────────────────────────────────────────────────
 
 let isRefreshing = false;
+let refreshDisabled = false;
 let failedQueue: Array<{
   resolve: (value?: unknown) => void;
   reject: (error: unknown) => void;
@@ -44,9 +45,29 @@ const createApiClient = (isPublic = false): AxiosInstance => {
       (response) => response,
       async (error) => {
         const originalRequest = error.config;
+        const skipAuthRefresh = Boolean(
+          (originalRequest as { skipAuthRefresh?: boolean } | undefined)?.skipAuthRefresh,
+        );
         const skipAuthRedirect = Boolean(
           (originalRequest as { skipAuthRedirect?: boolean } | undefined)?.skipAuthRedirect,
         );
+
+        if (skipAuthRefresh) {
+          return Promise.reject(error);
+        }
+
+        if (error.response?.status === 401 && refreshDisabled) {
+          if (!skipAuthRedirect && typeof window !== 'undefined') {
+            const authPaths = [
+              '/login', '/auth/login', '/register', '/forgot-password',
+              '/reset-password', '/resend-confirmation', '/confirm-email', '/auth',
+            ];
+            const onAuthPage = authPaths.some((p) => window.location.pathname.startsWith(p));
+            if (!onAuthPage) window.location.href = '/auth/login';
+          }
+
+          return Promise.reject(error);
+        }
 
         if (error.response?.status === 401 && !originalRequest._retry) {
           if (isRefreshing) {
@@ -67,9 +88,12 @@ const createApiClient = (isPublic = false): AxiosInstance => {
               // Fallback: call refresh endpoint directly to avoid circular dep
               await publicApiClient.post('/api/auth/refresh-token');
             }
+
+            refreshDisabled = false;
             processQueue();
             return instance(originalRequest);
           } catch (refreshError) {
+            refreshDisabled = true;
             processQueue(refreshError);
             if (!skipAuthRedirect && typeof window !== 'undefined') {
               const authPaths = [
