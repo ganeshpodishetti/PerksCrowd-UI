@@ -14,7 +14,8 @@ const outfit = Outfit({
   fallback: ['system-ui', 'sans-serif'],
 })
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://api.perkscrowd.com'
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://perkscrowd.com'
+const absoluteSiteUrl = siteUrl.endsWith('/') ? siteUrl.slice(0, -1) : siteUrl
 const brandName = 'PerksCrowd'
 const defaultTitle = `${brandName} - Exclusive Student Deals & Discounts`
 const defaultDescription =
@@ -28,7 +29,7 @@ const getPreconnectOrigins = (): string[] => {
     try {
       const parsedApiUrl = new URL(apiUrl)
       if (parsedApiUrl.protocol === 'http:' || parsedApiUrl.protocol === 'https:') {
-        const siteOrigin = new URL(siteUrl).origin
+        const siteOrigin = new URL(absoluteSiteUrl).origin
         if (parsedApiUrl.origin !== siteOrigin) {
           origins.add(parsedApiUrl.origin)
         }
@@ -44,7 +45,7 @@ const getPreconnectOrigins = (): string[] => {
 const preconnectOrigins = getPreconnectOrigins()
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase: new URL(absoluteSiteUrl),
   alternates: {
     canonical: '/',
   },
@@ -106,7 +107,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: 'website',
-    url: siteUrl,
+    url: absoluteSiteUrl,
     siteName: brandName,
     title: defaultTitle,
     description: defaultDescription,
@@ -133,16 +134,16 @@ const structuredData = {
     {
       '@type': 'Organization',
       name: brandName,
-      url: siteUrl,
-      logo: `${siteUrl}/icon-512.png`,
+      url: absoluteSiteUrl,
+      logo: `${absoluteSiteUrl}/icon-512.png`,
     },
     {
       '@type': 'WebSite',
       name: brandName,
-      url: siteUrl,
+      url: absoluteSiteUrl,
       potentialAction: {
         '@type': 'SearchAction',
-        target: `${siteUrl}/deals?search={search_term_string}`,
+        target: `${absoluteSiteUrl}/deals?search={search_term_string}`,
         'query-input': 'required name=search_term_string',
       },
     },

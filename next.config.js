@@ -14,6 +14,25 @@ const imageHostsAllowList = Array.from(
   ])
 );
 
+const getRemoteImagePatterns = () => {
+  const httpsPatterns = imageHostsAllowList.map((hostname) => ({
+    protocol: 'https',
+    hostname,
+  }));
+
+  if (process.env.NODE_ENV === 'production') {
+    return httpsPatterns;
+  }
+
+  return [
+    ...httpsPatterns,
+    {
+      protocol: 'http',
+      hostname: 'localhost',
+    },
+  ];
+};
+
 const nextConfig = {
   // Use standard Next.js build for Netlify (not static export)
   // This supports dynamic routes and server-side features
@@ -41,16 +60,7 @@ const nextConfig = {
     ],
   },
   images: {
-    remotePatterns: imageHostsAllowList.flatMap((hostname) => [
-      {
-        protocol: 'http',
-        hostname,
-      },
-      {
-        protocol: 'https',
-        hostname,
-      },
-    ]),
+    remotePatterns: getRemoteImagePatterns(),
     // Add image formats for better performance
     formats: ["image/webp", "image/avif"],
   },
