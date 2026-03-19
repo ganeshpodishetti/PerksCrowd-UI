@@ -171,18 +171,9 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={
-          outfit.className + ' bg-background dark:bg-background min-h-screen'
+          outfit.className + ' bg-background dark:bg-background min-h-screen safe-area-shell'
         }
         suppressHydrationWarning
-        style={{
-          backgroundColor: 'hsl(var(--background))',
-          color: 'hsl(var(--foreground))',
-          minHeight: '100vh',
-          WebkitOverflowScrolling: 'touch',
-          WebkitTapHighlightColor: 'transparent',
-          paddingTop: 'env(safe-area-inset-top)',
-          paddingBottom: 'env(safe-area-inset-bottom)',
-        }}
       >
         <script
           type="application/ld+json"
