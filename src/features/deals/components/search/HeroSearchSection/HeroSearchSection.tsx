@@ -3,7 +3,7 @@ import { useSearchDeals } from "@/features/deals/hooks/useSearchDeals";
 import { Button } from "@/shared/components/ui/button";
 import { Input } from "@/shared/components/ui/input";
 import { Search, X } from "lucide-react";
-import React, { useCallback, useMemo, useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 
 interface HeroSearchSectionProps {
   onSearchResults?: (
@@ -13,19 +13,12 @@ interface HeroSearchSectionProps {
   ) => void;
   placeholder?: string;
   className?: string;
-  defaultFilters?: {
-    category?: string;
-    store?: string;
-    university?: string;
-    isActive?: boolean;
-  };
 }
 
 const HeroSearchSection: React.FC<HeroSearchSectionProps> = ({
   onSearchResults,
   placeholder = "Search for deals, stores, or categories...",
   className = "",
-  defaultFilters = {},
 }) => {
   const [query, setQuery] = useState("");
   const { searchDeals, clearSearch, deals, isLoading, hasSearched } =
@@ -44,21 +37,6 @@ const HeroSearchSection: React.FC<HeroSearchSectionProps> = ({
     hasSearched: false,
   });
 
-  // Memoize defaultFilters to prevent recreating the object on every render
-  const memoizedDefaultFilters = useMemo(
-    () => ({
-      category: defaultFilters.category,
-      store: defaultFilters.store,
-      university: defaultFilters.university,
-      isActive: defaultFilters.isActive,
-    }),
-    [
-      defaultFilters.category,
-      defaultFilters.store,
-      defaultFilters.university,
-      defaultFilters.isActive,
-    ]
-  );
 
   const handleSearch = useCallback(
     (searchQuery: string) => {

@@ -7,7 +7,7 @@ import AdminUsersTable from '@/features/admin/components/tables/AdminUsersTable/
 import { useAdminUsers } from '@/features/admin/hooks/useAdminUsers';
 
 export default function AdminUsersPage() {
-  const { users, isLoading, refetch, deleteUser, isDeleting } = useAdminUsers();
+  const { users, isLoading, refetch, deleteUser } = useAdminUsers();
 
   const handleRefresh = () => {
     refetch();
