@@ -55,4 +55,12 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  .safe-area-shell {
+    min-height: 100vh;
+    -webkit-overflow-scrolling: touch;
+    -webkit-tap-highlight-color: transparent;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
 }

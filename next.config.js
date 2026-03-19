@@ -9,6 +9,7 @@ const imageHostsAllowList = Array.from(
     'localhost',
     'api.perkscrowd.com',
     'perkscrowd.com',
+    'grapheine.com',
     ...configuredImageHosts,
   ])
 );
@@ -71,6 +72,21 @@ const nextConfig = {
   compress: true,
   async redirects() {
     return [
+      {
+        source: '/auth/login',
+        destination: '/login',
+        permanent: true,
+      },
+      {
+        source: '/auth/forgot-password',
+        destination: '/forgot-password',
+        permanent: true,
+      },
+      {
+        source: '/auth/reset-password',
+        destination: '/reset-password',
+        permanent: true,
+      },
       {
         source: '/admin',
         destination: '/dashboard',
