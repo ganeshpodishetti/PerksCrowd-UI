@@ -55,7 +55,10 @@ export const authApi = {
   /** GET /api/auth/me (auth required) */
   getMe: () =>
     apiClient
-      .get<CurrentUserResponse>('/api/auth/me', { skipAuthRedirect: true } as any)
+      .get<CurrentUserResponse>(
+        '/api/auth/me',
+        { skipAuthRedirect: true, skipAuthRefresh: true } as any,
+      )
       .then((r) => r.data),
 
   /** POST /api/auth/change-password (auth required) */
