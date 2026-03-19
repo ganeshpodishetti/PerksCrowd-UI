@@ -1,10 +1,7 @@
 import {
     useDealsInfiniteQuery,
-    useFeaturedFeedQuery,
     useHomeFeedQuery,
-    useLatestFeedQuery,
-    usePopularFeedQuery,
-    useTrendingFeedQuery
+    useSingleFeedQuery
 } from '@/features/deals/hooks/useDealsQuery';
 import type { FeedType } from '@/shared/types/api/responses';
 import { Deal } from '@/shared/types/entities/deal';
@@ -45,41 +42,23 @@ export const useDealsData = ({
     refetch: refetchHomeFeed,
   } = useHomeFeedQuery({ enabled: useFeedApis && !isSingleFeedMode });
 
-  const latestFeedQuery = useLatestFeedQuery({ enabled: feedType === 'latest' });
-  const featuredFeedQuery = useFeaturedFeedQuery({ enabled: feedType === 'featured' });
-  const popularFeedQuery = usePopularFeedQuery({ enabled: feedType === 'popular' });
-  const trendingFeedQuery = useTrendingFeedQuery({ enabled: feedType === 'trending' });
-
-  const singleFeedQuery = useMemo(() => {
-    switch (feedType) {
-      case 'latest':
-        return latestFeedQuery;
-      case 'featured':
-        return featuredFeedQuery;
-      case 'popular':
-        return popularFeedQuery;
-      case 'trending':
-        return trendingFeedQuery;
-      default:
-        return null;
-    }
-  }, [feedType, latestFeedQuery, featuredFeedQuery, popularFeedQuery, trendingFeedQuery]);
+  const singleFeedQuery = useSingleFeedQuery(feedType, { enabled: isSingleFeedMode });
 
   // Flatten all pages into a single array of deals
   const deals = useMemo(() => {
-    if (isSingleFeedMode) return singleFeedQuery?.data ?? [];
+    if (isSingleFeedMode) return singleFeedQuery.data ?? [];
     if (useFeedApis) return homeFeedData ?? [];
     if (!data?.pages) return [];
     return data.pages.flatMap(page => page.items);
-  }, [data?.pages, homeFeedData, isSingleFeedMode, singleFeedQuery?.data, useFeedApis]);
+  }, [data?.pages, homeFeedData, isSingleFeedMode, singleFeedQuery.data, useFeedApis]);
 
   const activeLoading = isSingleFeedMode
-    ? singleFeedQuery?.isLoading ?? false
+    ? singleFeedQuery.isLoading
     : useFeedApis
       ? isLoadingHomeFeed
       : isLoading;
   const activeError = isSingleFeedMode
-    ? singleFeedQuery?.error
+    ? singleFeedQuery.error
     : useFeedApis
       ? homeFeedError
       : error;
@@ -89,7 +68,7 @@ export const useDealsData = ({
     loading: activeLoading,
     error: activeError ? 'Failed to load deals. Please try again later.' : null,
     refetch: async () => {
-      if (isSingleFeedMode && singleFeedQuery?.refetch) {
+      if (isSingleFeedMode) {
         await singleFeedQuery.refetch();
       } else if (useFeedApis) {
         await refetchHomeFeed();

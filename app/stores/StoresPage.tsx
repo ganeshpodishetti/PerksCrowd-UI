@@ -115,6 +115,7 @@ const StoresPage: React.FC = () => {
                       alt={store.title}
                       width={40}
                       height={40}
+                      loading="lazy"
                       sizes="(max-width: 640px) 32px, 40px"
                       className="w-full h-full object-contain"
                     />
