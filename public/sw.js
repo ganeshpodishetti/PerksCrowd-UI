@@ -55,17 +55,17 @@ function shouldCache(url) {
  * Install event - cache critical assets
  */
 self.addEventListener('install', (event) => {
-  console.log('[SW] Installing service worker...');
-  
+  const isDev = typeof process !== 'undefined' && process.env && process.env.NODE_ENV !== 'production';
+
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log('[SW] Caching critical assets');
+      if (isDev) console.log('[SW] Caching critical assets');
       return cache.addAll(CRITICAL_ASSETS).catch((error) => {
-        console.log('[SW] Error caching critical assets:', error);
+        if (isDev) console.log('[SW] Error caching critical assets:', error);
         // Continue even if some assets fail to cache
       });
     }).then(() => {
-      console.log('[SW] Skipping waiting - activating immediately');
+      if (isDev) console.log('[SW] Skipping waiting - activating immediately');
       return self.skipWaiting();
     })
   );
@@ -75,20 +75,20 @@ self.addEventListener('install', (event) => {
  * Activate event - clean up old caches
  */
 self.addEventListener('activate', (event) => {
-  console.log('[SW] Activating service worker...');
-  
+  const isDev = typeof process !== 'undefined' && process.env && process.env.NODE_ENV !== 'production';
+
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames
           .filter((cacheName) => cacheName !== CACHE_NAME)
           .map((cacheName) => {
-            console.log('[SW] Deleting old cache:', cacheName);
+            if (isDev) console.log('[SW] Deleting old cache:', cacheName);
             return caches.delete(cacheName);
           })
       );
     }).then(() => {
-      console.log('[SW] Claiming clients');
+      if (isDev) console.log('[SW] Claiming clients');
       return self.clients.claim();
     })
   );
@@ -197,8 +197,10 @@ self.addEventListener('fetch', (event) => {
  * Message event - handle messages from clients
  */
 self.addEventListener('message', (event) => {
+  const isDev = typeof process !== 'undefined' && process.env && process.env.NODE_ENV !== 'production';
+
   if (event.data && event.data.type === 'SKIP_WAITING') {
-    console.log('[SW] Skipping waiting...');
+    if (isDev) console.log('[SW] Skipping waiting...');
     self.skipWaiting();
   }
 });
