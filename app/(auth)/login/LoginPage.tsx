@@ -1,6 +1,7 @@
 // Migrated from src/components/pages/LoginPage.tsx
 'use client'
 import { useAuth } from '@/features/auth/contexts/AuthContext';
+import { useAuthRedirect } from '@/features/auth/hooks/useAuthRedirect';
 import { Button } from '@/shared/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/shared/components/ui/card';
 import { Input } from '@/shared/components/ui/input';
@@ -28,6 +29,12 @@ const LoginPage: React.FC = () => {
   const searchParams = useSearchParams();
   const { toast } = useToast();
   const { login, isAuthenticated, isLoading } = useAuth();
+
+  useAuthRedirect({
+    isAuthenticated,
+    isLoading,
+    whenAuthenticated: '/dashboard',
+  });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -59,7 +66,7 @@ const LoginPage: React.FC = () => {
         title: "Success",
         description: "Logged in successfully!",
       });
-      router.push('/dashboard');
+      router.replace('/dashboard');
     } catch (error: any) {
       const errorMessage = error.response?.data?.detail ||
                           error.response?.data?.message ||
@@ -106,12 +113,6 @@ const LoginPage: React.FC = () => {
     }
   };
 
-  // Redirect to /dashboard if authenticated
-  React.useEffect(() => {
-    if (isAuthenticated && !isLoading) {
-      router.push('/dashboard');
-    }
-  }, [isAuthenticated, isLoading, router]);
 
   React.useEffect(() => {
     const errorCode = searchParams.get('error');

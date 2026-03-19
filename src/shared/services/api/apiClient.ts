@@ -1,4 +1,4 @@
-import { API_BASE_URL } from '@/shared/config/env';
+import { getApiBaseUrl } from '@/shared/config/env';
 import { browserConsole } from '@/shared/utils/runtimeSafety';
 import axios, { AxiosInstance } from 'axios';
 
@@ -8,8 +8,8 @@ export const setRefreshTokenFn = (fn: () => Promise<void>) => {
   _refreshTokenFn = fn;
 };
 
-if (!API_BASE_URL && process.env.NODE_ENV === 'production') {
-  browserConsole.warn('NEXT_PUBLIC_API_BASE_URL is not set. API calls will fail in production.');
+if (process.env.NODE_ENV !== 'production' && !getApiBaseUrl()) {
+  browserConsole.warn('API base URL is empty. Using same-origin /api proxy routes.');
 }
 
 // ─── Refresh-queue machinery ─────────────────────────────────────────────────
@@ -30,8 +30,10 @@ const processQueue = (error: unknown = null) => {
 // ─── Factory ─────────────────────────────────────────────────────────────────
 
 const createApiClient = (isPublic = false): AxiosInstance => {
+  const apiBaseUrl = getApiBaseUrl();
+
   const instance = axios.create({
-    baseURL: API_BASE_URL,
+    baseURL: apiBaseUrl,
     withCredentials: true, // always include cookies
     headers: { 'Content-Type': 'application/json' },
   });
