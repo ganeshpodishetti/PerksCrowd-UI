@@ -1,6 +1,7 @@
 'use client';
 
 import { useAuth } from '@/features/auth/contexts/AuthContext';
+import { browserConsole } from '@/shared/utils/runtimeSafety';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import React, { createContext, ReactNode, useCallback, useMemo } from 'react';
 import { submittedDealService } from '../services/submittedDealService';
@@ -46,7 +47,7 @@ export const UnreadDealsProvider: React.FC<UnreadDealsProviderProps> = ({ childr
         const deals = await submittedDealService.getSubmittedDeals();
         return deals.filter(deal => !deal.markedAsRead).length;
       } catch (error) {
-        console.error('Error loading unread deals count:', error);
+        browserConsole.error('Error loading unread deals count:', error);
         return 0;
       }
     },

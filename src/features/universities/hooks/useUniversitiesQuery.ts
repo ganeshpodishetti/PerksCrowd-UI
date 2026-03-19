@@ -16,7 +16,7 @@ export const useUniversitiesQuery = () => {
         return await universityService.getUniversities();
       } catch (error) {
         handleApiError(error);
-        throw error;
+        return Promise.reject(error);
       }
     },
   });
@@ -33,7 +33,7 @@ export const useUniversityQuery = (id: string) => {
         return await universityService.getUniversity(id);
       } catch (error) {
         handleApiError(error);
-        throw error;
+        return Promise.reject(error);
       }
     },
     enabled: !!id,

@@ -1,5 +1,6 @@
 "use client";
 import { authService } from "@/features/auth/services/authService";
+import { ensureClientContext } from '@/shared/utils/runtimeSafety';
 import type { User } from "@/shared/types/entities/user";
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 
@@ -14,12 +15,21 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+const fallbackAuthContext: AuthContextType = {
+  user: null,
+  isLoading: false,
+  isAuthenticated: false,
+  login: async () => undefined,
+  register: async () => undefined,
+  logout: async () => undefined,
+};
+
 export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
-  return context;
+  return ensureClientContext(
+    useContext(AuthContext),
+    fallbackAuthContext,
+    'useAuth must be used within an AuthProvider',
+  );
 };
 
 interface AuthProviderProps {
@@ -56,7 +66,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setUser(userProfile);
     } catch (error) {
       setUser(null);
-      throw error;
+      return Promise.reject(error);
     } finally {
       setIsLoading(false);
     }

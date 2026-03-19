@@ -36,7 +36,7 @@ export const dealService = {
       return await dealsApi.getByCategory(name);
     } catch (err: any) {
       if (err?.response?.status === 404) return [];
-      throw err;
+      return Promise.reject(err);
     }
   },
 
@@ -45,7 +45,7 @@ export const dealService = {
       return await dealsApi.getByStore(name);
     } catch (err: any) {
       if (err?.response?.status === 404) return [];
-      throw err;
+      return Promise.reject(err);
     }
   },
 
@@ -54,7 +54,7 @@ export const dealService = {
       return await dealsApi.getByUniversity(name);
     } catch (err: any) {
       if (err?.response?.status === 404) return [];
-      throw err;
+      return Promise.reject(err);
     }
   },
 

@@ -1,4 +1,5 @@
 import { API_BASE_URL } from '@/shared/config/env';
+import { browserConsole } from '@/shared/utils/runtimeSafety';
 import axios, { AxiosInstance } from 'axios';
 
 // Lazy import avoids a circular-dep: authService imports apiClient
@@ -8,7 +9,7 @@ export const setRefreshTokenFn = (fn: () => Promise<void>) => {
 };
 
 if (!API_BASE_URL && process.env.NODE_ENV === 'production') {
-  console.warn('NEXT_PUBLIC_API_BASE_URL is not set. API calls will fail in production.');
+  browserConsole.warn('NEXT_PUBLIC_API_BASE_URL is not set. API calls will fail in production.');
 }
 
 // ─── Refresh-queue machinery ─────────────────────────────────────────────────

@@ -1,3 +1,5 @@
+import { browserConsole } from '@/shared/utils/runtimeSafety';
+
 interface ErrorReport {
   message: string;
   stack?: string;
@@ -90,7 +92,7 @@ class ErrorReportingService {
   }): void {
     if (!this.config.enabled) {
       if (this.config.enableConsoleLogging) {
-        console.error('Error reported:', error);
+        browserConsole.error('Error reported:', error);
       }
       return;
     }
@@ -119,7 +121,7 @@ class ErrorReportingService {
     this.processQueue();
 
     if (this.config.enableConsoleLogging) {
-      console.error('Error reported:', report);
+      browserConsole.error('Error reported:', report);
     }
   }
 
@@ -223,7 +225,7 @@ class ErrorReportingService {
     } catch (error) {
       // If sending fails, put reports back in queue (but don't report this error to avoid loops)
       this.reportQueue.unshift(...reportsToSend);
-      console.warn('Failed to send error reports:', error);
+      browserConsole.warn('Failed to send error reports:', error);
     }
   }
 

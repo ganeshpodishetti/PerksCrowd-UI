@@ -5,6 +5,7 @@ import {
     useDeleteCategoryMutation,
     useUpdateCategoryMutation
 } from '@/features/categories/hooks/useCategoriesQuery';
+import { browserConsole } from '@/shared/utils/runtimeSafety';
 import { Category, CreateCategoryRequest, UpdateCategoryRequest } from '@/features/categories/services/categoryService';
 import { useState } from 'react';
 
@@ -50,7 +51,7 @@ export const useAdminCategories = () => {
       closeModal();
     } catch (error) {
       // Error handling is done in the mutation hooks
-      console.error('Error saving category:', error);
+      browserConsole.error('Error saving category:', error);
     }
   };
 

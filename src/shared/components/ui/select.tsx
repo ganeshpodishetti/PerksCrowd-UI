@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { ensureClientContext } from '@/shared/utils/runtimeSafety';
 import * as React from "react";
 
 interface SelectProps {
@@ -32,6 +33,13 @@ const SelectContext = React.createContext<{
   setIsOpen: (open: boolean) => void;
 } | null>(null);
 
+const fallbackSelectContext = {
+  value: '',
+  onValueChange: () => undefined,
+  isOpen: false,
+  setIsOpen: () => undefined,
+};
+
 const Select = ({ value, onValueChange, children }: SelectProps) => {
   const [isOpen, setIsOpen] = React.useState(false);
 
@@ -46,8 +54,11 @@ const Select = ({ value, onValueChange, children }: SelectProps) => {
 
 const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerProps>(
   ({ className, children, ...props }, ref) => {
-    const context = React.useContext(SelectContext);
-    if (!context) throw new Error('SelectTrigger must be used within Select');
+    const context = ensureClientContext(
+      React.useContext(SelectContext),
+      fallbackSelectContext,
+      'SelectTrigger must be used within Select',
+    );
 
     const { isOpen, setIsOpen } = context;
 
@@ -83,8 +94,11 @@ const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerProps>(
 SelectTrigger.displayName = "SelectTrigger";
 
 const SelectValue = ({ placeholder }: SelectValueProps) => {
-  const context = React.useContext(SelectContext);
-  if (!context) throw new Error('SelectValue must be used within Select');
+  const context = ensureClientContext(
+    React.useContext(SelectContext),
+    fallbackSelectContext,
+    'SelectValue must be used within Select',
+  );
 
   const { value } = context;
 
@@ -96,8 +110,11 @@ const SelectValue = ({ placeholder }: SelectValueProps) => {
 };
 
 const SelectContent = ({ children }: SelectContentProps) => {
-  const context = React.useContext(SelectContext);
-  if (!context) throw new Error('SelectContent must be used within Select');
+  const context = ensureClientContext(
+    React.useContext(SelectContext),
+    fallbackSelectContext,
+    'SelectContent must be used within Select',
+  );
 
   const { isOpen, setIsOpen } = context;
 
@@ -119,8 +136,11 @@ const SelectContent = ({ children }: SelectContentProps) => {
 };
 
 const SelectItem = ({ value, children }: SelectItemProps) => {
-  const context = React.useContext(SelectContext);
-  if (!context) throw new Error('SelectItem must be used within Select');
+  const context = ensureClientContext(
+    React.useContext(SelectContext),
+    fallbackSelectContext,
+    'SelectItem must be used within Select',
+  );
 
   const { onValueChange, setIsOpen } = context;
 

@@ -2,6 +2,7 @@
 import { useAuth } from '@/features/auth/contexts/AuthContext';
 import { useUnreadDealsCount } from '@/features/deals/hooks/useUnreadDealsCount';
 import { cn } from '@/lib/utils';
+import { browserConsole } from '@/shared/utils/runtimeSafety';
 import { Badge } from '@/shared/components/ui/badge';
 import { Button } from '@/shared/components/ui/button';
 import { Separator } from '@/shared/components/ui/separator';
@@ -100,7 +101,7 @@ export default function AdminSidebar({
     try {
       await logout();
     } catch (error) {
-      console.error('Logout error:', error);
+      browserConsole.error('Logout error:', error);
     }
   };
 
