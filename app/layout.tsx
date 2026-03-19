@@ -1,6 +1,7 @@
 import { DeferredFooter } from '@/shared/components/layout/Footer/DeferredFooter'
 import { API_BASE_URL } from '@/shared/config/env'
 import { AppProviders } from '@/shared/providers/AppProviders'
+import { RootClientInitializer } from './RootClientInitializer'
 import type { Metadata, Viewport } from 'next'
 import { Outfit } from 'next/font/google'
 import { preconnect, prefetchDNS } from 'react-dom'
@@ -13,7 +14,7 @@ const outfit = Outfit({
   fallback: ['system-ui', 'sans-serif'],
 })
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://perkscrowd.com'
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://api.perkscrowd.com'
 const brandName = 'PerksCrowd'
 const defaultTitle = `${brandName} - Exclusive Student Deals & Discounts`
 const defaultDescription =
@@ -188,6 +189,7 @@ export default function RootLayout({
           // Structured data helps search engines understand the brand and on-site search.
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
+        <RootClientInitializer />
         <AppProviders>{children}</AppProviders>
         <DeferredFooter />
       </body>

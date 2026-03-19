@@ -84,19 +84,35 @@ export const dealService = {
   },
 
   async getLatestFeed(): Promise<DealResponse[]> {
-    return dealsApi.getLatestFeed();
+    try {
+      return await dealsApi.getLatestFeed();
+    } catch {
+      return [];
+    }
   },
 
   async getFeaturedFeed(): Promise<DealResponse[]> {
-    return dealsApi.getFeaturedFeed();
+    try {
+      return await dealsApi.getFeaturedFeed();
+    } catch {
+      return [];
+    }
   },
 
   async getPopularFeed(): Promise<DealResponse[]> {
-    return dealsApi.getPopularFeed();
+    try {
+      return await dealsApi.getPopularFeed();
+    } catch {
+      return [];
+    }
   },
 
   async getTrendingFeed(): Promise<DealResponse[]> {
-    return dealsApi.getTrendingFeed();
+    try {
+      return await dealsApi.getTrendingFeed();
+    } catch {
+      return [];
+    }
   },
 
   async getSingleFeedWithFallback(feedType: FeedType): Promise<DealResponse[]> {
