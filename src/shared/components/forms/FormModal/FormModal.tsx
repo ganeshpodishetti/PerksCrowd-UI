@@ -51,9 +51,6 @@ export function FormModal<T>({
     }));
   };
 
-  const handleFileChange = (_e: React.ChangeEvent<HTMLInputElement>) => {
-    // File handling removed - no longer needed in this version
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

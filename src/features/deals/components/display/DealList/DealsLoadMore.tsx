@@ -7,7 +7,6 @@ interface DealsLoadMoreProps {
   isLoadingMore: boolean;
   onLoadMore: () => void;
   totalDeals: number;
-  displayedCount: number;
 }
 
 export const DealsLoadMore: React.FC<DealsLoadMoreProps> = ({
@@ -15,7 +14,6 @@ export const DealsLoadMore: React.FC<DealsLoadMoreProps> = ({
   isLoadingMore,
   onLoadMore,
   totalDeals,
-  displayedCount,
 }) => {
   if (!hasMore) {
     return (

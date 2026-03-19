@@ -1,4 +1,18 @@
 /** @type {import('next').NextConfig} */
+const configuredImageHosts = (process.env.NEXT_PUBLIC_IMAGE_HOSTS || '')
+  .split(',')
+  .map((host) => host.trim())
+  .filter(Boolean);
+
+const imageHostsAllowList = Array.from(
+  new Set([
+    'localhost',
+    'api.perkscrowd.com',
+    'perkscrowd.com',
+    ...configuredImageHosts,
+  ])
+);
+
 const nextConfig = {
   // Use standard Next.js build for Netlify (not static export)
   // This supports dynamic routes and server-side features
@@ -26,16 +40,16 @@ const nextConfig = {
     ],
   },
   images: {
-    remotePatterns: [
+    remotePatterns: imageHostsAllowList.flatMap((hostname) => [
       {
-        protocol: "http",
-        hostname: "localhost",
+        protocol: 'http',
+        hostname,
       },
       {
-        protocol: "https",
-        hostname: "**",
+        protocol: 'https',
+        hostname,
       },
-    ],
+    ]),
     // Add image formats for better performance
     formats: ["image/webp", "image/avif"],
   },
@@ -49,6 +63,8 @@ const nextConfig = {
   },
   // Enable React strict mode for better development experience
   reactStrictMode: true,
+  // Reduce passive fingerprinting in production responses.
+  poweredByHeader: false,
   // Generate ETags for caching
   generateEtags: true,
   // Enable compression

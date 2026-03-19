@@ -49,9 +49,6 @@ export const DealsContainer: React.FC<DealsContainerProps> = ({
   
   // Track previous search query to avoid unnecessary calls
   const prevSearchQueryRef = React.useRef('');
-
-  // Memoize the default filters to prevent recreating the object
-  const defaultSearchFilters = React.useMemo(() => ({ isActive: true }), []);
   
   // Trigger search when initialSearchQuery changes (from URL params)
   useEffect(() => {
@@ -90,8 +87,6 @@ export const DealsContainer: React.FC<DealsContainerProps> = ({
     selectedCategory,
     selectedStore,
     activeSort,
-    setSearchTerm,
-    setSelectedCategory,
     setActiveSort,
   } = useDealsFilter({
     deals,
@@ -209,7 +204,6 @@ export const DealsContainer: React.FC<DealsContainerProps> = ({
       {showHeroSection && (
         <HeroSearchSection
           onSearchResults={handleSearchResults}
-          defaultFilters={defaultSearchFilters}
           placeholder="Search for deals, stores, or categories..."
         />
       )}
@@ -253,7 +247,6 @@ export const DealsContainer: React.FC<DealsContainerProps> = ({
           isLoadingMore={isLoadingMore}
           onLoadMore={loadMore}
           totalDeals={filteredDeals.length}
-          displayedCount={displayedDeals.length}
         />
       )}
     </div>
