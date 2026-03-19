@@ -59,7 +59,7 @@ const LoginPage: React.FC = () => {
         title: "Success",
         description: "Logged in successfully!",
       });
-      // router.push('/dashboard'); // Remove direct push, let useEffect handle it
+      router.push('/dashboard');
     } catch (error: any) {
       const errorMessage = error.response?.data?.detail ||
                           error.response?.data?.message ||

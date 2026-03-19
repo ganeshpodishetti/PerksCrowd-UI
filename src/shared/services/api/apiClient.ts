@@ -37,6 +37,7 @@ const createApiClient = (isPublic = false): AxiosInstance => {
   });
 
   if (!isPublic) {
+    // Auth-protected client: handle 401 refresh
     instance.interceptors.response.use(
       (response) => response,
       async (error) => {
@@ -84,6 +85,16 @@ const createApiClient = (isPublic = false): AxiosInstance => {
           }
         }
 
+        return Promise.reject(error);
+      },
+    );
+  } else {
+    // Public client: suppress network/CORS errors in production
+    instance.interceptors.response.use(
+      (response) => response,
+      async (error) => {
+        // In production browser, silently reject without console logging
+        // Callers use Promise.allSettled or try/catch to handle gracefully
         return Promise.reject(error);
       },
     );
