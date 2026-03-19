@@ -1,112 +1,49 @@
-# PerksCrowd Frontend
+# PerksCrowd
 
-A modern, performant React application for discovering and managing student deals and discounts.
+**Get Exclusive Student Deals from Top Brands**
 
-## 🚀 Quick Start
+PerksCrowd connects students with real discounts and exclusive offers. Browse deals, save money, and earn rewards—all in one place.
+
+## What We Do
+
+- 🎓 **Curated Deals** – Verified discounts from brands students actually use
+- 🏪 **Browse by Store** – Find deals from your favorite retailers
+- 🎯 **University-Specific** – Deals tailored to your school
+- 💰 **Save Money** – One-click promo codes and direct links
+- 📱 **Fast & Easy** – Discover deals in seconds
+
+## For Students
+
+Join thousands of students saving with PerksCrowd. No hidden fees. No spam.
+
+## For Brands & Partners
+
+Reach engaged student audiences with targeted offers. Get analytics on engagement and conversions.
+
+## Getting Started
 
 ```bash
-# Install dependencies
 npm install
-
-# Start development server
 npm run dev
-
-# Build for production
-npm run build
-
-# Run tests
-npm run test
 ```
 
-## 🔐 Environment
+Then open [http://localhost:3000](http://localhost:3000)
 
-Set the backend origin for auth and API calls:
+## Commands
 
 ```bash
-NEXT_PUBLIC_API_BASE_URL="http://localhost:5254"
+npm run dev      # Start development server
+npm run build    # Production build
+npm test         # Run tests
+npm run lint     # Check code quality
 ```
 
-`NEXT_PUBLIC_API_URL` is still supported as a fallback for older setups.
+## Tech
 
-## 🛠️ Technology Stack
+Built with Next.js, TypeScript, React Query, and Tailwind CSS for blazing-fast performance and beautiful UI.
 
-- **React 19** - Modern React with concurrent features
-- **Vite** - Fast build tool and dev server
-- **TypeScript** - Type safety and better DX
-- **Tailwind CSS** - Utility-first CSS framework
-- **Shadcn/ui** - High-quality UI components
-- **React Query** - Server state management
-- **React Router** - Client-side routing
-- **Vitest** - Fast unit testing
+---
 
-## 📁 Project Structure
+Made with ❤️ for students. [Visit PerksCrowd](https://perkscrowd.com)
 
-```
-src/
-├── components/          # Reusable UI components
-│   ├── ui/             # Base UI components (Shadcn/ui)
-│   ├── admin/          # Admin-specific components
-│   ├── DealList/       # Deal listing components
-│   └── ErrorBoundary/  # Error handling
-├── hooks/              # Custom React hooks
-├── services/           # API service layer
-├── types/              # TypeScript definitions
-└── utils/              # Utility functions
-```
 
-## 🔧 Features
-
-- **Deal Discovery**: Browse and search student deals
-- **Category & Store Filtering**: Organize deals by categories and stores
-- **Admin Dashboard**: Manage deals, categories, and stores
-- **Responsive Design**: Works on all device sizes
-- **Dark Mode**: Built-in theme switching
-- **Performance Optimized**: Code splitting, lazy loading, caching
-- **Type Safe**: Full TypeScript coverage
-- **Tested**: Comprehensive test suite
-
-## 📖 Documentation
-
-- [Component Documentation](./docs/COMPONENTS.md)
-- [Architecture Overview](./docs/README.md)
-
-## 🧪 Testing
-
-```bash
-# Run all tests
-npm run test
-
-# Run tests with coverage
-npm run test:coverage
-
-# Run tests in watch mode
-npm run test:watch
-```
-
-## 🎨 Code Quality
-
-- ESLint for code linting
-- Prettier for code formatting
-- TypeScript for type checking
-- Husky for git hooks (if configured)
-
-## 🚀 Deployment
-
-The application is optimized for deployment on:
-
-- Vercel
-- Netlify
-- Static hosting services
-
-Build artifacts are generated in the `dist/` directory.
-
-## 🤝 Contributing
-
-1. Follow the established code patterns
-2. Write tests for new features
-3. Update documentation as needed
-4. Use TypeScript for all new code
-
-## 📄 License
-
-MIT License
