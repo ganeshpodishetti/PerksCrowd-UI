@@ -1,6 +1,7 @@
 'use client'
 
 import { authService } from '@/features/auth/services/authService';
+import { useAuth } from '@/features/auth/contexts/AuthContext';
 import { Badge } from '@/shared/components/ui/badge';
 import { Button } from '@/shared/components/ui/button';
 import { Card, CardContent } from '@/shared/components/ui/card';
@@ -25,6 +26,7 @@ interface UserProfileProps {
 
 export default function UserProfile({ user }: UserProfileProps) {
   const router = useRouter();
+  const { logout } = useAuth();
 
   // ── Delete account state ──────────────────────────────────────────────────
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
@@ -93,6 +95,11 @@ export default function UserProfile({ user }: UserProfileProps) {
       await authService.changePassword({ currentPassword, newPassword });
       setChangePasswordSuccess(true);
       setPasswordForm({ currentPassword: '', newPassword: '', confirmNewPassword: '' });
+      
+      // After 2 seconds, logout and redirect to login page
+      setTimeout(async () => {
+        await logout();
+      }, 2000);
     } catch (error: any) {
       const msg =
         error.response?.data?.message ||
@@ -268,21 +275,27 @@ export default function UserProfile({ user }: UserProfileProps) {
             </DialogDescription>
           </DialogHeader>
 
-          {changePasswordSuccess ? (
-            <div className="space-y-4">
-              <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-md p-4 flex items-center gap-3">
-                <CheckCircle className="h-5 w-5 text-green-600 dark:text-green-400 shrink-0" />
-                <p className="text-sm text-green-700 dark:text-green-300">
-                  Your password has been changed successfully.
-                </p>
-              </div>
-              <DialogFooter>
-                <Button onClick={() => { resetPasswordForm(); setIsChangePasswordOpen(false); }}>
-                  Close
-                </Button>
-              </DialogFooter>
-            </div>
-          ) : (
+           {changePasswordSuccess ? (
+             <div className="space-y-4">
+               <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-md p-4 flex items-center gap-3">
+                 <CheckCircle className="h-5 w-5 text-green-600 dark:text-green-400 shrink-0" />
+                 <p className="text-sm text-green-700 dark:text-green-300">
+                   Your password has been changed successfully.
+                 </p>
+               </div>
+               <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-md p-4 flex items-start gap-3">
+                 <div className="text-sm text-blue-700 dark:text-blue-300">
+                   <p className="font-medium mb-1">Security Notice</p>
+                   <p>For security purposes, you will be logged out and redirected to the login page. Please log in with your new password.</p>
+                 </div>
+               </div>
+               <DialogFooter>
+                 <Button onClick={() => { resetPasswordForm(); setIsChangePasswordOpen(false); }} disabled>
+                   Close
+                 </Button>
+               </DialogFooter>
+             </div>
+           ) : (
             <form onSubmit={handleChangePassword} className="space-y-4">
               {changePasswordError && (
                 <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md p-3">
