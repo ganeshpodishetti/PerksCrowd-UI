@@ -8,10 +8,12 @@ import { useEffect } from 'react';
  */
 function registerServiceWorker() {
   if (typeof window === 'undefined') return;
-  
+
   // Check if service workers are supported
   if (!('serviceWorker' in navigator)) {
-    console.log('[SW] Service Workers not supported in this browser');
+    if (process.env.NODE_ENV !== 'production') {
+      console.log('[SW] Service Workers not supported in this browser');
+    }
     return;
   }
 
@@ -20,13 +22,17 @@ function registerServiceWorker() {
     scope: '/',
     updateViaCache: 'none',
   }).then((registration) => {
-    console.log('[SW] Service Worker registered successfully:', registration);
-    
+    if (process.env.NODE_ENV !== 'production') {
+      console.log('[SW] Service Worker registered successfully:', registration);
+    }
+
     // Check for updates regularly
     const checkForUpdates = () => {
       registration.update().then(() => {
         if (registration.waiting) {
-          console.log('[SW] Service Worker update available');
+          if (process.env.NODE_ENV !== 'production') {
+            console.log('[SW] Service Worker update available');
+          }
           // Notify user of update in production
           if (process.env.NODE_ENV === 'production') {
             // You can trigger a toast notification here
@@ -38,12 +44,17 @@ function registerServiceWorker() {
     // Check for updates every hour
     setInterval(checkForUpdates, 60 * 60 * 1000);
   }).catch((error) => {
-    console.error('[SW] Service Worker registration failed:', error);
+    // Only log errors in non-production for debugging
+    if (process.env.NODE_ENV !== 'production') {
+      console.error('[SW] Service Worker registration failed:', error);
+    }
   });
 
   // Listen for controller change (new SW took over)
   navigator.serviceWorker.addEventListener('controllerchange', () => {
-    console.log('[SW] Controller changed - new Service Worker is now active');
+    if (process.env.NODE_ENV !== 'production') {
+      console.log('[SW] Controller changed - new Service Worker is now active');
+    }
   });
 }
 
