@@ -100,13 +100,13 @@ export function HomePageClient({ sectionedFeeds = false }: HomePageClientProps) 
                 <div className="space-y-10">
                   <section className="max-w-2xl mx-auto text-center">
                     <p className="text-xs uppercase tracking-[0.12em] text-neutral-500 dark:text-neutral-400 mb-2">
-                      Built for students
+                      Built for smart savers
                     </p>
                     <h1 className="text-xl md:text-2xl font-semibold text-neutral-900 dark:text-neutral-100 leading-tight">
-                      Verified student offers from brands you already use.
+                      Verified offers and everyday savings from brands you already use.
                     </h1>
                     <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
-                      PerksCrowd helps students save on everyday essentials by surfacing genuine deals and keeping them easy to redeem.
+                      PerksCrowd helps students and everyday shoppers discover trusted deals, unlock real value, and redeem offers in seconds.
                     </p>
                   </section>
 

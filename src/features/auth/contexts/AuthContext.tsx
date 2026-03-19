@@ -63,6 +63,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       await authService.login({ email, password });
 
       const userProfile = await authService.getUserProfile();
+      if (!userProfile) {
+        setUser(null);
+        return Promise.reject(new Error('Unable to establish an authenticated session. Please try again.'));
+      }
+
       setUser(userProfile);
     } catch (error) {
       setUser(null);
