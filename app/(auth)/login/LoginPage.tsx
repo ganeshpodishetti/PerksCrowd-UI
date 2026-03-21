@@ -46,7 +46,46 @@ const LoginPage: React.FC = () => {
 
   const handleGoogleLogin = () => {
     setIsGoogleRedirecting(true);
-    window.location.href = getGoogleAuthUrl();
+    fetch(getGoogleAuthUrl(), {
+      method: 'GET',
+      credentials: 'include',
+      redirect: 'manual',
+    })
+      .then(async (response) => {
+        if (response.status === 429) {
+          // Try to parse error JSON, fallback to default message
+          let errorMsg = 'You have exceeded the request rate limit. Please wait and retry.';
+          try {
+            const data = await response.json();
+            errorMsg = data.detail || errorMsg;
+          } catch {}
+          toast({
+            title: 'Too Many Requests',
+            description: errorMsg,
+            variant: 'destructive',
+          });
+          setIsGoogleRedirecting(false);
+        } else if (response.status === 302 || response.status === 301) {
+          // Not rate-limited, proceed with redirect
+          window.location.href = getGoogleAuthUrl();
+        } else {
+          // Unexpected response
+          toast({
+            title: 'Error',
+            description: 'Unexpected response from server. Please try again.',
+            variant: 'destructive',
+          });
+          setIsGoogleRedirecting(false);
+        }
+      })
+      .catch(() => {
+        toast({
+          title: 'Error',
+          description: 'Network error. Please try again.',
+          variant: 'destructive',
+        });
+        setIsGoogleRedirecting(false);
+      });
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

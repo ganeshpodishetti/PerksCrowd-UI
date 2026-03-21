@@ -83,7 +83,40 @@ export default function RegisterPage() {
   };
 
   const handleGoogleLogin = () => {
-    window.location.href = getGoogleAuthUrl();
+    fetch(getGoogleAuthUrl(), {
+      method: 'GET',
+      credentials: 'include',
+      redirect: 'manual',
+    })
+      .then(async (response) => {
+        if (response.status === 429) {
+          let errorMsg = 'You have exceeded the request rate limit. Please wait and retry.';
+          try {
+            const data = await response.json();
+            errorMsg = data.detail || errorMsg;
+          } catch {}
+          toast({
+            title: 'Too Many Requests',
+            description: errorMsg,
+            variant: 'destructive',
+          });
+        } else if (response.status === 302 || response.status === 301) {
+          window.location.href = getGoogleAuthUrl();
+        } else {
+          toast({
+            title: 'Error',
+            description: 'Unexpected response from server. Please try again.',
+            variant: 'destructive',
+          });
+        }
+      })
+      .catch(() => {
+        toast({
+          title: 'Error',
+          description: 'Network error. Please try again.',
+          variant: 'destructive',
+        });
+      });
   };
 
   return (
