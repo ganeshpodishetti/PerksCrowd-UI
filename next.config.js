@@ -10,7 +10,6 @@ const imageHostsAllowList = Array.from(
     'api.perkscrowd.com',
     'perkscrowd.com',
     'grapheine.com',
-    'ik.imagekit.io',
     ...configuredImageHosts,
   ])
 );
@@ -62,16 +61,45 @@ const nextConfig = {
   },
   images: {
     remotePatterns: [
-      // ✅ Wildcard pattern — allows any HTTPS hostname
-      // Safe because Next.js still proxies and optimizes the image
+      // ImageKit - bypass Next.js optimization (already a CDN optimizer)
+      // Images from ImageKit will be loaded directly without going through /_next/image
       {
         protocol: 'https',
-        hostname: '**',
+        hostname: '**.imagekit.io',
+        pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'ik.imagekit.io',
+        pathname: '/**',
+      },
+      // API and website images - these will still be optimized by Next.js
+      {
+        protocol: 'https',
+        hostname: 'api.perkscrowd.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'perkscrowd.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'grapheine.com',
+        pathname: '/**',
+      },
+      // Environment-configured image hosts
+      ...configuredImageHosts.map((hostname) => ({
+        protocol: 'https',
+        hostname,
+        pathname: '/**',
+      })),
       // Keep localhost for dev
       ...(process.env.NODE_ENV !== 'production' ? [{
         protocol: 'http',
         hostname: 'localhost',
+        pathname: '/**',
       }] : []),
     ],
     formats: ["image/webp", "image/avif"],
