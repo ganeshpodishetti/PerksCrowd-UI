@@ -10,6 +10,7 @@ const imageHostsAllowList = Array.from(
     'api.perkscrowd.com',
     'perkscrowd.com',
     'grapheine.com',
+    'ik.imagekit.io',
     ...configuredImageHosts,
   ])
 );
