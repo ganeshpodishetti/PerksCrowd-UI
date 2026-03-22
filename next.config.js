@@ -60,8 +60,19 @@ const nextConfig = {
     ],
   },
   images: {
-    remotePatterns: getRemoteImagePatterns(),
-    // Add image formats for better performance
+    remotePatterns: [
+      // ✅ Wildcard pattern — allows any HTTPS hostname
+      // Safe because Next.js still proxies and optimizes the image
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+      // Keep localhost for dev
+      ...(process.env.NODE_ENV !== 'production' ? [{
+        protocol: 'http',
+        hostname: 'localhost',
+      }] : []),
+    ],
     formats: ["image/webp", "image/avif"],
   },
   // Note: headers() function doesn't work with static export
