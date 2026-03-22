@@ -104,7 +104,9 @@ const UniversityDealsPage: React.FC = () => {
                 height={80}
                 sizes="80px"
                 className="w-20 h-20 rounded-lg object-cover"
-                unoptimized={university.imageUrl.startsWith('/')}
+                // Bypass Next.js optimization for local images and ImageKit CDN
+                // ImageKit already handles optimization, preventing 502 errors
+                unoptimized={university.imageUrl.startsWith('/') || university.imageUrl.includes('imagekit.io')}
               />
             ) : (
               <div className="w-20 h-20 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">

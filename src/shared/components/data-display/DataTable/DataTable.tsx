@@ -166,6 +166,9 @@ export const cellRenderers = {
           loading="lazy"
           sizes="(max-width: 640px) 32px, 40px"
           className="w-8 h-8 sm:w-10 sm:h-10 rounded-md object-cover"
+          // Bypass Next.js optimization for local images and ImageKit CDN
+          // ImageKit already handles optimization, preventing 502 errors
+          unoptimized={imageUrl.startsWith('/') || imageUrl.includes('imagekit.io')}
         />
       ) : (
         <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-md bg-muted dark:bg-muted overflow-hidden">
