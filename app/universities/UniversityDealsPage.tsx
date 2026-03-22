@@ -109,7 +109,7 @@ const UniversityDealsPage: React.FC = () => {
             ) : (
               <div className="w-20 h-20 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
                 <span className="text-white font-bold text-xl">
-                  {university.name.substring(0, 2).toUpperCase()}
+                  {university.code || ''}
                 </span>
               </div>
             )}
