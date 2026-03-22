@@ -18,9 +18,11 @@ export const suppressNetworkErrors = () => {
     const isXhrError = errorStr.includes('XMLHttpRequest') || errorStr.includes('Failed to load resource');
     // Suppress 401 unauthorized errors from API calls (e.g., /api/auth/me)
     const isUnauthorizedError = errorStr.includes('401') || errorStr.includes('Unauthorized');
+    // Suppress 404 not found errors
+    const isNotFoundError = errorStr.includes('404') || errorStr.includes('Not Found');
     
     // Log other errors normally
-    if (!isCorsError && !isNetworkError && !isXhrError && !isUnauthorizedError) {
+    if (!isCorsError && !isNetworkError && !isXhrError && !isUnauthorizedError && !isNotFoundError) {
       originalError(...args);
     }
   };
@@ -32,9 +34,11 @@ export const suppressNetworkErrors = () => {
     const isNetworkError = message.includes('net::ERR') || message.includes('Failed to fetch');
     // Suppress 401 unauthorized errors
     const isUnauthorizedError = message.includes('401') || message.includes('Unauthorized');
+    // Suppress 404 not found errors
+    const isNotFoundError = message.includes('404') || message.includes('Not Found');
     
     // Prevent default logging for these errors
-    if (isCorsError || isNetworkError || isUnauthorizedError) {
+    if (isCorsError || isNetworkError || isUnauthorizedError || isNotFoundError) {
       event.preventDefault();
     }
   }, true);
