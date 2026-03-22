@@ -112,9 +112,9 @@ const UniversitiesPage: React.FC = () => {
                       sizes="(max-width: 640px) 32px, 40px"
                       className="object-contain rounded-md"
                       style={{ width: 'auto', height: 'auto' }}
-                      // Bypass Next.js optimization for local images and ImageKit CDN
-                      // ImageKit already handles optimization, preventing 502 errors
-                      unoptimized={university.imageUrl.startsWith('/') || university.imageUrl.includes('imagekit.io')}
+                      // Bypass Next.js optimization for external images to prevent 502 errors
+                      // External CDNs like ImageKit already handle optimization
+                      unoptimized={!university.imageUrl.startsWith('/')}
                     />
                   ) : (
                     <span className="text-neutral-500 font-semibold text-xs sm:text-sm">

@@ -16,9 +16,11 @@ export const suppressNetworkErrors = () => {
     const isCorsError = errorStr.includes('CORS') || errorStr.includes('Access-Control-Allow-Origin');
     const isNetworkError = errorStr.includes('net::ERR') || errorStr.includes('Failed to fetch');
     const isXhrError = errorStr.includes('XMLHttpRequest') || errorStr.includes('Failed to load resource');
+    // Suppress 401 unauthorized errors from API calls (e.g., /api/auth/me)
+    const isUnauthorizedError = errorStr.includes('401') || errorStr.includes('Unauthorized');
     
     // Log other errors normally
-    if (!isCorsError && !isNetworkError && !isXhrError) {
+    if (!isCorsError && !isNetworkError && !isXhrError && !isUnauthorizedError) {
       originalError(...args);
     }
   };
@@ -28,9 +30,11 @@ export const suppressNetworkErrors = () => {
     const message = event.message || String(event.error);
     const isCorsError = message.includes('CORS') || message.includes('Access-Control-Allow-Origin');
     const isNetworkError = message.includes('net::ERR') || message.includes('Failed to fetch');
+    // Suppress 401 unauthorized errors
+    const isUnauthorizedError = message.includes('401') || message.includes('Unauthorized');
     
     // Prevent default logging for these errors
-    if (isCorsError || isNetworkError) {
+    if (isCorsError || isNetworkError || isUnauthorizedError) {
       event.preventDefault();
     }
   }, true);

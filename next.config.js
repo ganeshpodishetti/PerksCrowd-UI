@@ -61,45 +61,15 @@ const nextConfig = {
   },
   images: {
     remotePatterns: [
-      // ImageKit - bypass Next.js optimization (already a CDN optimizer)
-      // Images from ImageKit will be loaded directly without going through /_next/image
+      // Allow all HTTPS images - unoptimized to prevent 502 errors from CDN optimization
       {
         protocol: 'https',
-        hostname: '**.imagekit.io',
-        pathname: '/**',
+        hostname: '**',
       },
-      {
-        protocol: 'https',
-        hostname: 'ik.imagekit.io',
-        pathname: '/**',
-      },
-      // API and website images - these will still be optimized by Next.js
-      {
-        protocol: 'https',
-        hostname: 'api.perkscrowd.com',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'perkscrowd.com',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'grapheine.com',
-        pathname: '/**',
-      },
-      // Environment-configured image hosts
-      ...configuredImageHosts.map((hostname) => ({
-        protocol: 'https',
-        hostname,
-        pathname: '/**',
-      })),
       // Keep localhost for dev
       ...(process.env.NODE_ENV !== 'production' ? [{
         protocol: 'http',
         hostname: 'localhost',
-        pathname: '/**',
       }] : []),
     ],
     formats: ["image/webp", "image/avif"],
