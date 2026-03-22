@@ -1,7 +1,7 @@
 // Service Worker for PerksCrowd PWA
 // Enables offline support, caching, and PWA features
 
-const CACHE_VERSION = 'v1';
+const CACHE_VERSION = 'v2';
 const CACHE_NAME = `perkscrowd-${CACHE_VERSION}`;
 
 // Assets to cache on install (critical for offline)
@@ -21,6 +21,7 @@ const SKIP_CACHE_PATTERNS = [
   /^https?:\/\/api\./,
   /\?.*$/,
   /\/api\//,
+  /^https?:\/\/ik\.imagekit\.io\/,
 ];
 
 /**
