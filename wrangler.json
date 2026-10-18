@@ -1,0 +1,26 @@
+{
+  "name": "perkscrowd-ui",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2025-03-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "observability": {
+    "enabled": true
+  },
+  "vars": {
+    "API_ORIGIN_URL": "https://api.perkscrowd.com",
+    "FORWARDED_HOST": "perkscrowd.com"
+  },
+  "previews": {
+    "vars": {
+      "API_ORIGIN_URL": "https://api.perkscrowd.com",
+      "FORWARDED_HOST": "perkscrowd.com",
+      "NEXT_PUBLIC_API_BASE_URL": "https://api.perkscrowd.com",
+      "NEXT_PUBLIC_API_URL": "https://api.perkscrowd.com",
+      "NEXT_PUBLIC_PAGE_SIZE": "16"
+    }
+  }
+}
