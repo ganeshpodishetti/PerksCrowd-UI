@@ -5,7 +5,15 @@ describe('env api base url resolution', () => {
     expect(getApiBaseUrl('69bc2637b2706a0007019dc8--perkscrowd0618.netlify.app')).toBe('')
   })
 
-  it('keeps configured API base for non-netlify hosts', () => {
+  it('uses same-origin proxy for cloudflare workers preview hosts', () => {
+    expect(getApiBaseUrl('perkscrowd-ui.some-account.workers.dev')).toBe('')
+  })
+
+  it('uses same-origin proxy for cloudflare pages preview hosts', () => {
+    expect(getApiBaseUrl('abc123def.perkscrowd-ui.pages.dev')).toBe('')
+  })
+
+  it('keeps configured API base for production hosts', () => {
     expect(getApiBaseUrl('perkscrowd.com')).toBe(API_BASE_URL)
   })
 })

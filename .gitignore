@@ -10,6 +10,7 @@ build/
 # Development
 .vite/
 .turbo/
+.swc/
 
 # Environment variables
 .env
@@ -19,6 +20,7 @@ build/
 .env.production.local
 
 # Logs
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -107,6 +109,11 @@ temp/
 
 # Local Netlify folder
 netlify/
+
+# OpenNext / Cloudflare Workers
+.open-next/
+.wrangler/
+.dev.vars
 
 # Vercel
 .vercel

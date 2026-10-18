@@ -44,7 +44,7 @@ describe('DealCard', () => {
     );
 
     const image = screen.getByTestId('deal-card-logo-image');
-    expect(image).toHaveAttribute('src', expect.stringContaining(encodeURIComponent(expectedLogoUrl)));
+    expect(image).toHaveAttribute('src', expect.stringContaining(expectedLogoUrl));
   });
 
   it('falls back to imageUrl when logoUrl is missing', () => {
@@ -60,7 +60,7 @@ describe('DealCard', () => {
     );
 
     const image = screen.getByTestId('deal-card-logo-image');
-    expect(image).toHaveAttribute('src', expect.stringContaining(encodeURIComponent(expectedImageUrl)));
+    expect(image).toHaveAttribute('src', expect.stringContaining(expectedImageUrl));
   });
 
   it('shows first-letter fallback when image fails to load', () => {

@@ -14,11 +14,12 @@ const customJestConfig = {
     'src/**/*.{js,jsx,ts,tsx}',
     '!src/**/*.d.ts',
   ],
-  preset: 'ts-jest',
-  globals: {
-    'ts-jest': {
-      tsconfig: 'tsconfig.test.json',
-    },
+  // ts-jest 29+ dropped the `globals['ts-jest']` config and the `ts-jest`
+  // preset's automatic tsconfig wiring. Use the explicit transform form
+  // instead. The key matches next/jest's default SWC transform so this
+  // overrides it (next/jest spreads custom `transform` last).
+  transform: {
+    '^.+\\.(js|jsx|ts|tsx|mjs)$': ['ts-jest', { tsconfig: 'tsconfig.test.json' }],
   },
 }
 

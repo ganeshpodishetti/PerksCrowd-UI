@@ -19,16 +19,22 @@ export const API_BASE_URL =
   normalizeEnv(process.env.NEXT_PUBLIC_API_BASE_URL) ||
   normalizeEnv(process.env.NEXT_PUBLIC_API_URL);
 
-const isNetlifyPreviewHost = (hostname: string): boolean =>
-  hostname.endsWith('.netlify.app');
+// Preview deploys on Netlify or Cloudflare should use same-origin `/api/*`
+// proxy routes (handled by app/api/[...path]/route.ts) to preserve auth
+// cookies without cross-origin restrictions.
+const isPreviewHost = (hostname: string): boolean =>
+  hostname.endsWith('.netlify.app') ||
+  hostname.endsWith('.workers.dev') ||
+  hostname.endsWith('.pages.dev');
 
 /**
- * Netlify preview deploys should use same-origin `/api/*` proxy routes to preserve auth cookies.
+ * Preview deploys (Netlify or Cloudflare Workers/Pages) should use same-origin
+ * `/api/*` proxy routes to preserve auth cookies.
  */
 export const getApiBaseUrl = (hostnameOverride?: string): string => {
   const hostname = hostnameOverride ?? (typeof window !== 'undefined' ? window.location.hostname : undefined);
 
-  if (hostname && isNetlifyPreviewHost(hostname)) {
+  if (hostname && isPreviewHost(hostname)) {
     return '';
   }
 
