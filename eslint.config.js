@@ -7,6 +7,19 @@ const jsxA11y = require('eslint-plugin-jsx-a11y');
 const next = require('@next/eslint-plugin-next');
 
 module.exports = [
+  // Build output and dependency directories — never lint these.
+  {
+    ignores: [
+      'node_modules/**',
+      '.next/**',
+      '.open-next/**',
+      '.wrangler/**',
+      'dist/**',
+      'build/**',
+      'coverage/**',
+      'out/**',
+    ],
+  },
   js.configs.recommended,
   {
     files: ['**/*.{js,jsx,ts,tsx}'],
@@ -77,6 +90,8 @@ module.exports = [
         Response: 'readonly',
         Headers: 'readonly',
         Request: 'readonly',
+        RequestInit: 'readonly',
+        ReadableStream: 'readonly',
         // Service Worker globals
         self: 'readonly',
         caches: 'readonly',

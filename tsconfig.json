@@ -21,7 +21,6 @@
         "name": "next"
       }
     ],
-    "baseUrl": ".",
     "paths": {
       "@/*": [
         "./src/*"
@@ -48,6 +47,8 @@
   "exclude": [
     "node_modules",
     "migration-backup",
+    ".open-next",
+    ".wrangler",
     "**/*.test.ts",
     "**/*.test.tsx",
     "**/*.spec.ts",
