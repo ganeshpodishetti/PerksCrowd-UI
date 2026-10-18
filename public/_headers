@@ -1,4 +1,5 @@
-# Security headers for production deployment
+# Static asset headers for Cloudflare Workers (OpenNext)
+# Security headers for dynamic responses are applied via next.config.ts headers()
 /*
   # Security headers
   X-Frame-Options: DENY
@@ -29,11 +30,11 @@
 /*.css
   Cache-Control: public, max-age=86400
 
-# Keep literal HTML files fresh, but allow prerendered app routes to be cached at the edge.
+# Keep HTML prerendered routes fresh, serve from Cloudflare edge cache
 /*.html
   Cache-Control: public, max-age=0, s-maxage=3600, stale-while-revalidate=86400
 
-# Public prerendered routes should be served from Netlify's edge cache.
+# Prerendered public routes — serve from Cloudflare edge cache
 /
   Cache-Control: public, max-age=0, s-maxage=3600, stale-while-revalidate=86400
 
