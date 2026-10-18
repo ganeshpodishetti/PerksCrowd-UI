@@ -104,12 +104,6 @@ dist
 tmp/
 temp/
 
-# Netlify
-.netlify/
-
-# Local Netlify folder
-netlify/
-
 # OpenNext / Cloudflare Workers
 .open-next/
 .wrangler/
