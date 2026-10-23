@@ -136,7 +136,7 @@ export default function ResetPasswordPage() {
           <Card className="border-neutral-200 dark:border-neutral-800 shadow-lg">
             <CardHeader className="space-y-1">
               <div className="flex justify-center mb-4">
-                <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-500"></div>
+                <div className="animate-spin rounded-full h-8 w-8 border-2 border-muted border-t-primary"></div>
               </div>
               <CardTitle className="text-2xl text-center">
                 Validating Reset Link
@@ -242,7 +242,7 @@ export default function ResetPasswordPage() {
         <Card className="border-neutral-200 dark:border-neutral-800 shadow-lg">
           <CardHeader className="space-y-1">
             <div className="flex justify-center mb-4">
-              <Lock className="h-16 w-16 text-blue-500" />
+              <Lock className="h-16 w-16 text-brand-500" />
             </div>
             <CardTitle className="text-2xl text-center">
               Reset Your Password
@@ -269,7 +269,7 @@ export default function ResetPasswordPage() {
                   placeholder="Enter new password"
                   className="w-full"
                   disabled={isLoading}
-                  minLength={6}
+                  minLength={8}
                 />
               </div>
 
@@ -288,14 +288,16 @@ export default function ResetPasswordPage() {
                   placeholder="Confirm new password"
                   className="w-full"
                   disabled={isLoading}
-                  minLength={6}
+                  minLength={8}
                 />
               </div>
 
-              <div className="text-xs text-neutral-600 dark:text-neutral-400 bg-blue-50 dark:bg-blue-950/20 p-3 rounded-md border border-blue-200 dark:border-blue-800">
+              <div className="text-xs text-neutral-600 dark:text-neutral-400 bg-brand-100/40 dark:bg-brand-900/20 p-3 rounded-md border border-brand-300 dark:border-brand-700">
                 <p className="font-medium mb-1">🔒 Password Requirements</p>
                 <ul className="list-disc list-inside space-y-1">
-                  <li>At least 6 characters long</li>
+                  <li>At least 8 characters long</li>
+                  <li>One uppercase and one lowercase letter</li>
+                  <li>At least one number</li>
                   <li>Both passwords must match</li>
                 </ul>
               </div>
@@ -306,7 +308,7 @@ export default function ResetPasswordPage() {
                 className="w-full"
                 size="lg"
               >
-                {isLoading ? 'Resetting Password...' : 'Reset Password'}
+                {isLoading ? 'Resetting Password…' : 'Reset Password'}
               </Button>
             </CardContent>
 

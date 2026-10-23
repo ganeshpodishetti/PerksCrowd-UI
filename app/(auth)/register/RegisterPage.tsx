@@ -165,9 +165,9 @@ function RegisterPageInner() {
   };
 
   return (
-    <div className="flex flex-col md:flex-row h-screen min-h-screen w-full overflow-hidden bg-background">
+    <div className="flex flex-col md:flex-row min-h-screen md:h-screen w-full md:overflow-hidden bg-background">
       {/* Branding Side */}
-      <div className="hidden md:flex flex-1 bg-brand-900 dark:bg-brand-950 relative overflow-hidden flex-col justify-center px-12 lg:px-24">
+      <div className="hidden md:flex flex-1 bg-brand-900 relative overflow-hidden flex-col justify-center px-12 lg:px-24">
         {/* Decorative Element */}
         <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-96 h-96 bg-brand-500/20 blur-[120px] rounded-full" />
         <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/2 w-64 h-64 bg-brand-300/10 blur-[80px] rounded-full" />
@@ -189,19 +189,19 @@ function RegisterPageInner() {
         </div>
         
         <div className="absolute bottom-12 left-12 lg:left-24">
-          <p className="text-[10px] font-bold text-brand-100/50 tracking-widest uppercase">© 2026 PerksCrowd Ltd.</p>
+          <p className="text-[10px] font-bold text-brand-100/50 tracking-widest uppercase">© {new Date().getFullYear()} PerksCrowd Ltd.</p>
         </div>
       </div>
 
       {/* Form Side */}
-      <div className="flex-1 flex flex-col justify-center items-center p-8 md:p-12 lg:p-24 bg-white dark:bg-neutral-900 relative">
+      <div className="flex-1 flex flex-col justify-center items-center p-8 md:p-12 lg:p-24 bg-background relative md:overflow-y-auto">
         {/* Mobile Header */}
         <div className="md:hidden text-center mb-6 w-full">
            <Link href="/" className="inline-block mb-6">
             <span className="text-xl font-bold text-brand-900 dark:text-brand-100 tracking-tighter">PerksCrowd</span>
           </Link>
           <h1 className="text-4xl font-black text-brand-900 dark:text-brand-100 tracking-tight mb-2 uppercase">
-            JOIN <span className="text-brand-700 dark:text-brand-400">THE CROWD.</span>
+            JOIN <span className="text-brand-700 dark:text-brand-300">THE CROWD.</span>
           </h1>
         </div>
 
@@ -226,7 +226,7 @@ function RegisterPageInner() {
                   value={formData.username}
                   onChange={handleInputChange}
                   placeholder="name"
-                  className="rounded-xl border-neutral-200 dark:border-neutral-800 bg-neutral-50/30 dark:bg-neutral-900 focus:ring-brand-500 transition-all h-11"
+                  className="rounded-xl border-neutral-200 dark:border-neutral-800 bg-neutral-50/30 dark:bg-neutral-900 focus:ring-brand-500 transition-colors h-11"
                 />
               </div>
 
@@ -243,7 +243,7 @@ function RegisterPageInner() {
                   value={formData.email}
                   onChange={handleInputChange}
                   placeholder="name@university.edu"
-                  className="rounded-xl border-neutral-200 dark:border-neutral-800 bg-neutral-50/30 dark:bg-neutral-900 focus:ring-brand-500 transition-all h-11"
+                  className="rounded-xl border-neutral-200 dark:border-neutral-800 bg-neutral-50/30 dark:bg-neutral-900 focus:ring-brand-500 transition-colors h-11"
                 />
               </div>
 
@@ -261,7 +261,7 @@ function RegisterPageInner() {
                     value={formData.password}
                     onChange={handleInputChange}
                     placeholder="••••••••"
-                    className="rounded-xl border-neutral-200 dark:border-neutral-800 bg-neutral-50/30 dark:bg-neutral-900 focus:ring-brand-500 transition-all h-11"
+                    className="rounded-xl border-neutral-200 dark:border-neutral-800 bg-neutral-50/30 dark:bg-neutral-900 focus:ring-brand-500 transition-colors h-11"
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -277,7 +277,7 @@ function RegisterPageInner() {
                     value={confirmPassword}
                     onChange={handleInputChange}
                     placeholder="••••••••"
-                    className="rounded-xl border-neutral-200 dark:border-neutral-800 bg-neutral-50/30 dark:bg-neutral-900 focus:ring-brand-500 transition-all h-11"
+                    className="rounded-xl border-neutral-200 dark:border-neutral-800 bg-neutral-50/30 dark:bg-neutral-900 focus:ring-brand-500 transition-colors h-11"
                   />
                 </div>
               </div>
@@ -287,15 +287,15 @@ function RegisterPageInner() {
               <Button
                 type="submit"
                 disabled={isLoading}
-                className="w-full bg-brand-900 hover:bg-brand-700 text-brand-100 dark:bg-brand-100 dark:text-brand-900 dark:hover:bg-brand-300 h-14 rounded-xl font-bold transition-all shadow-lg active:scale-[0.98] tracking-widest uppercase text-sm"
+                className="w-full bg-brand-900 hover:bg-brand-700 text-brand-100 dark:bg-brand-100 dark:text-brand-900 dark:hover:bg-brand-300 h-12 rounded-xl font-bold transition-[transform,box-shadow] shadow-lg active:scale-[0.98] tracking-widest uppercase text-sm"
               >
-                {isLoading ? 'CREATING...' : 'CREATE ACCOUNT'}
+                {isLoading ? 'CREATING…' : 'CREATE ACCOUNT'}
               </Button>
 
               <Button
                 type="button"
                 variant="outline"
-                className="w-full border-neutral-200 dark:border-neutral-800 hover:bg-neutral-50 dark:hover:bg-neutral-800 h-14 rounded-xl font-bold transition-all flex items-center justify-center gap-3 active:scale-[0.98] tracking-widest text-[10px]"
+                className="w-full border-neutral-200 dark:border-neutral-800 hover:bg-neutral-50 dark:hover:bg-neutral-800 h-12 rounded-xl font-bold transition-[transform,box-shadow] flex items-center justify-center gap-3 active:scale-[0.98] tracking-widest text-[10px]"
                 disabled={isLoading}
                 onClick={handleGoogleLogin}
               >
@@ -326,7 +326,7 @@ function RegisterPageInner() {
                 Already in the crowd?{' '}
                 <Link
                   href="/login"
-                  className="text-brand-900 dark:text-brand-100 font-black hover:underline underline-offset-8 transition-all"
+                  className="text-brand-900 dark:text-brand-100 font-black hover:underline underline-offset-8 transition-colors"
                 >
                   Log In
                 </Link>

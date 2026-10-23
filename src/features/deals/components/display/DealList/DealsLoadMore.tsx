@@ -38,12 +38,12 @@ export const DealsLoadMore: React.FC<DealsLoadMoreProps> = ({
         disabled={isLoadingMore}
         variant="outline"
         size="lg"
-        className="bg-white dark:bg-neutral-900 border-neutral-300 dark:border-neutral-700 hover:bg-neutral-50 dark:hover:bg-neutral-800 text-neutral-900 dark:text-neutral-100 px-8 py-3 min-w-[160px] transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md"
+        className="bg-card border-neutral-300 dark:border-neutral-700 hover:bg-neutral-50 dark:hover:bg-neutral-800 text-neutral-900 dark:text-neutral-100 px-8 py-3 min-w-[160px] transition-[transform,box-shadow,background-color] duration-200 hover:scale-105 shadow-sm hover:shadow-md"
       >
         {isLoadingMore ? (
           <>
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            Loading...
+            Loading…
           </>
         ) : (
                 //   `Load More Deals (${totalDeals - displayedCount} remaining)`

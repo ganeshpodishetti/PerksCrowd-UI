@@ -6,6 +6,12 @@ import { Clock, TrendingUp } from 'lucide-react';
 import Link from 'next/link';
 import { useMemo } from 'react';
 
+const dateFormatter = new Intl.DateTimeFormat('en-US', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+});
+
 interface AdminOverviewProps {
   deals: Deal[];
 }
@@ -49,10 +55,10 @@ export default function AdminOverview({ deals }: AdminOverviewProps) {
                 {recentDeals.map((deal) => (
                   <div key={deal.id} className="flex justify-between items-start p-2 bg-card dark:bg-card rounded">
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-700 dark:text-gray-300 truncate">
+                      <p className="text-sm font-medium text-foreground truncate">
                         {deal.title}
                       </p>
-                      <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                      <p className="text-xs text-muted-foreground truncate">
                         {deal.storeName} • {deal.discount}
                       </p>
                     </div>
@@ -63,7 +69,7 @@ export default function AdminOverview({ deals }: AdminOverviewProps) {
                 </Button>
               </div>
             ) : (
-              <p className="text-sm text-gray-500 dark:text-gray-400">No deals available</p>
+              <p className="text-sm text-muted-foreground">No deals available</p>
             )}
           </CardContent>
         </Card>
@@ -83,11 +89,11 @@ export default function AdminOverview({ deals }: AdminOverviewProps) {
                 {expiringDeals.map((deal) => (
                   <div key={deal.id} className="flex justify-between items-start p-2 bg-muted dark:bg-muted rounded">
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-700 dark:text-gray-300 truncate">
+                      <p className="text-sm font-medium text-foreground truncate">
                         {deal.title}
                       </p>
-                      <p className="text-xs text-yellow-600 dark:text-yellow-400">
-                        Expires: {deal.endDate ? new Date(deal.endDate).toLocaleDateString() : 'No end date'}
+                      <p className="text-xs text-amber-600 dark:text-amber-400">
+                        Expires: {deal.endDate ? dateFormatter.format(new Date(deal.endDate)) : 'No end date'}
                       </p>
                     </div>
                   </div>
@@ -97,7 +103,7 @@ export default function AdminOverview({ deals }: AdminOverviewProps) {
                 </Button>
               </div>
             ) : (
-              <p className="text-sm text-gray-500 dark:text-gray-400">No deals expiring soon</p>
+              <p className="text-sm text-muted-foreground">No deals expiring soon</p>
             )}
           </CardContent>
         </Card>

@@ -61,6 +61,8 @@ const StoreLogoAvatar: React.FC<StoreLogoAvatarProps> = ({
 
   return (
     <div
+      role="img"
+      aria-label={`${name || fallbackName || 'Store'} logo`}
       className={cn(
         'relative aspect-square w-10 h-10 sm:w-11 sm:h-11 overflow-hidden rounded-xl bg-neutral-50 dark:bg-neutral-900 flex-shrink-0',
         className,
@@ -83,7 +85,7 @@ const StoreLogoAvatar: React.FC<StoreLogoAvatarProps> = ({
         >
           <span
             className={cn('text-sm sm:text-base font-semibold text-neutral-700 dark:text-neutral-200', initialClassName)}
-            aria-label="store logo initial"
+            aria-hidden="true"
           >
             {initial}
           </span>

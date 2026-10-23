@@ -179,7 +179,7 @@ function DealsStatus() {
         Student Deals
       </h1>
       <p className="mt-2 text-sm text-brand-700 dark:text-brand-300">
-        {loading ? 'Loading the best offers for students...' : 'Exclusive offers for students'}
+        {loading ? 'Loading the best offers for students…' : 'Exclusive offers for students'}
       </p>
     </div>
   );
@@ -199,7 +199,7 @@ function DealsHero() {
       </div>
       <HeroSearchSection
         onSearchResults={handleSearchResults}
-        placeholder="Search for deals, stores, or categories..."
+        placeholder="Search for deals, stores, or categories…"
       />
     </>
   );
@@ -213,7 +213,7 @@ function DealsSearchResults() {
   return (
     <div className="mb-6 text-center">
       <h2 className="text-xl font-semibold text-brand-900 dark:text-brand-100">
-        {isSearching ? 'Searching...' : `Found ${searchResults.length} deals`}
+        {isSearching ? 'Searching…' : `Found ${searchResults.length} deals`}
       </h2>
     </div>
   );
@@ -261,7 +261,7 @@ function DealsGridSection() {
         <p className="text-brand-700 dark:text-brand-300 font-medium mb-4">{error}</p>
         <Button
           onClick={refetch}
-          className="bg-brand-900 hover:bg-brand-900 dark:bg-brand-100 dark:text-black dark:hover:bg-brand-300"
+          className="bg-brand-900 hover:bg-brand-700 dark:bg-brand-100 dark:text-brand-900 dark:hover:bg-brand-300"
         >
           Try Again
         </Button>

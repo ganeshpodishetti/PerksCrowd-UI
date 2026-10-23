@@ -102,7 +102,7 @@ export default function ResendConfirmationPage() {
         <Card className="border-neutral-200 dark:border-neutral-800 shadow-lg">
           <CardHeader className="space-y-1">
             <div className="flex justify-center mb-4">
-              <Mail className="h-16 w-16 text-blue-500" />
+              <Mail className="h-16 w-16 text-brand-500" />
             </div>
             <CardTitle className="text-2xl text-center">
               Resend Confirmation Email
@@ -132,7 +132,7 @@ export default function ResendConfirmationPage() {
                 />
               </div>
 
-              <div className="text-xs text-neutral-600 dark:text-neutral-400 bg-blue-50 dark:bg-blue-950/20 p-3 rounded-md border border-blue-200 dark:border-blue-800">
+              <div className="text-xs text-neutral-600 dark:text-neutral-400 bg-brand-100/40 dark:bg-brand-900/20 p-3 rounded-md border border-brand-300 dark:border-brand-700">
                 <p className="font-medium mb-1">📧 Email Verification Required</p>
                 <p>For security reasons, you must verify your email address before you can log in. This helps protect your account and ensures you can recover access if needed.</p>
               </div>
@@ -143,7 +143,7 @@ export default function ResendConfirmationPage() {
                 className="w-full"
                 size="lg"
               >
-                {isLoading ? 'Sending...' : 'Send Confirmation Email'}
+                {isLoading ? 'Sending…' : 'Send Confirmation Email'}
               </Button>
             </CardContent>
 

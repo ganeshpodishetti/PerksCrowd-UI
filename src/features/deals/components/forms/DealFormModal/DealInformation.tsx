@@ -23,7 +23,7 @@ export default function DealInformation({ formData, handleInputChange }: DealInf
       </div>
       <div>
         <Label htmlFor="howToRedeem">How to Redeem (Optional)</Label>
-        <Textarea id="howToRedeem" name="howToRedeem" value={formData.howToRedeem || ''} onChange={handleInputChange} placeholder="Instructions on how to redeem this deal..." rows={2} />
+        <Textarea id="howToRedeem" name="howToRedeem" value={formData.howToRedeem || ''} onChange={handleInputChange} placeholder="Instructions on how to redeem this deal…" rows={2} />
         <p className="text-xs text-gray-500 mt-1">Provide step-by-step instructions for redeeming this deal</p>
       </div>
     </>

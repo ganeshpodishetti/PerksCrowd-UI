@@ -47,7 +47,7 @@ const CategoriesPage: React.FC = () => {
 if (loading) {
   return (
     <div className="py-12 bg-background dark:bg-background transition-colors">
-      <div className="container mx-auto px-6 md:px-8">
+      <div className="w-full">
         <div className="max-w-5xl mx-auto">
           <h1 className="text-3xl font-bold text-neutral-800 dark:text-neutral-100 mb-8">Categories</h1>
           <div className="flex flex-wrap gap-3 justify-center mb-8">
@@ -69,7 +69,7 @@ if (loading) {
   if (error) {
     return (
       <div className="py-12">
-        <div className="container mx-auto px-6 md:px-8">
+        <div className="w-full">
           <div className="max-w-5xl mx-auto text-center">
             <h1 className="text-3xl font-bold text-neutral-900 dark:text-white mb-4">Categories</h1>
             <div className="bg-red-50 dark:bg-red-900/20 text-red-800 dark:text-red-200 p-4 rounded-md">
@@ -89,17 +89,17 @@ if (loading) {
 
   return (
     <div className="py-12">
-      <div className="container mx-auto px-6 md:px-8">
-        <div className="max-w-6xl mx-auto">
+      <div className="w-full">
+        <div className="max-w-7xl mx-auto">
           {/* Header Section */}
           <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold text-neutral-800 dark:text-neutral-100 mb-4">Categories</h1>
+            <h1 className="text-4xl font-bold text-brand-900 dark:text-brand-100 mb-4">Categories</h1>
           </div>
         
           {/* Categories Section - Always visible */}
           {categories.length === 0 ? (
             <div className="text-center py-12 bg-neutral-50 dark:bg-neutral-900 rounded-md border border-neutral-100 dark:border-neutral-800">
-              <p className="text-neutral-500 dark:text-neutral-400">No categories found</p>
+              <p className="text-brand-700 dark:text-brand-300">No categories found</p>
             </div>
           ) : (
             <div className="flex flex-wrap gap-3 justify-center mb-8">
@@ -107,9 +107,9 @@ if (loading) {
                 <button
                   key={category.id}
                   onClick={() => handleCategorySelect(category.title || '')}
-                  className="py-2 px-4 rounded-full bg-neutral-900 dark:bg-neutral-800/90 hover:bg-neutral-700 dark:hover:bg-neutral-700 hover:scale-105 hover:shadow-lg transition-all duration-200 ease-out focus:outline-none focus:ring-2 focus:ring-primary/40 text-white font-medium text-sm shadow-sm border border-neutral-700/40 group"
+                  className="py-2 px-4 rounded-full bg-brand-900 dark:bg-brand-100 hover:bg-brand-700 dark:hover:bg-brand-300 hover:scale-105 hover:shadow-lg transition-[transform,box-shadow,background-color] duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 text-brand-100 dark:text-brand-900 font-medium text-sm shadow-sm border border-brand-900/40 group"
                 >
-                  <span className="group-hover:text-white transition-colors duration-200">{category.title}</span>
+                  <span className="transition-colors duration-200">{category.title}</span>
                 </button>
               ))}
             </div>
@@ -119,7 +119,7 @@ if (loading) {
           {selectedCategory && (
             <div className="mt-8">
               <div className="mb-6">
-                <h2 className="text-2xl font-bold text-neutral-900 dark:text-white">
+                <h2 className="text-2xl font-bold text-brand-900 dark:text-brand-100">
                   {selectedCategory} Deals
                 </h2>
               </div>
@@ -134,4 +134,3 @@ if (loading) {
 };
 
 export default CategoriesPage;
-// ...original code will be placed here...

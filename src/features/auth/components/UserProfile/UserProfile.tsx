@@ -267,7 +267,7 @@ export default function UserProfile({ user }: UserProfileProps) {
         <DialogContent>
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
-              <KeyRound className="h-5 w-5 text-blue-500" />
+              <KeyRound className="h-5 w-5 text-brand-500" />
               Change Password
             </DialogTitle>
             <DialogDescription>
@@ -283,8 +283,8 @@ export default function UserProfile({ user }: UserProfileProps) {
                    Your password has been changed successfully.
                  </p>
                </div>
-               <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-md p-4 flex items-start gap-3">
-                 <div className="text-sm text-blue-700 dark:text-blue-300">
+               <div className="bg-brand-100/40 dark:bg-brand-900/20 border border-brand-300 dark:border-brand-700 rounded-md p-4 flex items-start gap-3">
+                 <div className="text-sm text-brand-900 dark:text-brand-300">
                    <p className="font-medium mb-1">Security Notice</p>
                    <p>For security purposes, you will be logged out and redirected to the login page. Please log in with your new password.</p>
                  </div>
@@ -322,8 +322,9 @@ export default function UserProfile({ user }: UserProfileProps) {
                   <button
                     type="button"
                     onClick={() => setShowCurrentPassword(v => !v)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-                    tabIndex={-1}
+                    aria-label={showCurrentPassword ? 'Hide current password' : 'Show current password'}
+                    aria-pressed={showCurrentPassword}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 rounded p-1 text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   >
                     {showCurrentPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
@@ -349,8 +350,9 @@ export default function UserProfile({ user }: UserProfileProps) {
                   <button
                     type="button"
                     onClick={() => setShowNewPassword(v => !v)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-                    tabIndex={-1}
+                    aria-label={showNewPassword ? 'Hide new password' : 'Show new password'}
+                    aria-pressed={showNewPassword}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 rounded p-1 text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   >
                     {showNewPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
@@ -376,15 +378,16 @@ export default function UserProfile({ user }: UserProfileProps) {
                   <button
                     type="button"
                     onClick={() => setShowConfirmPassword(v => !v)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-                    tabIndex={-1}
+                    aria-label={showConfirmPassword ? 'Hide confirm new password' : 'Show confirm new password'}
+                    aria-pressed={showConfirmPassword}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 rounded p-1 text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   >
                     {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
                 </div>
               </div>
 
-              <div className="text-xs text-muted-foreground bg-blue-50 dark:bg-blue-950/20 p-3 rounded-md border border-blue-200 dark:border-blue-800">
+              <div className="text-xs text-muted-foreground bg-brand-100/40 dark:bg-brand-900/20 p-3 rounded-md border border-brand-300 dark:border-brand-700">
                 <p className="font-medium mb-1">🔒 Password Requirements</p>
                 <ul className="list-disc list-inside space-y-1">
                   <li>At least 8 characters long</li>

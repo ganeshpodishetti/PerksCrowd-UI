@@ -60,7 +60,7 @@ export default function ConfirmEmailPage() {
           <CardHeader className="space-y-1">
             <div className="flex justify-center mb-4">
               {status === 'loading' && (
-                <Loader2 className="h-16 w-16 text-blue-500 animate-spin" />
+                <Loader2 className="h-16 w-16 text-brand-500 animate-spin" />
               )}
               {status === 'success' && (
                 <CheckCircle2 className="h-16 w-16 text-green-500" />
@@ -70,7 +70,7 @@ export default function ConfirmEmailPage() {
               )}
             </div>
             <CardTitle className="text-2xl text-center">
-              {status === 'loading' && 'Confirming Email...'}
+              {status === 'loading' && 'Confirming Email…'}
               {status === 'success' && 'Email Confirmed!'}
               {status === 'error' && 'Confirmation Failed'}
             </CardTitle>

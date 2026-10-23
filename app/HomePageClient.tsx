@@ -66,7 +66,7 @@ export function HomePageClient({ sectionedFeeds = false }: HomePageClientProps) 
           <div className="flex flex-col md:flex-row gap-6">
             {!sectionedFeeds && (
               <aside className="w-full md:w-48 shrink-0">
-              <div className="md:sticky md:top-24">
+              <div className="md:sticky md:top-20">
                 <h3 className="text-sm font-semibold text-brand-900 dark:text-brand-300 mb-3 flex items-center gap-2">
                   <Tag className="h-4 w-4" />
                   Categories
@@ -120,14 +120,14 @@ export function HomePageClient({ sectionedFeeds = false }: HomePageClientProps) 
                  <div className="space-y-10">
                    <section className="max-w-4xl mx-auto text-center mb-20 md:mb-24 px-4">
                      <p className="text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] text-brand-500 dark:text-brand-300 mb-4 opacity-80">
-                       EVERYDAY PERKS. SIMPLIFIED.
+                       Student deals, no fluff.
                      </p>
                      <h1 className="text-3xl md:text-5xl lg:text-7xl font-black text-brand-900 dark:text-brand-100 leading-[1.05] tracking-tight mb-8">
-                       Verified Savings for the <span className="text-brand-500">Modern Crowd.</span>
+                       Save on the things you <span className="whitespace-nowrap text-brand-500">actually buy.</span>
                      </h1>
-                     <p className="text-sm md:text-xl text-brand-800 dark:text-brand-300 max-w-2xl mx-auto leading-relaxed font-medium">
-                       Unlock hand-picked student perks and exclusive deals from the brands you love. 
-                       PerksCrowd bridges the gap between smart living and premium value—verified, instant, and 100% free.
+                     <p className="text-sm md:text-xl text-brand-900 dark:text-brand-300 max-w-2xl mx-auto leading-relaxed font-medium">
+                       Verified student discounts and everyday offers from brands you already shop with.
+                       Free to join, easy to use.
                      </p>
                    </section>
 
@@ -170,17 +170,17 @@ export function HomePageClient({ sectionedFeeds = false }: HomePageClientProps) 
           <div className="w-full max-w-7xl mx-auto px-6 md:px-8 mt-12 mb-8">
             <section className="text-center bg-neutral-50 dark:bg-neutral-900 rounded-2xl p-8 md:p-12 border border-neutral-200 dark:border-neutral-800 flex flex-col items-center justify-center shadow-sm">
               <h2 className="text-2xl md:text-3xl font-bold text-brand-900 dark:text-brand-100 mb-4">
-                Know a great deal?
+                Know a good deal?
               </h2>
               <p className="text-brand-700 dark:text-brand-300 mb-6 max-w-xl mx-auto text-base">
-                Help our community save by sharing the best deals, discounts, and perks you&apos;ve found.
+                Send it our way. We&apos;ll check it and share it with the community.
               </p>
               <button
                 onClick={() => setIsSubmitDealModalOpen(true)}
                 className="inline-flex items-center justify-center px-6 py-3 text-base font-medium text-brand-100 bg-brand-900 dark:bg-brand-100 dark:text-brand-900 rounded-full hover:bg-brand-700 dark:hover:bg-brand-300 transition-colors shadow-sm"
               >
                 <Plus className="mr-2 h-5 w-5" />
-                Submit a Deal
+                Share a deal
               </button>
             </section>
           </div>
@@ -193,8 +193,8 @@ export function HomePageClient({ sectionedFeeds = false }: HomePageClientProps) 
           onClose={() => setIsSubmitDealModalOpen(false)}
           onSuccess={() => {
             toast({
-              title: "Deal Submitted!",
-              description: "Thanks for sharing! We'll review your deal and add it to the platform soon.",
+              title: "Deal sent!",
+              description: "Thanks — we'll review it and add it soon.",
             })
           }}
         />

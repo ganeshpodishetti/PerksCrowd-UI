@@ -17,7 +17,7 @@ interface HeroSearchSectionProps {
 
 const HeroSearchSection: React.FC<HeroSearchSectionProps> = ({
   onSearchResults,
-  placeholder = "Search for deals, stores, or categories...",
+  placeholder = "Search for deals, stores, or categories…",
   className = "",
 }) => {
   const [query, setQuery] = useState("");
@@ -89,11 +89,14 @@ const HeroSearchSection: React.FC<HeroSearchSectionProps> = ({
         <div className="relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400 h-4 w-4" />
           <Input
-            type="text"
+            type="search"
+            aria-label="Search deals"
+            autoComplete="off"
+            spellCheck={false}
             placeholder={placeholder}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="pl-10 pr-20 h-12 text-base bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-full shadow-md backdrop-blur focus:ring-2 focus:ring-blue-400 dark:focus:ring-neutral-400 text-neutral-800 dark:text-neutral-100 placeholder-neutral-400 dark:placeholder:text-neutral-500"
+            className="pl-10 pr-20 h-12 text-base bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-full shadow-md backdrop-blur focus:ring-2 focus:ring-brand-500 dark:focus:ring-brand-300 text-neutral-800 dark:text-neutral-100 placeholder-neutral-400 dark:placeholder:text-neutral-500"
           />
           <div className="absolute right-2 top-1/2 transform -translate-y-1/2 flex gap-1">
             {query && (
@@ -102,6 +105,7 @@ const HeroSearchSection: React.FC<HeroSearchSectionProps> = ({
                 variant="ghost"
                 size="sm"
                 onClick={handleClear}
+                aria-label="Clear search"
                 className="h-8 w-8 p-0 text-neutral-400 hover:text-neutral-600 dark:hover:text-white"
               >
                 <X className="h-4 w-4" />
@@ -111,9 +115,9 @@ const HeroSearchSection: React.FC<HeroSearchSectionProps> = ({
               type="submit"
               size="sm"
               disabled={isLoading}
-              className="h-8 px-3 bg-blue-600 hover:bg-blue-700 text-white rounded-full"
+              className="h-8 px-3 bg-brand-900 hover:bg-brand-700 dark:bg-brand-100 dark:text-brand-900 dark:hover:bg-brand-300 rounded-full"
             >
-              {isLoading ? "Searching..." : "Search"}
+              {isLoading ? "Searching…" : "Search"}
             </Button>
           </div>
         </div>

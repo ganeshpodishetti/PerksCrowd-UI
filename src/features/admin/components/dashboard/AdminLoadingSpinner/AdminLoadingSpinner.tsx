@@ -5,7 +5,7 @@ interface AdminLoadingSpinnerProps {
   message?: string;
 }
 
-export default function AdminLoadingSpinner({ message = "Loading..." }: AdminLoadingSpinnerProps) {
+export default function AdminLoadingSpinner({ message = "Loading…" }: AdminLoadingSpinnerProps) {
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
       <Card className="w-full max-w-md">

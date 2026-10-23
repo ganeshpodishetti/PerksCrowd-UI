@@ -51,7 +51,7 @@ const DealCard: React.FC<DealCardProps> = memo((props) => {
   const isExpiring = daysRemaining !== null && daysRemaining <= 7 && daysRemaining > 0;
 
   const cardContent = (
-    <Card className={`relative overflow-hidden flex flex-col group hover:shadow-lg hover:-translate-y-1 active:scale-[0.98] active:shadow-md transition-all duration-300 border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 rounded-2xl p-3 sm:p-5 ${isExpired ? 'opacity-70' : ''} h-full cursor-pointer hover:border-brand-300 dark:hover:border-brand-700 touch-manipulation`}>
+    <Card className={`relative overflow-hidden flex flex-col group hover:shadow-lg hover:-translate-y-1 active:scale-[0.98] active:shadow-md transition-[transform,box-shadow] duration-300 border border-neutral-200 dark:border-neutral-800 bg-card rounded-2xl p-3 sm:p-5 ${isExpired ? 'opacity-70' : ''} h-full cursor-pointer hover:border-brand-300 dark:hover:border-brand-700 touch-manipulation`}>
       {/* Header with Title */}
       <div className="flex items-center gap-3 sm:gap-4 mb-2 sm:mb-3">
         <StoreLogoAvatar
@@ -69,7 +69,7 @@ const DealCard: React.FC<DealCardProps> = memo((props) => {
             <div className="mt-1 sm:mt-1.5">
               <Badge 
                 variant="default" 
-                className="text-[10px] sm:text-xs font-medium px-1.5 sm:px-2 py-0.5 bg-brand-900 hover:bg-brand-700 text-white dark:bg-brand-300 dark:hover:bg-brand-300 dark:text-brand-900"
+                className="text-[10px] sm:text-xs font-medium px-1.5 sm:px-2 py-0.5 bg-brand-900 hover:bg-brand-700 text-brand-100 dark:bg-brand-300 dark:hover:bg-brand-300 dark:text-brand-900"
               >
                 {deal.discount}
               </Badge>
@@ -118,7 +118,7 @@ const DealCard: React.FC<DealCardProps> = memo((props) => {
                 e.stopPropagation();
                 void trackDealClick(deal.id);
               }}
-              className="text-brand-700 hover:text-brand-900 dark:text-brand-300 dark:hover:text-brand-100 transition-colors touch-manipulation"
+              className="inline-flex h-8 w-8 items-center justify-center rounded-md text-brand-700 hover:bg-brand-100 hover:text-brand-900 dark:text-brand-300 dark:hover:bg-brand-900 dark:hover:text-brand-100 transition-colors touch-manipulation"
             >
               <ExternalLink className="h-3.5 w-3.5 sm:h-4 sm:w-4" aria-hidden="true" />
             </a>

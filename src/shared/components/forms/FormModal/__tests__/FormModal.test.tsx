@@ -87,7 +87,7 @@ describe('FormModal', () => {
   it('shows loading state during submission', () => {
     render(<FormModal {...defaultProps} isLoading={true} />);
     
-    expect(screen.getByText('Saving...')).toBeInTheDocument();
+    expect(screen.getByText('Saving…')).toBeInTheDocument();
   });
 
   it('handles form input changes', () => {
@@ -109,7 +109,7 @@ describe('FormModal', () => {
   it('disables submit button when loading', () => {
     render(<FormModal {...defaultProps} isLoading={true} />);
     
-    const submitButton = screen.getByText('Saving...');
+    const submitButton = screen.getByText('Saving…');
     expect(submitButton).toBeDisabled();
   });
 

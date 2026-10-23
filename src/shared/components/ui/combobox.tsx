@@ -26,8 +26,8 @@ export function Combobox({
   options,
   value,
   onValueChange,
-  placeholder = "Select option...",
-  searchPlaceholder = "Search...",
+  placeholder = "Select option…",
+  searchPlaceholder = "Search…",
   emptyText = "No option found.",
   className,
   disabled = false,
@@ -118,7 +118,7 @@ export function Combobox({
           className={cn(
             "w-full justify-between h-10 px-3 py-2 border border-neutral-200 dark:border-neutral-700",
             "bg-white dark:bg-neutral-900 hover:bg-neutral-50 dark:hover:bg-neutral-800",
-            "focus:ring-2 focus:ring-blue-500 focus:ring-offset-0",
+            "focus:ring-2 focus:ring-brand-500 focus:ring-offset-0",
             "transition-colors duration-200",
             !value && "text-neutral-500 dark:text-neutral-400",
             value && "text-neutral-900 dark:text-neutral-100",
@@ -146,7 +146,7 @@ export function Combobox({
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
               onKeyDown={handleKeyDown}
-              className="h-9 border border-neutral-200 dark:border-neutral-700 rounded-md px-3 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-0 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-500 dark:placeholder:text-neutral-400"
+              className="h-9 border border-neutral-200 dark:border-neutral-700 rounded-md px-3 focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-0 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-500 dark:placeholder:text-neutral-400"
               autoFocus
             />
           </div>
@@ -161,15 +161,15 @@ export function Combobox({
                     onClick={() => handleSelect(option.value)}
                     className={cn(
                       "flex items-center px-3 py-2.5 text-sm cursor-pointer transition-colors mx-1 rounded-md",
-                      "hover:bg-blue-50 dark:hover:bg-blue-950/50 text-neutral-900 dark:text-neutral-100",
-                      "focus:bg-blue-50 dark:focus:bg-blue-950/50 outline-none",
-                      value === option.value && "bg-blue-100 dark:bg-blue-950/70 text-blue-900 dark:text-blue-100"
+                      "hover:bg-brand-100 dark:hover:bg-brand-900/50 text-neutral-900 dark:text-neutral-100",
+                      "focus:bg-brand-100 dark:focus:bg-brand-900/50 outline-none",
+                      value === option.value && "bg-brand-100 dark:bg-brand-900/70 text-brand-900 dark:text-brand-100"
                     )}
                   >
                     <Check
                       className={cn(
                         "mr-3 h-4 w-4",
-                        value === option.value ? "opacity-100 text-blue-600 dark:text-blue-400" : "opacity-0"
+                        value === option.value ? "opacity-100 text-brand-700 dark:text-brand-300" : "opacity-0"
                       )}
                     />
                     <span className="truncate font-medium">{option.label}</span>
@@ -195,8 +195,8 @@ export function Combobox({
                   onClick={handleCreateCustom}
                   className={cn(
                     "flex items-center px-3 py-2.5 text-sm cursor-pointer transition-colors mx-1 rounded-md",
-                    "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/30",
-                    "hover:bg-blue-100 dark:hover:bg-blue-950/50 font-medium"
+                    "text-brand-700 dark:text-brand-300 bg-brand-100 dark:bg-brand-900/30",
+                    "hover:bg-brand-100 dark:hover:bg-brand-900/50 font-medium"
                   )}
                 >
                   <Plus className="mr-3 h-4 w-4" />

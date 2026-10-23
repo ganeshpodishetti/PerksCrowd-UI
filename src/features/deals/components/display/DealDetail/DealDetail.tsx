@@ -147,15 +147,6 @@ const DealDetail: React.FC<DealDetailProps> = ({ deal, trigger, onView, onClick,
             />
           )}
 
-          {/* University Specific Info */}
-          {'isUniversitySpecific' in deal && deal.isUniversitySpecific === true && (
-            <DealInfoBox
-              title="University Exclusive"
-              description={`This deal is exclusive to ${('universityName' in deal && typeof deal.universityName === 'string' ? deal.universityName : 'specific universities')}.`}
-              icon={School}
-              variant="purple"
-            />
-          )}
         </div>
         
         {dealUrl ? (

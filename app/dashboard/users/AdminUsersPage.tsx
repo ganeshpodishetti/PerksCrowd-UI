@@ -7,6 +7,7 @@ import AdminUsersTable from '@/features/admin/components/tables/AdminUsersTable/
 import { useAdminUsers } from '@/features/admin/hooks/useAdminUsers';
 import { useAuth } from '@/features/auth/contexts/AuthContext';
 import { isSuperAdmin } from '@/features/auth/utils/roles';
+import { RefreshCw } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
@@ -50,6 +51,7 @@ export default function AdminUsersPage() {
         description="Manage platform users"
         onCreateAction={handleRefresh}
         createButtonText="Refresh"
+        createIcon={RefreshCw}
       />
 
       <AdminUsersTable 

@@ -129,6 +129,7 @@ export default function AdminSidebar({
           variant="ghost"
           size="icon"
           onClick={onToggleCollapse}
+          aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
           className={cn(
             "hidden lg:flex h-8 w-8",
             isCollapsed && "absolute -right-3 top-6 bg-background border shadow-sm"
@@ -144,6 +145,7 @@ export default function AdminSidebar({
           variant="ghost"
           size="icon"
           onClick={onMobileClose}
+          aria-label="Close menu"
           className="lg:hidden h-8 w-8"
         >
           <X className="h-4 w-4" />
@@ -162,7 +164,7 @@ export default function AdminSidebar({
               href={item.path}
               onClick={onMobileClose}
               className={cn(
-                "flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group relative",
+                "flex items-center gap-3 px-3 py-2.5 rounded-lg transition-[background-color,color,box-shadow] duration-200 group relative",
                 isActive
                   ? "bg-primary text-primary-foreground shadow-sm"
                   : "text-muted-foreground hover:bg-muted hover:text-foreground",
@@ -190,7 +192,7 @@ export default function AdminSidebar({
               )}
               {/* Tooltip for collapsed state */}
               {isCollapsed && (
-                <div className="absolute left-full ml-2 px-2 py-1 bg-popover text-popover-foreground text-sm rounded-md shadow-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50">
+                <div className="absolute left-full ml-2 px-2 py-1 bg-popover text-popover-foreground text-sm rounded-md shadow-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-[opacity,visibility] duration-200 whitespace-nowrap z-50">
                   {item.label}
                 </div>
               )}
@@ -206,14 +208,14 @@ export default function AdminSidebar({
         <Link
           href="/"
           className={cn(
-            "flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 text-muted-foreground hover:bg-muted hover:text-foreground group relative",
+            "flex items-center gap-3 px-3 py-2.5 rounded-lg transition-[background-color,color,box-shadow] duration-200 text-muted-foreground hover:bg-muted hover:text-foreground group relative",
             isCollapsed && "justify-center px-2"
           )}
         >
           <Home className="h-5 w-5 shrink-0" />
           {!isCollapsed && <span className="text-sm font-medium">Back to Site</span>}
           {isCollapsed && (
-            <div className="absolute left-full ml-2 px-2 py-1 bg-popover text-popover-foreground text-sm rounded-md shadow-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50">
+            <div className="absolute left-full ml-2 px-2 py-1 bg-popover text-popover-foreground text-sm rounded-md shadow-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-[opacity,visibility] duration-200 whitespace-nowrap z-50">
               Back to Site
             </div>
           )}
@@ -238,7 +240,7 @@ export default function AdminSidebar({
           <LogOut className="h-4 w-4 shrink-0" />
           {!isCollapsed && <span className="ml-2">Logout</span>}
           {isCollapsed && (
-            <div className="absolute left-full ml-2 px-2 py-1 bg-popover text-popover-foreground text-sm rounded-md shadow-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50">
+            <div className="absolute left-full ml-2 px-2 py-1 bg-popover text-popover-foreground text-sm rounded-md shadow-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-[opacity,visibility] duration-200 whitespace-nowrap z-50">
               Logout
             </div>
           )}
@@ -260,7 +262,7 @@ export default function AdminSidebar({
       {/* Sidebar */}
       <aside
         className={cn(
-          "fixed top-0 left-0 z-50 h-screen bg-card border-r border-neutral-200 dark:border-neutral-800 transition-all duration-300 flex flex-col overflow-hidden",
+          "fixed top-0 left-0 z-50 h-screen bg-card border-r border-neutral-200 dark:border-neutral-800 transition-[width] duration-300 flex flex-col overflow-hidden",
           isCollapsed ? "w-[68px]" : "w-64",
           // Mobile: hidden by default, shown when isMobileOpen
           isMobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"

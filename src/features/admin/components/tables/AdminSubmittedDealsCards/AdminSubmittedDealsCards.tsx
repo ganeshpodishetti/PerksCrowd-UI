@@ -46,14 +46,15 @@ export default function AdminSubmittedDealsCards({ deals, onMarkAsRead, onDelete
                     variant="outline"
                     size="sm"
                     asChild
-                    className="h-5 w-5 p-0 flex-shrink-0"
+                    className="h-8 w-8 p-0 flex-shrink-0"
                   >
                     <a
                       href={deal.url}
                       target="_blank"
                       rel="noopener noreferrer"
+                      aria-label="Open submitted deal in a new tab"
                     >
-                      <ExternalLink className="h-3 w-3" />
+                      <ExternalLink className="h-4 w-4" />
                     </a>
                   </Button>
                 </div>

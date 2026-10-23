@@ -17,6 +17,7 @@ export interface ActionConfig<T> {
   customActions?: Array<{
     icon: React.ComponentType<{ className?: string }>;
     onClick: (item: T) => void;
+    label?: string;
     variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
     className?: string;
   }>;
@@ -68,9 +69,11 @@ export function DataTable<T extends { id: string }>({
             variant="outline"
             size="sm"
             onClick={() => actions.onEdit!(item)}
-            className="h-6 w-6 sm:h-8 sm:w-8 p-0"
+            aria-label="Edit item"
+            title="Edit item"
+            className="h-8 w-8 p-0"
           >
-            <Edit className="h-3 w-3 sm:h-4 sm:w-4" />
+            <Edit className="h-4 w-4" />
           </Button>
         )}
         {actions.onDelete && (
@@ -78,9 +81,11 @@ export function DataTable<T extends { id: string }>({
             variant="outline"
             size="sm"
             onClick={() => actions.onDelete!(item.id)}
-            className="h-6 w-6 sm:h-8 sm:w-8 p-0"
+            aria-label="Delete item"
+            title="Delete item"
+            className="h-8 w-8 p-0"
           >
-            <Trash2 className="h-3 w-3 sm:h-4 sm:w-4" />
+            <Trash2 className="h-4 w-4" />
           </Button>
         )}
         {actions.customActions?.map((action, index) => (
@@ -89,9 +94,11 @@ export function DataTable<T extends { id: string }>({
             variant={action.variant || 'outline'}
             size="sm"
             onClick={() => action.onClick(item)}
-            className={`h-6 w-6 sm:h-8 sm:w-8 p-0 ${action.className || ''}`}
+            aria-label={action.label || 'Action'}
+            title={action.label || 'Action'}
+            className={`h-8 w-8 p-0 ${action.className || ''}`}
           >
-            <action.icon className="h-3 w-3 sm:h-4 sm:w-4" />
+            <action.icon className="h-4 w-4" />
           </Button>
         ))}
       </div>
