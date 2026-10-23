@@ -13,12 +13,9 @@ export type { CategoryResponse as Category, CreateCategoryRequest, UpdateCategor
 
 export const categoryService = {
   async getCategories(): Promise<CategoryResponse[]> {
-    try {
-      const data = await categoriesApi.getAll();
-      return Array.isArray(data) ? data : [];
-    } catch {
-      return [];
-    }
+    // Let errors reach callers so an outage is not shown as "no categories".
+    const data = await categoriesApi.getAll();
+    return Array.isArray(data) ? data : [];
   },
 
   async getCategory(id: string): Promise<CategoryResponse> {

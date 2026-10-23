@@ -13,12 +13,9 @@ export type { StoreResponse as Store, CreateStoreRequest, UpdateStoreRequest, Cr
 
 export const storeService = {
   async getStores(): Promise<StoreResponse[]> {
-    try {
-      const data = await storesApi.getAll();
-      return Array.isArray(data) ? data : [];
-    } catch {
-      return [];
-    }
+    // Let errors reach callers so an outage is not shown as "no brands".
+    const data = await storesApi.getAll();
+    return Array.isArray(data) ? data : [];
   },
 
   async getStore(id: string): Promise<StoreResponse> {

@@ -45,8 +45,12 @@ export function HomePageClient({ sectionedFeeds = false }: HomePageClientProps) 
     }
 
     const loadCategories = async () => {
-      const data = await fetchCategories()
-      setCategories(data)
+      try {
+        const data = await fetchCategories()
+        setCategories(data)
+      } catch {
+        setCategories([])
+      }
     }
 
     loadCategories()

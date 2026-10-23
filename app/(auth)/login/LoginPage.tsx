@@ -2,6 +2,7 @@
 'use client'
 import { useAuth } from '@/features/auth/contexts/AuthContext';
 import { useAuthRedirect } from '@/features/auth/hooks/useAuthRedirect';
+import { isAdmin } from '@/features/auth/utils/roles';
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
 import { useToast } from "@/shared/components/ui/use-toast";
@@ -32,12 +33,12 @@ const LoginPage: React.FC = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const { toast } = useToast();
-  const { login, isAuthenticated, isLoading } = useAuth();
+  const { login, user, isAuthenticated, isLoading } = useAuth();
 
   useAuthRedirect({
     isAuthenticated,
     isLoading,
-    whenAuthenticated: '/dashboard',
+    whenAuthenticated: isAdmin(user) ? '/dashboard' : '/profile',
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -112,7 +113,7 @@ const LoginPage: React.FC = () => {
         title: "Success",
         description: "Logged in successfully!",
       });
-      router.replace('/dashboard');
+      // useAuthRedirect sends admins to /dashboard and everyone else to /profile.
     } catch (error: unknown) {
       const err = error as { response?: { data?: { detail?: string; message?: string; title?: string }; status?: number }; message?: string };
       const errorMessage = err.response?.data?.detail ||

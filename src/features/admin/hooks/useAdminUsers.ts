@@ -1,12 +1,13 @@
 import { authService, UserItem } from '@/features/auth/services/authService';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-export const useAdminUsers = () => {
+export const useAdminUsers = (enabled = true) => {
   const queryClient = useQueryClient();
 
   const { data: users = [], isLoading, error, refetch } = useQuery<UserItem[]>({
     queryKey: ['admin-users'],
     queryFn: () => authService.getAllUsers(),
+    enabled,
   });
 
   const deleteUserMutation = useMutation({

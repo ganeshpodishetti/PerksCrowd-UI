@@ -11,7 +11,8 @@ import React from 'react';
 const StoreDealsPage: React.FC = () => {
   const params = useParams();
   const router = useRouter();
-  const storeName = decodeURIComponent(params?.storeName as string || '');
+  // Next already decodes route params; decoding again throws on names with "%".
+  const storeName = (params?.storeName as string) || '';
 
   // Get deals for this brand
   const { 
