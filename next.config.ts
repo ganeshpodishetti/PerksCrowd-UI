@@ -13,6 +13,9 @@ const nextConfig: NextConfig = {
   // and server-side features. OpenNext transforms this output to run on the
   // Cloudflare Workers runtime.
   trailingSlash: false,
+  // Generate the standalone server output that OpenNext bundles into the
+  // Cloudflare worker. This also lets the postbuild step use --skipNextBuild.
+  output: 'standalone',
   // Turbopack configuration (path aliases are picked up from tsconfig.json)
   turbopack: {},
   experimental: {
