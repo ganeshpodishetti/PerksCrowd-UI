@@ -32,11 +32,18 @@ Then open [http://localhost:3000](http://localhost:3000)
 ## Commands
 
 ```bash
-npm run dev      # Start development server
-npm run build    # Production build
-npm test         # Run tests
-npm run lint     # Check code quality
+npm run dev          # Start development server
+npm run build        # Production build + Cloudflare worker bundle
+npm run build:next   # Next.js-only production build
+npm test             # Run tests
+npm run lint         # Check code quality
 ```
+
+## Deploying to Cloudflare
+
+`npm run build` runs the OpenNext build and writes the worker to `.open-next/worker.js`.
+
+In Cloudflare Workers Builds, set the build command to `npm run build` (or `npx opennextjs-cloudflare build`) and the deploy command to `npx wrangler preview` for preview deployments or `npx wrangler deploy` for production.
 
 ## Tech
 
