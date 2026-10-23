@@ -108,6 +108,7 @@ temp/
 .open-next/
 .wrangler/
 .dev.vars
+.agents 
 
 # Vercel
 .vercel
@@ -121,7 +122,10 @@ __tests__/coverage/
 # Sentry Config File
 .sentryclirc
 
+skills-lock.json
+
 # Package manager lockfiles (if you want to ignore them)
 # package-lock.json
 # yarn.lock
 # pnpm-lock.yaml
+next-env.d.ts

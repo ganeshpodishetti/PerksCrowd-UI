@@ -4,9 +4,13 @@ import UniversityDealsPage from '../../UniversityDealsPage';
 
 // Required for static export (output: 'export')
 export async function generateStaticParams() {
-  // This must be a fetch, not a client-side hook
-  const universities = await universityService.getUniversities();
-  return universities.map((u) => ({ universityId: u.id }));
+  // A build must not fail when the API is unreachable; pages render on demand.
+  try {
+    const universities = await universityService.getUniversities();
+    return universities.map((u) => ({ universityId: u.id }));
+  } catch {
+    return [];
+  }
 }
 
 export default function UniversityDealsRoute() {

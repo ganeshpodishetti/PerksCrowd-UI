@@ -5,9 +5,25 @@ import AdminHeader from '@/features/admin/components/layout/AdminHeader/AdminHea
 import { AdminLayout } from '@/features/admin/components/layout/AdminLayout';
 import AdminUsersTable from '@/features/admin/components/tables/AdminUsersTable/AdminUsersTable';
 import { useAdminUsers } from '@/features/admin/hooks/useAdminUsers';
+import { useAuth } from '@/features/auth/contexts/AuthContext';
+import { isSuperAdmin } from '@/features/auth/utils/roles';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function AdminUsersPage() {
-  const { users, isLoading, refetch, deleteUser } = useAdminUsers();
+  const router = useRouter();
+  const { user, isLoading: authLoading } = useAuth();
+  const allowed = isSuperAdmin(user);
+
+  const { users, isLoading, refetch, deleteUser } = useAdminUsers(
+    !authLoading && allowed,
+  );
+
+  useEffect(() => {
+    if (!authLoading && !allowed) {
+      router.replace('/dashboard');
+    }
+  }, [authLoading, allowed, router]);
 
   const handleRefresh = () => {
     refetch();
@@ -19,7 +35,7 @@ export default function AdminUsersPage() {
     }
   };
 
-  if (isLoading) {
+  if (authLoading || !allowed || isLoading) {
     return (
       <AdminLayout>
         <AdminLoadingSpinner />

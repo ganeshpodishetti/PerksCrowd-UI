@@ -53,7 +53,15 @@ const nextConfig: NextConfig = {
   // headers are applied to static assets via public/_headers (the OpenNext
   // static-asset pipeline honours that file). Mirroring them here preserves
   // the previous Netlify behaviour, where _headers applied to all responses.
+  // CSP allows inline scripts/styles because pages are prerendered at build
+  // time: a per-request nonce could never match that static HTML.
   async headers() {
+    // React dev mode uses eval() to reconstruct callstacks. Production never does.
+    const scriptSrc =
+      process.env.NODE_ENV === 'development'
+        ? "'self' 'unsafe-inline' 'unsafe-eval'"
+        : "'self' 'unsafe-inline'";
+
     const securityHeaders = [
       { key: 'X-Frame-Options', value: 'DENY' },
       { key: 'X-Content-Type-Options', value: 'nosniff' },
@@ -66,13 +74,11 @@ const nextConfig: NextConfig = {
       { key: 'Cross-Origin-Resource-Policy', value: 'same-origin' },
       {
         key: 'Content-Security-Policy',
-        value:
-          "default-src 'self'; script-src 'self' 'nonce-perkscrowd'; style-src 'self' 'nonce-perkscrowd' https://fonts.googleapis.com; img-src 'self' data: https: blob:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://api.perkscrowd.com https://ik.imagekit.io; frame-ancestors 'none'; frame-src 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests",
+        value: `default-src 'self'; script-src ${scriptSrc}; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https: blob:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://api.perkscrowd.com https://ik.imagekit.io; frame-ancestors 'none'; frame-src 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests`,
       },
       {
         key: 'Content-Security-Policy-Report-Only',
-        value:
-          "default-src 'self'; script-src 'self' 'nonce-perkscrowd'; style-src 'self' 'nonce-perkscrowd' https://fonts.googleapis.com; img-src 'self' data: https: blob:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://api.perkscrowd.com https://ik.imagekit.io; frame-ancestors 'none'; frame-src 'none'; base-uri 'self'; form-action 'self'; object-src 'none'",
+        value: `default-src 'self'; script-src ${scriptSrc}; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https: blob:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://api.perkscrowd.com https://ik.imagekit.io; frame-ancestors 'none'; frame-src 'none'; base-uri 'self'; form-action 'self'; object-src 'none'`,
       },
       {
         key: 'Strict-Transport-Security',

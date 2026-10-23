@@ -18,7 +18,7 @@ export default function AdminLayout({
   return (
     <AuthProvider>
       <UnreadDealsProvider>
-        <ProtectedRoute>
+        <ProtectedRoute requiredRoles={['Admin', 'SuperAdmin']}>
           {children}
         </ProtectedRoute>
       </UnreadDealsProvider>

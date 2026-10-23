@@ -32,13 +32,10 @@ const normalizeUniversity = (university: UniversityDto): University => ({
 export const universityService = {
   // Public endpoints - no authentication required
   async getUniversities(): Promise<University[]> {
-    try {
-      const data = await universitiesApi.getAll();
-      const universityData = data as UniversityDto[];
-      return Array.isArray(universityData) ? universityData.map(normalizeUniversity) : [];
-    } catch {
-      return [];
-    }
+    // Let errors reach callers so an outage is not shown as "no universities".
+    const data = await universitiesApi.getAll();
+    const universityData = data as UniversityDto[];
+    return Array.isArray(universityData) ? universityData.map(normalizeUniversity) : [];
   },
 
   async getUniversity(id: string): Promise<University> {
