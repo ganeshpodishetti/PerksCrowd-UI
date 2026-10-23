@@ -29,21 +29,11 @@ const Navigation: React.FC<NavigationProps> = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
   
   const pathname = usePathname();
   const router = useRouter();
 
   const isUniversityDealsRoute = /^\/universities\/[^/]+\/deals\/?$/.test(pathname || '');
-
-  // Handle scroll to add subtle differentiator
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -82,15 +72,15 @@ const Navigation: React.FC<NavigationProps> = () => {
   }
 
   return (
-    <header className={`bg-white dark:bg-neutral-950 sticky top-0 z-50 w-full transition-all duration-300 ${isScrolled ? 'border-b border-neutral-100 dark:border-neutral-900 shadow-sm' : 'border-b border-transparent'}`}>
+    <header className="bg-background sticky top-0 z-50 w-full">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
-        <div className="flex items-center h-16 md:h-24">
+        <div className="flex items-center h-16 md:h-20">
           
           {/* Left: Logo (Column 1) */}
           <div className="w-1/4 flex justify-start">
             <Link 
               href="/" 
-              className="flex items-center gap-2 group outline-none"
+              className="flex items-center gap-1 group rounded-md outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               onClick={closeMobileMenu}
             >
               <div className="relative">
@@ -119,7 +109,7 @@ const Navigation: React.FC<NavigationProps> = () => {
           <nav className="flex-1 hidden md:flex justify-center items-center gap-10">
             <Link 
               href="/deals"
-              className={`text-sm font-medium transition-all hover:text-brand-900 dark:hover:text-brand-100 relative py-1 ${
+              className={`text-sm font-medium transition-colors hover:text-brand-900 dark:hover:text-brand-100 relative py-1 ${
                 pathname === '/deals' 
                   ? 'text-brand-900 dark:text-brand-100 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-brand-500' 
                   : 'text-brand-500'
@@ -130,7 +120,7 @@ const Navigation: React.FC<NavigationProps> = () => {
             
             <Link 
               href="/universities" 
-              className={`text-sm font-medium transition-all hover:text-brand-900 dark:hover:text-brand-100 relative py-1 ${
+              className={`text-sm font-medium transition-colors hover:text-brand-900 dark:hover:text-brand-100 relative py-1 ${
                 pathname === '/universities' 
                   ? 'text-brand-900 dark:text-brand-100 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-brand-500' 
                   : 'text-brand-500'
@@ -145,18 +135,21 @@ const Navigation: React.FC<NavigationProps> = () => {
             <form onSubmit={handleSearch} className="relative group">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-brand-300 group-focus-within:text-brand-500 h-4 w-4 transition-colors" />
               <input
-                type="text"
-                placeholder="Search"
+                type="search"
+                aria-label="Search deals"
+                autoComplete="off"
+                spellCheck={false}
+                placeholder="Search deals…"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-9 pr-4 py-2 w-36 lg:w-44 text-sm focus:w-48 bg-neutral-50 dark:bg-neutral-900/50 border border-transparent rounded-full focus:outline-none focus:ring-1 focus:ring-brand-500/30 focus:bg-white dark:focus:bg-neutral-900 text-brand-900 dark:text-brand-100 placeholder-brand-300 transition-all font-medium"
+                className="pl-9 pr-4 py-2 w-36 lg:w-44 text-sm focus:w-48 bg-neutral-50 dark:bg-neutral-900/50 border border-transparent rounded-full focus:outline-none focus:ring-1 focus:ring-brand-500/30 focus:bg-white dark:focus:bg-neutral-900 text-brand-900 dark:text-brand-100 placeholder-brand-300 transition-[width,background-color,box-shadow] font-medium"
               />
             </form>
 
             <div className="flex items-center gap-3">
               <Link
                 href="/register"
-                className="px-6 py-2 text-sm font-bold text-brand-100 dark:text-brand-900 bg-brand-900 dark:bg-brand-100 rounded-full hover:shadow-xl transition-all"
+                className="px-6 py-2 text-sm font-bold text-brand-100 dark:text-brand-900 bg-brand-900 dark:bg-brand-100 rounded-full hover:shadow-xl transition-shadow"
               >
                 Join
               </Link>
@@ -170,14 +163,18 @@ const Navigation: React.FC<NavigationProps> = () => {
             <button
               type="button"
               onClick={() => setIsMobileSearchOpen(!isMobileSearchOpen)}
-              className="p-2 text-brand-700 dark:text-brand-300"
+              aria-label={isMobileSearchOpen ? 'Close search' : 'Open search'}
+              aria-expanded={isMobileSearchOpen}
+              className="rounded-md p-2 text-brand-700 dark:text-brand-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
             >
               <Search className="h-5 w-5" />
             </button>
             <ThemeToggle />
             <button
               type="button"
-              className="p-2 text-brand-900 dark:text-brand-100"
+              className="rounded-md p-2 text-brand-900 dark:text-brand-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
+              aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={isMobileMenuOpen}
               onClick={toggleMobileMenu}
             >
               {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -191,12 +188,14 @@ const Navigation: React.FC<NavigationProps> = () => {
              <form onSubmit={handleSearch} className="relative">
               <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-brand-300 h-5 w-5" />
               <input
-                type="text"
-                placeholder="Search deals..."
+                type="search"
+                aria-label="Search deals"
+                autoComplete="off"
+                spellCheck={false}
+                placeholder="Search deals…"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-12 pr-4 py-4 w-full text-sm font-medium bg-neutral-50 dark:bg-neutral-900 border-b border-brand-500 rounded-t-xl focus:outline-none text-brand-900 dark:text-brand-100"
-                autoFocus
               />
             </form>
           </div>
@@ -204,11 +203,11 @@ const Navigation: React.FC<NavigationProps> = () => {
 
         {/* Mobile Nav Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden py-8 space-y-6 animate-in fade-in slide-in-from-top-4 duration-300 bg-white dark:bg-neutral-950 absolute left-0 right-0 top-full border-b border-neutral-100 dark:border-neutral-900 shadow-xl px-6">
+          <div className="md:hidden py-8 space-y-6 animate-in fade-in slide-in-from-top-4 duration-300 bg-background absolute left-0 right-0 top-full border-b border-neutral-100 dark:border-neutral-900 shadow-xl px-6">
             <nav className="space-y-1">
               <Link 
                 href="/deals"
-                className={`flex items-center px-4 py-4 rounded-xl text-lg font-medium transition-all ${
+                className={`flex items-center px-4 py-4 rounded-xl text-lg font-medium transition-colors ${
                   pathname === '/deals'
                     ? 'text-brand-900 dark:text-brand-100 bg-neutral-50 dark:bg-neutral-900 font-bold' 
                     : 'text-brand-500'
@@ -221,7 +220,7 @@ const Navigation: React.FC<NavigationProps> = () => {
               
               <Link 
                 href="/universities" 
-                className={`flex items-center px-4 py-4 rounded-xl text-lg font-medium transition-all ${
+                className={`flex items-center px-4 py-4 rounded-xl text-lg font-medium transition-colors ${
                   pathname === '/universities' 
                     ? 'text-brand-900 dark:text-brand-100 bg-neutral-50 dark:bg-neutral-900 font-bold' 
                     : 'text-brand-500'

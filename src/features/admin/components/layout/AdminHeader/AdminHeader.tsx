@@ -8,6 +8,7 @@ interface AdminHeaderProps {
   description?: string;
   onCreateAction?: () => void;
   createButtonText?: string;
+  createIcon?: React.ComponentType<{ className?: string }>;
   onSearchDeals?: (term: string) => void;
 }
 
@@ -16,6 +17,7 @@ export default function AdminHeader({
   description,
   onCreateAction,
   createButtonText = "Create",
+  createIcon: CreateIcon = Plus,
   onSearchDeals
 }: AdminHeaderProps) {
   return (
@@ -37,7 +39,7 @@ export default function AdminHeader({
         <div className="flex items-center gap-3">
           {onSearchDeals && (
             <div className="hidden sm:block">
-              <AdminDealsSearchBar onSearch={onSearchDeals} placeholder="Search..." />
+              <AdminDealsSearchBar onSearch={onSearchDeals} placeholder="Search…" />
             </div>
           )}
           <ThemeToggle />
@@ -47,9 +49,9 @@ export default function AdminHeader({
               size="sm"
               className="gap-2"
             >
-              <Plus className="h-4 w-4" />
+              <CreateIcon className="h-4 w-4" />
               <span className="hidden sm:inline">{createButtonText}</span>
-              <span className="sm:hidden">New</span>
+              <span className="sm:hidden">{createButtonText}</span>
             </Button>
           )}
         </div>
@@ -58,7 +60,7 @@ export default function AdminHeader({
       {/* Mobile search */}
       {onSearchDeals && (
         <div className="mt-4 sm:hidden">
-          <AdminDealsSearchBar onSearch={onSearchDeals} placeholder="Search..." />
+          <AdminDealsSearchBar onSearch={onSearchDeals} placeholder="Search…" />
         </div>
       )}
     </div>

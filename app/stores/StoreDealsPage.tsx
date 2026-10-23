@@ -44,7 +44,7 @@ const StoreDealsPage: React.FC = () => {
 
   if (error) {
     return (
-      <div className="container mx-auto p-4">
+      <div className="w-full max-w-7xl mx-auto px-6 md:px-8">
         <Button
           variant="outline"
           onClick={() => router.push('/stores')}
@@ -55,7 +55,7 @@ const StoreDealsPage: React.FC = () => {
         </Button>
         <div className="text-center py-8">
           <h2 className="text-2xl font-bold text-red-600 mb-2">Error</h2>
-          <p className="text-gray-600">Failed to load deals for this brand</p>
+          <p className="text-muted-foreground">Failed to load deals for this brand</p>
         </div>
       </div>
     );
@@ -63,7 +63,7 @@ const StoreDealsPage: React.FC = () => {
 
   return (
     <div className="w-full min-h-screen bg-background dark:bg-background transition-colors">
-      <div className="container mx-auto p-4" style={{ maxWidth: '80%'}}>
+      <div className="w-full max-w-7xl mx-auto px-6 md:px-8">
         {/* Back button */}
         <Button
           variant="outline"

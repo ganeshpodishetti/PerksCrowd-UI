@@ -72,7 +72,7 @@ export function FormModal<T>({
               Cancel
             </Button>
             <Button type="submit" disabled={isLoading}>
-              {isLoading ? 'Saving...' : submitText}
+              {isLoading ? 'Saving…' : submitText}
             </Button>
           </DialogFooter>
         </form>

@@ -34,7 +34,7 @@ export default function CategoryStoreSelection({ formData, setFormData, deal }: 
           value={formData.categoryName}
           onValueChange={(value) => setFormData(prev => ({ ...prev, categoryName: value }))}
           placeholder="Select category"
-          searchPlaceholder="Search categories..."
+          searchPlaceholder="Search categories…"
           emptyText="No categories found."
           allowCustom={false}
         />
@@ -47,7 +47,7 @@ export default function CategoryStoreSelection({ formData, setFormData, deal }: 
           value={formData.storeName}
           onValueChange={(value) => setFormData(prev => ({ ...prev, storeName: value }))}
           placeholder={deal ? "Select store" : "Select or create store"}
-          searchPlaceholder="Search stores..."
+          searchPlaceholder="Search stores…"
           emptyText={deal ? "No stores found." : "No stores found. Type to create new."}
           customText="Create store"
           allowCustom={!deal}

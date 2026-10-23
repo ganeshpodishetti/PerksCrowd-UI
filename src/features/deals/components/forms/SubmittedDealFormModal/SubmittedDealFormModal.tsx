@@ -152,7 +152,7 @@ export default function SubmittedDealFormModal({ isOpen, onClose, onSuccess }: S
               Cancel
             </Button>
             <Button type="submit" disabled={isLoading}>
-              {isLoading ? 'Submitting...' : 'Submit Deal'}
+              {isLoading ? 'Submitting…' : 'Submit Deal'}
             </Button>
           </DialogFooter>
         </form>

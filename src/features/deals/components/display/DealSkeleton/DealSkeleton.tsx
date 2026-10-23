@@ -38,7 +38,7 @@ const DealSkeleton: React.FC<DealSkeletonProps> = ({ count = 9 }) => {
         {Array(count).fill(0).map((_, index) => (
           <Card
             key={index}
-            className="relative overflow-hidden flex flex-col group transition-all duration-300 border border-neutral-100 dark:border-neutral-800 bg-white dark:bg-neutral-900 rounded-2xl p-6 h-full cursor-pointer touch-manipulation"
+            className="relative overflow-hidden flex flex-col group border border-neutral-100 dark:border-neutral-800 bg-card rounded-2xl p-6 h-full cursor-pointer touch-manipulation"
           >
             {/* Status indicators - positioned as subtle overlays */}
             <div className="absolute top-7 right-7 flex gap-2 z-10">
@@ -54,7 +54,7 @@ const DealSkeleton: React.FC<DealSkeletonProps> = ({ count = 9 }) => {
 
             {/* Header with Icon */}
             <div className="flex items-center gap-4 mb-3">
-              <div className="w-16 h-16 flex items-center justify-center overflow-hidden transition-all duration-300 rounded-md bg-neutral-100 dark:bg-neutral-900">
+              <div className="w-16 h-16 flex items-center justify-center overflow-hidden rounded-md bg-neutral-100 dark:bg-neutral-900">
                 <Skeleton className="w-12 h-12 bg-neutral-200 dark:bg-neutral-800" />
               </div>
               <div className="flex-1 min-w-0 flex flex-col justify-center">

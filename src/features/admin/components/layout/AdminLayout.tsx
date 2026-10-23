@@ -28,7 +28,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
       {/* Main content */}
       <div
         className={cn(
-          "min-h-screen transition-all duration-300",
+          "min-h-screen transition-[margin,width] duration-300",
           isCollapsed ? "lg:pl-[68px]" : "lg:pl-64"
         )}
       >

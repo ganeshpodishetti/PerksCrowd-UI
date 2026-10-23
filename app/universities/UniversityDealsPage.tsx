@@ -56,7 +56,7 @@ const UniversityDealsPage: React.FC = () => {
 
   if (hasError || !university) {
     return (
-      <div className="container mx-auto p-4">
+      <div className="w-full max-w-7xl mx-auto px-6 md:px-8">
         <Button
           variant="outline"
           onClick={() => router.push('/universities')}
@@ -67,7 +67,7 @@ const UniversityDealsPage: React.FC = () => {
         </Button>
         <div className="text-center py-8">
           <h2 className="text-2xl font-bold text-red-600 mb-2">Error</h2>
-          <p className="text-gray-600">
+          <p className="text-muted-foreground">
             {universityError 
               ? 'Failed to load university details' 
               : dealsError 
@@ -141,7 +141,7 @@ const UniversityDealsPage: React.FC = () => {
           </div>
 
           {deals.length === 0 ? (
-            <div className="text-center py-20 md:py-32 bg-brand-50/30 dark:bg-brand-900/10 rounded-3xl border border-dashed border-brand-300 dark:border-brand-800">
+            <div className="text-center py-20 md:py-32 bg-brand-100/30 dark:bg-brand-900/10 rounded-3xl border border-dashed border-brand-300 dark:border-brand-700">
               <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-brand-100 dark:bg-brand-900 mb-6">
                 <span className="text-3xl">🎓</span>
               </div>

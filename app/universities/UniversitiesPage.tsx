@@ -6,7 +6,7 @@ import { Skeleton } from "@/shared/components/ui/skeleton";
 import { useToast } from "@/shared/components/ui/use-toast";
 import { browserConsole } from '@/shared/utils/runtimeSafety';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
 const UniversitiesPage: React.FC = () => {
@@ -14,7 +14,6 @@ const UniversitiesPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
-  const router = useRouter();
 
   useEffect(() => {
     const loadUniversities = async () => {
@@ -39,10 +38,6 @@ const UniversitiesPage: React.FC = () => {
     loadUniversities();
   }, [toast]);
 
-  const handleUniversitySelect = (universityId: string) => {
-    router.push(`/universities/${universityId}/deals`);
-  };
-
   const getLocation = (university: University) => {
     const parts = [university.city, university.state, university.country].filter(Boolean);
     return parts.join(', ') || '';
@@ -51,8 +46,7 @@ const UniversitiesPage: React.FC = () => {
   if (loading) {
     return (
       <div className="py-8 bg-background dark:bg-background transition-colors">
-        <div className="container mx-auto px-6 md:px-8">
-          <div className="max-w-6xl mx-auto">
+        <div className="w-full">
             <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-3">
               {[...Array(8)].map((_, index) => (
                 <Card key={index} className="p-3 sm:p-4">
@@ -67,17 +61,16 @@ const UniversitiesPage: React.FC = () => {
               ))}
             </div>
           </div>
-        </div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="container mx-auto p-4">
+      <div className="w-full">
         <div className="text-center py-8">
           <h2 className="text-2xl font-bold text-red-600 mb-2">Error</h2>
-          <p className="text-gray-600">{error}</p>
+          <p className="text-muted-foreground">{error}</p>
         </div>
       </div>
     );
@@ -108,10 +101,13 @@ const UniversitiesPage: React.FC = () => {
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
           {universities.map((university) => (
-            <Card
+            <Link
               key={university.id}
-              onClick={() => handleUniversitySelect(university.id)}
-              className="group hover:shadow-lg hover:-translate-y-1 active:scale-[0.98] transition-all duration-300 border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 rounded-2xl p-4 sm:p-5 cursor-pointer hover:border-brand-300 dark:hover:border-brand-700 shadow-sm"
+              href={`/universities/${university.id}/deals`}
+              className="group block rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            >
+            <Card
+              className="h-full group hover:shadow-lg hover:-translate-y-1 active:scale-[0.98] transition-[transform,box-shadow] duration-300 border border-neutral-200 dark:border-neutral-800 bg-card rounded-2xl p-4 sm:p-5 hover:border-brand-300 dark:hover:border-brand-700 shadow-sm"
             >
               <div className="flex items-center gap-3 sm:gap-4">
                 <div className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center overflow-hidden rounded-xl bg-brand-100/50 dark:bg-brand-900/50 shrink-0 border border-brand-100 dark:border-brand-900">
@@ -150,6 +146,7 @@ const UniversitiesPage: React.FC = () => {
                 </div>
               </div>
             </Card>
+            </Link>
           ))}
         </div>
       )}

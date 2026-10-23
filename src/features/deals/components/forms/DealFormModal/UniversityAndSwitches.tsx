@@ -35,7 +35,7 @@ export default function UniversityAndSwitches({
           value={formData.universityName || ''}
           onValueChange={(value) => setFormData(prev => ({ ...prev, universityName: value }))}
           placeholder={deal ? "Select university" : "Select or create university"}
-          searchPlaceholder="Search universities..."
+          searchPlaceholder="Search universities…"
           emptyText={deal ? "No universities found." : "No universities found. Type to create new."}
           customText="Create university"
           allowCustom={!deal}

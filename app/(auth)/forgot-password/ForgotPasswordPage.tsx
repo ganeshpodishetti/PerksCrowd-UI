@@ -99,7 +99,7 @@ export default function ForgotPasswordPage() {
         <Card className="border-neutral-200 dark:border-neutral-800 shadow-lg">
           <CardHeader className="space-y-1">
             <div className="flex justify-center mb-4">
-              <Mail className="h-16 w-16 text-blue-500" />
+              <Mail className="h-16 w-16 text-brand-500" />
             </div>
             <CardTitle className="text-2xl text-center">
               Forgot Password?
@@ -129,7 +129,7 @@ export default function ForgotPasswordPage() {
                 />
               </div>
 
-              <div className="text-xs text-neutral-600 dark:text-neutral-400 bg-blue-50 dark:bg-blue-950/20 p-3 rounded-md border border-blue-200 dark:border-blue-800">
+              <div className="text-xs text-neutral-600 dark:text-neutral-400 bg-brand-100/40 dark:bg-brand-900/20 p-3 rounded-md border border-brand-300 dark:border-brand-700">
                 <p className="font-medium mb-1">🔒 Password Reset</p>
                 <p>For security reasons, we&apos;ll send a password reset link to your email if an account exists. The link will expire after a certain period.</p>
               </div>
@@ -140,7 +140,7 @@ export default function ForgotPasswordPage() {
                 className="w-full"
                 size="lg"
               >
-                {isLoading ? 'Sending...' : 'Send Reset Link'}
+                {isLoading ? 'Sending…' : 'Send Reset Link'}
               </Button>
             </CardContent>
 
