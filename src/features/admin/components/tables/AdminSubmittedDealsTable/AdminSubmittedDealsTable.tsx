@@ -1,6 +1,7 @@
 import { ColumnDef } from '@/shared/components/data-display/DataTable';
 import { Button } from '@/shared/components/ui/button';
 import { SubmittedDeal } from '@/shared/types/entities/submittedDeal';
+import { getSafeExternalUrl } from '@/shared/utils/safeUrl';
 import { CheckCircle, ExternalLink, Trash2, XCircle } from 'lucide-react';
 
 interface AdminSubmittedDealsTableProps {
@@ -34,28 +35,33 @@ export default function AdminSubmittedDealsTable({ deals, onMarkAsRead, onDelete
     {
       key: 'url',
       header: 'URL',
-      render: (_, deal) => (
-        <div className="flex items-center gap-2">
-          <span className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 truncate max-w-xs">
-            {deal.url}
-          </span>
-          <Button
-            variant="outline"
-            size="sm"
-            asChild
-            className="h-8 w-8 p-0"
-          >
-            <a
-              href={deal.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Open submitted deal in a new tab"
-            >
-              <ExternalLink className="h-4 w-4" />
-            </a>
-          </Button>
-        </div>
-      ),
+      render: (_, deal) => {
+        const safeUrl = getSafeExternalUrl(deal.url);
+        return (
+          <div className="flex items-center gap-2">
+            <span className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 truncate max-w-xs">
+              {deal.url}
+            </span>
+            {safeUrl && (
+              <Button
+                variant="outline"
+                size="sm"
+                asChild
+                className="h-8 w-8 p-0"
+              >
+                <a
+                  href={safeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Open submitted deal in a new tab"
+                >
+                  <ExternalLink className="h-4 w-4" />
+                </a>
+              </Button>
+            )}
+          </div>
+        );
+      },
       className: 'text-xs sm:text-sm font-medium text-neutral-500 dark:text-neutral-400 uppercase tracking-wider'
     },
     {

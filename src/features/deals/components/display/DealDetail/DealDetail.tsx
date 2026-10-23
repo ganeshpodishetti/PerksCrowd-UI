@@ -16,6 +16,7 @@ import {
     getDaysRemaining 
 } from "@/features/deals/utils/dealFormatting";
 import { Deal } from '@/shared/types';
+import { getSafeExternalUrl } from '@/shared/utils/safeUrl';
 import { Calendar, Copy, ExternalLink, Info, MapPin, School, Tag } from 'lucide-react';
 import React from 'react';
 import DealInfoBox from './DealInfoBox';
@@ -30,7 +31,7 @@ interface DealDetailProps {
 
 const DealDetail: React.FC<DealDetailProps> = ({ deal, trigger, onView, onClick, onRedeem }) => {
   const { toast } = useToast();
-  const dealUrl = deal.url?.trim();
+  const dealUrl = getSafeExternalUrl(deal.url);
 
   const daysRemaining = getDaysRemaining(deal.endDate);
   

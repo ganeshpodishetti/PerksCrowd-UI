@@ -123,6 +123,8 @@ export default function SubmittedDealFormModal({ isOpen, onClose, onSuccess }: S
               id="url"
               name="url"
               type="url"
+              pattern="https?://.+"
+              title="Enter a URL starting with http:// or https://"
               value={formData.url}
               onChange={handleInputChange}
               placeholder="https://example.com/student-deal"

@@ -99,6 +99,8 @@ export default function StoreForm({ store, onSave, title, description }: StoreFo
                 id="website"
                 name="website"
                 type="url"
+                pattern="https?://.+"
+                title="Enter a URL starting with http:// or https://"
                 value={formData.website}
                 onChange={handleInputChange}
                 placeholder="https://example.com"
@@ -111,6 +113,8 @@ export default function StoreForm({ store, onSave, title, description }: StoreFo
                 id="logoUrl"
                 name="logoUrl"
                 type="url"
+                pattern="https?://.+"
+                title="Enter a URL starting with http:// or https://"
                 value={formData.logoUrl}
                 onChange={handleInputChange}
                 placeholder="https://example.com/logo.png"
