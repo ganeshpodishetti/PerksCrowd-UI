@@ -2,7 +2,7 @@
 
 import { cn } from '@/lib/utils';
 import NextImage from 'next/image';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 interface StoreLogoAvatarProps {
   name?: string;
@@ -47,11 +47,14 @@ const StoreLogoAvatar: React.FC<StoreLogoAvatarProps> = ({
   testIdPrefix,
 }) => {
   const [imageError, setImageError] = useState(false);
+  const [lastLogoUrl, setLastLogoUrl] = useState(logoUrl);
   const initial = useMemo(() => getInitial(name, fallbackName), [name, fallbackName]);
 
-  useEffect(() => {
+  // Reset a previous load error during render when the URL changes.
+  if (lastLogoUrl !== logoUrl) {
+    setLastLogoUrl(logoUrl);
     setImageError(false);
-  }, [logoUrl]);
+  }
 
   const showImage = Boolean(logoUrl && !imageError && !looksLikePlaceholderLogo(logoUrl));
   const imageFitClass = fitMode === 'fit' ? 'object-contain' : 'object-cover';

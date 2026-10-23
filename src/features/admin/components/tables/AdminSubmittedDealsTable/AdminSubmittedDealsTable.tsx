@@ -9,17 +9,17 @@ interface AdminSubmittedDealsTableProps {
   onDelete: (id: string) => void;
 }
 
-export default function AdminSubmittedDealsTable({ deals, onMarkAsRead, onDelete }: AdminSubmittedDealsTableProps) {
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    });
-  };
+const dateFormatter = new Intl.DateTimeFormat('en-US', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+  hour: '2-digit',
+  minute: '2-digit',
+});
 
+const formatDate = (dateString: string) => dateFormatter.format(new Date(dateString));
+
+export default function AdminSubmittedDealsTable({ deals, onMarkAsRead, onDelete }: AdminSubmittedDealsTableProps) {
   const columns: ColumnDef<SubmittedDeal>[] = [
     {
       key: 'name',

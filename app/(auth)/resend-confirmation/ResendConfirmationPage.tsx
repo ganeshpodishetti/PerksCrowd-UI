@@ -7,22 +7,15 @@ import { useToast } from '@/shared/components/ui/use-toast';
 import { CheckCircle2, Mail } from 'lucide-react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export default function ResendConfirmationPage() {
   const searchParams = useSearchParams();
-  const [email, setEmail] = useState('');
+  // Route params are already decoded; decoding again throws on names with "%".
+  const [email, setEmail] = useState(() => searchParams.get('email') ?? '');
   const [isLoading, setIsLoading] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
   const { toast } = useToast();
-
-  // Pre-fill email from query parameter if provided
-  useEffect(() => {
-    const emailParam = searchParams.get('email');
-    if (emailParam) {
-      setEmail(decodeURIComponent(emailParam));
-    }
-  }, [searchParams]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

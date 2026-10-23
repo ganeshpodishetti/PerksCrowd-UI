@@ -33,22 +33,24 @@ export function useLocalStorage<T>(
   // Return a wrapped version of useState's setter function that persists the new value to localStorage
   const setValue = useCallback(
     (value: T | ((val: T) => T)) => {
-      try {
-        // Allow value to be a function so we have the same API as useState
-        const valueToStore = value instanceof Function ? value(storedValue) : value;
-        
-        // Save state
-        setStoredValue(valueToStore);
-        
-        // Save to local storage
-        if (typeof window !== 'undefined') {
-          window.localStorage.setItem(key, JSON.stringify(valueToStore));
+      // Read the previous value inside the updater so back-to-back updates in
+      // the same tick (e.g. two addRecentDeal calls) don't overwrite each other.
+      setStoredValue((previous) => {
+        try {
+          const valueToStore = value instanceof Function ? value(previous) : value;
+
+          if (typeof window !== 'undefined') {
+            window.localStorage.setItem(key, JSON.stringify(valueToStore));
+          }
+
+          return valueToStore;
+        } catch (error) {
+          browserConsole.warn(`Error setting localStorage key "${key}":`, error);
+          return previous;
         }
-      } catch (error) {
-        browserConsole.warn(`Error setting localStorage key "${key}":`, error);
-      }
+      });
     },
-    [key, storedValue]
+    [key]
   );
 
   // Remove from localStorage

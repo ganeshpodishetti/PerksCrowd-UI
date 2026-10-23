@@ -41,7 +41,8 @@ export const useSearchDeals = (): UseSearchDealsResult => {
       const params = searchParamsRef.current;
       return dealService.searchDeals({ query: params.query });
     },
-    enabled: true,
+    // Don't fire a blank search on mount; wait for the first real search.
+    enabled: hasSearched,
     staleTime: 5 * 60 * 1000,
   });
 

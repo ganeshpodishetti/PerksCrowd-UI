@@ -3,7 +3,7 @@ import { useUnreadDealsCount } from '@/features/deals/hooks/useUnreadDealsCount'
 import { submittedDealService } from '@/features/deals/services/submittedDealService';
 import { useErrorHandler } from '@/shared/contexts/ErrorContext';
 import type { SubmittedDealResponse } from '@/shared/types/api/responses';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 export const useAdminSubmittedDeals = () => {
   const [deals, setDeals] = useState<SubmittedDealResponse[]>([]);
@@ -82,12 +82,18 @@ export const useAdminSubmittedDeals = () => {
     }
   };
 
-  // Get stats
-  const stats = {
-    total: deals.length,
-    unread: deals.filter(deal => !deal.markedAsRead).length,
-    read: deals.filter(deal => deal.markedAsRead).length,
-  };
+  // Get stats in one pass over the list.
+  const stats = useMemo(() => {
+    let unread = 0;
+    for (const deal of deals) {
+      if (!deal.markedAsRead) unread += 1;
+    }
+    return {
+      total: deals.length,
+      unread,
+      read: deals.length - unread,
+    };
+  }, [deals]);
 
   return {
     deals,

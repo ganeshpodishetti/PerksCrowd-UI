@@ -3,6 +3,7 @@ import { Combobox } from '@/shared/components/ui/combobox';
 import { Label } from '@/shared/components/ui/label';
 import { Switch } from '@/shared/components/ui/switch';
 import { Deal } from '@/shared/types/entities/deal';
+import { useMemo } from 'react';
 import { FormData } from './types';
 
 interface UniversityAndSwitchesProps {
@@ -20,12 +21,17 @@ export default function UniversityAndSwitches({
 }: UniversityAndSwitchesProps) {
   const { data: universities = [] } = useUniversitiesQuery();
 
+  const universityOptions = useMemo(
+    () => universities.map((uni) => ({ value: uni.name, label: uni.name })),
+    [universities],
+  );
+
   return (
     <>
       <div>
         <Label htmlFor="universityName">University (Optional)</Label>
         <Combobox
-          options={universities.map(uni => ({ value: uni.name, label: uni.name }))}
+          options={universityOptions}
           value={formData.universityName || ''}
           onValueChange={(value) => setFormData(prev => ({ ...prev, universityName: value }))}
           placeholder={deal ? "Select university" : "Select or create university"}

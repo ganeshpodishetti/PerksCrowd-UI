@@ -177,6 +177,13 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <script
+          id="theme-init"
+          // Applies the stored/system theme before first paint to avoid a light flash.
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('theme');var d=t?t==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.classList.toggle('dark',d);if(!t&&d){localStorage.setItem('theme','dark')}}catch(e){}})();`,
+          }}
+        />
+        <script
           type="application/ld+json"
           // Structured data helps search engines understand the brand and on-site search.
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}

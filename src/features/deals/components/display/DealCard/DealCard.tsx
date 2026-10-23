@@ -15,33 +15,35 @@ interface DealCardProps {
   showCategoryAndStore?: boolean;
 }
 
+// Calculate days remaining if end date exists
+const getDaysRemaining = (endDate?: string | null): number | null => {
+  // Check for null, undefined, empty string, or placeholder text
+  if (!endDate || endDate === 'No date specified' || endDate === '') {
+    return null;
+  }
+
+  try {
+    const parsedEndDate = new Date(endDate);
+    // Check if the date is valid
+    if (isNaN(parsedEndDate.getTime())) return null;
+
+    const diffTime = parsedEndDate.getTime() - Date.now();
+    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  } catch {
+    return null;
+  }
+};
+
 const DealCard: React.FC<DealCardProps> = memo((props) => {
   const { deal, compact = false, showCategoryAndStore = true } = props;
   const showUniversityInfo = props.showUniversityInfo ?? false;
   const dealUrl = deal.url?.trim();
   const { trackDealClick, trackDealRedeem, trackDealView } = useDealInteractionTracker();
 
-  // Calculate days remaining if end date exists
-  const getDaysRemaining = () => {
-    // Check for null, undefined, empty string, or placeholder text
-    if (!deal.endDate || deal.endDate === 'No date specified' || deal.endDate === '') {
-      return null;
-    }
-    
-    try {
-      const endDate = new Date(deal.endDate);
-      // Check if the date is valid
-      if (isNaN(endDate.getTime())) return null;
-      
-      const now = new Date();
-      const diffTime = endDate.getTime() - now.getTime();
-      return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    } catch {
-      return null;
-    }
-  };
-
-  const daysRemaining = getDaysRemaining();
+  const daysRemaining = React.useMemo(
+    () => getDaysRemaining(deal.endDate),
+    [deal.endDate],
+  );
   // Only show expired if we have a valid end date AND it's in the past
   const isExpired = daysRemaining !== null && daysRemaining < 0;
   // Only show expiring if we have a valid end date AND it's within 7 days
