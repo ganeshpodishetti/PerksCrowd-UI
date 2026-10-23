@@ -5,14 +5,16 @@ import { Badge } from "@/shared/components/ui/badge";
 import { Card } from "@/shared/components/ui/card";
 import { Deal } from '@/shared/types';
 import { Clock, ExternalLink } from 'lucide-react';
-import React, { memo } from 'react';
+import React, { memo, ReactNode } from 'react';
 import DealDetail from '../DealDetail/DealDetail';
 
 interface DealCardProps {
   deal: Deal;
-  showUniversityInfo?: boolean;
-  compact?: boolean;
-  showCategoryAndStore?: boolean;
+  /**
+   * Replaces the category/store footer. Pass `null` to omit it entirely
+   * (see StoreDealCard, where the store name would be redundant).
+   */
+  footer?: ReactNode;
 }
 
 // Calculate days remaining if end date exists
@@ -35,8 +37,7 @@ const getDaysRemaining = (endDate?: string | null): number | null => {
 };
 
 const DealCard: React.FC<DealCardProps> = memo((props) => {
-  const { deal, compact = false, showCategoryAndStore = true } = props;
-  const showUniversityInfo = props.showUniversityInfo ?? false;
+  const { deal, footer } = props;
   const dealUrl = deal.url?.trim();
   const { trackDealClick, trackDealRedeem, trackDealView } = useDealInteractionTracker();
 
@@ -50,7 +51,7 @@ const DealCard: React.FC<DealCardProps> = memo((props) => {
   const isExpiring = daysRemaining !== null && daysRemaining <= 7 && daysRemaining > 0;
 
   const cardContent = (
-    <Card className={`relative overflow-hidden flex flex-col group hover:shadow-lg hover:-translate-y-1 active:scale-[0.98] active:shadow-md transition-all duration-300 border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 rounded-2xl p-3 sm:p-4 ${compact ? 'sm:p-4' : 'sm:p-5'} ${isExpired ? 'opacity-70' : ''} h-full cursor-pointer hover:border-brand-300 dark:hover:border-brand-700 touch-manipulation`}>
+    <Card className={`relative overflow-hidden flex flex-col group hover:shadow-lg hover:-translate-y-1 active:scale-[0.98] active:shadow-md transition-all duration-300 border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 rounded-2xl p-3 sm:p-5 ${isExpired ? 'opacity-70' : ''} h-full cursor-pointer hover:border-brand-300 dark:hover:border-brand-700 touch-manipulation`}>
       {/* Header with Title */}
       <div className="flex items-center gap-3 sm:gap-4 mb-2 sm:mb-3">
         <StoreLogoAvatar
@@ -61,7 +62,7 @@ const DealCard: React.FC<DealCardProps> = memo((props) => {
         />
         {/* Deal Title and Discount */}
         <div className="flex-1 min-w-0 flex flex-col justify-center">
-          <h3 className={`text-sm ${compact ? 'sm:text-sm' : 'sm:text-base'} font-medium text-brand-900 dark:text-brand-300 leading-tight group-hover:text-brand-700 dark:group-hover:text-brand-500 transition-colors duration-300 line-clamp-2`}>
+          <h3 className="text-sm sm:text-base font-medium text-brand-900 dark:text-brand-300 leading-tight group-hover:text-brand-700 dark:group-hover:text-brand-500 transition-colors duration-300 line-clamp-2">
             {deal.title}
           </h3>
           {deal.discount && (
@@ -95,8 +96,8 @@ const DealCard: React.FC<DealCardProps> = memo((props) => {
         </div>
       )}
       
-      {/* Footer with Tags and Link */}
-      {showCategoryAndStore && (
+      {/* Footer with Tags and Link (variants can replace it) */}
+      {footer === undefined ? (
         <div className="flex items-center justify-between mt-auto pt-2 border-t border-neutral-200 dark:border-neutral-800">
           <div className="flex items-center flex-wrap gap-2 sm:gap-3">
             <span className="text-[10px] sm:text-xs font-medium text-brand-700 dark:text-brand-300">
@@ -106,14 +107,6 @@ const DealCard: React.FC<DealCardProps> = memo((props) => {
             <span className="text-[10px] sm:text-xs font-medium text-brand-700 dark:text-brand-300">
               {deal.storeName}
             </span>
-            {showUniversityInfo && deal.universityName && (
-              <>
-                <span className="text-[10px] sm:text-xs text-brand-300 dark:text-brand-700">•</span>
-                <span className="text-[10px] sm:text-xs font-medium text-brand-700 dark:text-brand-300">
-                  {deal.universityName}
-                </span>
-              </>
-            )}
           </div>
           {dealUrl ? (
             <a
@@ -131,7 +124,7 @@ const DealCard: React.FC<DealCardProps> = memo((props) => {
             </a>
           ) : null}
         </div>
-      )}
+      ) : footer}
     </Card>
   );
 
@@ -147,5 +140,15 @@ const DealCard: React.FC<DealCardProps> = memo((props) => {
 });
 
 DealCard.displayName = 'DealCard';
+
+/**
+ * Store page variant: the store name and category are already the page context,
+ * so the card omits its meta footer.
+ */
+export const StoreDealCard: React.FC<{ deal: Deal }> = ({ deal }) => (
+  <DealCard deal={deal} footer={null} />
+);
+
+StoreDealCard.displayName = 'StoreDealCard';
 
 export default DealCard;

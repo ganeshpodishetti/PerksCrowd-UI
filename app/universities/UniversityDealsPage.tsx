@@ -159,8 +159,6 @@ const UniversityDealsPage: React.FC = () => {
                 <DealCard
                   key={deal.id}
                   deal={deal}
-                  showUniversityInfo={false}
-                  showCategoryAndStore={true}
                 />
               ))}
             </div>

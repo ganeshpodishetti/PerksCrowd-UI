@@ -1,6 +1,6 @@
 // Store Deals Page
 'use client'
-import DealCard from '@/features/deals/components/display/DealCard/DealCard';
+import { StoreDealCard } from '@/features/deals/components/display/DealCard/DealCard';
 import { useDealsByStoreQuery } from '@/features/deals/hooks/useDealsQuery';
 import { Button } from '@/shared/components/ui/button';
 import { Skeleton } from '@/shared/components/ui/skeleton';
@@ -97,7 +97,7 @@ const StoreDealsPage: React.FC = () => {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {deals.map((deal) => (
-              <DealCard key={deal.id} deal={deal} showCategoryAndStore={false} />
+              <StoreDealCard key={deal.id} deal={deal} />
             ))}
           </div>
         )}
