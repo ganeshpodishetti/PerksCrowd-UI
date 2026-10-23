@@ -1,7 +1,7 @@
 import { Deal } from '@/shared/types/entities/deal';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-interface SortOption {
+export interface SortOption {
   label: string;
   value: keyof Deal | null;
   direction: 'asc' | 'desc';

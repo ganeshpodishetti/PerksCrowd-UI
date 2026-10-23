@@ -1,6 +1,6 @@
 'use client'
 import React from 'react';
-import { DealsContainer } from './DealList/DealsContainer';
+import { Deals } from './DealList/Deals';
 
 interface DealListProps {
   initialCategory?: string;
@@ -8,14 +8,18 @@ interface DealListProps {
 }
 
 const DealList: React.FC<DealListProps> = ({ initialCategory, initialStore }) => {
-  const showHeroSection = !initialCategory && !initialStore;
+  // The marketing hero only makes sense on the unfiltered catalogue.
+  const showHero = !initialCategory && !initialStore;
 
   return (
-    <DealsContainer
-      initialCategory={initialCategory}
-      initialStore={initialStore}
-      showHeroSection={showHeroSection}
-    />
+    <Deals initialCategory={initialCategory} initialStore={initialStore}>
+      <Deals.Status />
+      {showHero && <Deals.Hero />}
+      <Deals.SearchResults />
+      <Deals.Filters />
+      <Deals.Grid />
+      <Deals.LoadMore />
+    </Deals>
   );
 };
 

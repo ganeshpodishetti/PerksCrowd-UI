@@ -1,7 +1,7 @@
 'use client'
 
 import { Category, fetchCategories } from '@/features/categories/services/categoryService'
-import { DealsContainer } from '@/features/deals/components/display/DealList/DealsContainer'
+import { Deals } from '@/features/deals/components/display/DealList/Deals'
 import Navigation from '@/shared/components/layout/Navigation/Navigation'
 import { useToast } from '@/shared/components/ui/use-toast'
 import type { FeedType } from '@/shared/types/api/responses'
@@ -138,30 +138,29 @@ export function HomePageClient({ sectionedFeeds = false }: HomePageClientProps) 
                            {section.title}
                          </h2>
                        </div>
-                       <DealsContainer
+                       <Deals
                          excludeUniversitySpecific={true}
                          initialCategory={selectedCategory}
-                         showHeroSection={false}
-                         showFilters={false}
-                         showLoadMore={false}
                          feedType={section.feedType}
-                         showStatusHeader={false}
                          key={`${section.feedType}-${selectedCategory || 'all'}`}
-                       />
+                       >
+                         <Deals.Grid />
+                       </Deals>
                      </section>
                    ))}
                  </div>
                ) : (
-                <DealsContainer
+                <Deals
                   excludeUniversitySpecific={true}
                   initialCategory={selectedCategory}
                   initialSearchQuery={searchQuery}
-                  showHeroSection={false}
-                  showFilters={false}
-                  useFeedApis={false}
-                  showLoadMore={true}
                   key={`${selectedCategory}-${searchQuery}`}
-                />
+                >
+                  <Deals.Status />
+                  <Deals.SearchResults />
+                  <Deals.Grid />
+                  <Deals.LoadMore />
+                </Deals>
               )}
             </div>
           </div>
