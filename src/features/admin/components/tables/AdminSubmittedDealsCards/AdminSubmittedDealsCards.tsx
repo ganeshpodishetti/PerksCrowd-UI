@@ -1,6 +1,7 @@
 import { Button } from '@/shared/components/ui/button';
 import { Card, CardContent } from '@/shared/components/ui/card';
 import { SubmittedDeal } from '@/shared/types/entities/submittedDeal';
+import { getSafeExternalUrl } from '@/shared/utils/safeUrl';
 import { CheckCircle, ExternalLink, Trash2, XCircle } from 'lucide-react';
 
 interface AdminSubmittedDealsCardsProps {
@@ -30,7 +31,9 @@ export default function AdminSubmittedDealsCards({ deals, onMarkAsRead, onDelete
 
   return (
     <div className="grid gap-3 sm:gap-4">
-      {deals.map((deal) => (
+      {deals.map((deal) => {
+        const safeUrl = getSafeExternalUrl(deal.url);
+        return (
         <Card key={deal.id} className="hover:shadow-md transition-shadow">
           <CardContent className="p-3 sm:p-4">
             <div className="flex items-start justify-between">
@@ -42,21 +45,23 @@ export default function AdminSubmittedDealsCards({ deals, onMarkAsRead, onDelete
                   <span className="text-xs text-neutral-500 dark:text-neutral-400 truncate max-w-xs">
                     {deal.url}
                   </span>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    asChild
-                    className="h-8 w-8 p-0 flex-shrink-0"
-                  >
-                    <a
-                      href={deal.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label="Open submitted deal in a new tab"
+                  {safeUrl && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      asChild
+                      className="h-8 w-8 p-0 flex-shrink-0"
                     >
-                      <ExternalLink className="h-4 w-4" />
-                    </a>
-                  </Button>
+                      <a
+                        href={safeUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Open submitted deal in a new tab"
+                      >
+                        <ExternalLink className="h-4 w-4" />
+                      </a>
+                    </Button>
+                  )}
                 </div>
                 <div className="flex items-center gap-2 mt-2">
                   <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs ${
@@ -106,7 +111,8 @@ export default function AdminSubmittedDealsCards({ deals, onMarkAsRead, onDelete
             </div>
           </CardContent>
         </Card>
-      ))}
+        );
+      })}
     </div>
   );
 }

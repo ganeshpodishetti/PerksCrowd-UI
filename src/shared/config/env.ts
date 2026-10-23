@@ -1,17 +1,36 @@
+const isLocalhost = (hostname: string): boolean =>
+  hostname === 'localhost' ||
+  hostname === '127.0.0.1' ||
+  hostname === '::1' ||
+  hostname === '[::1]';
+
 const normalizeEnv = (value: string | undefined): string => {
-  let val = value?.trim().replace(/\/$/, '') ?? '';
-  // Force HTTPS for production API to avoid extra redirects/logs
-  if (val && !val.startsWith('https://')) {
-    try {
-      const url = new URL(val.startsWith('http://') ? val : `http://${val}`);
-      if (url.hostname === 'api.perkscrowd.com') {
-        val = val.replace(/^http:\/\//, 'https://');
-      }
-    } catch {
-      // Invalid URL, leave as-is
+  const trimmed = value?.trim() ?? '';
+  if (!trimmed) return '';
+
+  // Reject non-HTTP schemes outright (javascript:, data:, file:, etc.).
+  const scheme = trimmed.match(/^([a-z][a-z0-9+.-]*):\/\//i)?.[1];
+  if (scheme && !/^https?$/i.test(scheme)) return '';
+
+  const candidate = trimmed.startsWith('//')
+    ? `https:${trimmed}`
+    : scheme
+      ? trimmed
+      : `https://${trimmed}`;
+
+  try {
+    const url = new URL(candidate);
+
+    // API cookies are sent with every request, so never allow a plaintext
+    // origin outside local development.
+    if (url.protocol !== 'https:' && !(process.env.NODE_ENV !== 'production' && isLocalhost(url.hostname))) {
+      return '';
     }
+
+    return url.toString().replace(/\/+$/, '');
+  } catch {
+    return '';
   }
-  return val;
 };
 
 // Prefer the new variable but keep NEXT_PUBLIC_API_URL as a fallback.

@@ -74,11 +74,11 @@ const nextConfig: NextConfig = {
       { key: 'Cross-Origin-Resource-Policy', value: 'same-origin' },
       {
         key: 'Content-Security-Policy',
-        value: `default-src 'self'; script-src ${scriptSrc}; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https: blob:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://api.perkscrowd.com https://ik.imagekit.io; frame-ancestors 'none'; frame-src 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests`,
+        value: `default-src 'self'; script-src ${scriptSrc}; script-src-attr 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https: blob:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://api.perkscrowd.com https://ik.imagekit.io; frame-ancestors 'none'; frame-src 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests`,
       },
       {
         key: 'Content-Security-Policy-Report-Only',
-        value: `default-src 'self'; script-src ${scriptSrc}; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https: blob:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://api.perkscrowd.com https://ik.imagekit.io; frame-ancestors 'none'; frame-src 'none'; base-uri 'self'; form-action 'self'; object-src 'none'`,
+        value: `default-src 'self'; script-src ${scriptSrc}; script-src-attr 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https: blob:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://api.perkscrowd.com https://ik.imagekit.io; frame-ancestors 'none'; frame-src 'none'; base-uri 'self'; form-action 'self'; object-src 'none'`,
       },
       {
         key: 'Strict-Transport-Security',

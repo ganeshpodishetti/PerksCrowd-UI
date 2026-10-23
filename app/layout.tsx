@@ -150,6 +150,14 @@ const structuredData = {
   ],
 }
 
+// Escape characters that could terminate the script tag early. JSON.stringify
+// alone does not make embedded values safe for an HTML script context.
+const serializeJsonLd = (value: unknown) =>
+  JSON.stringify(value)
+    .replace(/</g, '\\u003c')
+    .replace(/>/g, '\\u003e')
+    .replace(/&/g, '\\u0026')
+
 export const viewport: Viewport = {
   colorScheme: 'light dark',
   themeColor: [
@@ -186,7 +194,7 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           // Structured data helps search engines understand the brand and on-site search.
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+          dangerouslySetInnerHTML={{ __html: serializeJsonLd(structuredData) }}
         />
         <RootClientInitializer />
         <AppProviders>{children}</AppProviders>

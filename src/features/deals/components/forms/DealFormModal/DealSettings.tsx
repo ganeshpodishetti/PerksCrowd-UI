@@ -16,7 +16,7 @@ export default function DealSettings({ formData, handleInputChange, setFormData 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div>
           <Label htmlFor="url">Deal URL (Optional)</Label>
-          <Input id="url" name="url" value={formData.url || ''} onChange={handleInputChange} placeholder="https://example.com/deal" />
+          <Input id="url" name="url" type="url" pattern="https?://.+" title="Enter a URL starting with http:// or https://" value={formData.url || ''} onChange={handleInputChange} placeholder="https://example.com/deal" />
         </div>
         <div></div>
       </div>

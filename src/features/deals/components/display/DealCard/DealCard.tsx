@@ -4,6 +4,7 @@ import StoreLogoAvatar from '@/shared/components/branding/StoreLogoAvatar';
 import { Badge } from "@/shared/components/ui/badge";
 import { Card } from "@/shared/components/ui/card";
 import { Deal } from '@/shared/types';
+import { getSafeExternalUrl } from '@/shared/utils/safeUrl';
 import { Clock, ExternalLink } from 'lucide-react';
 import React, { memo, ReactNode } from 'react';
 import DealDetail from '../DealDetail/DealDetail';
@@ -38,7 +39,7 @@ const getDaysRemaining = (endDate?: string | null): number | null => {
 
 const DealCard: React.FC<DealCardProps> = memo((props) => {
   const { deal, footer } = props;
-  const dealUrl = deal.url?.trim();
+  const dealUrl = getSafeExternalUrl(deal.url);
   const { trackDealClick, trackDealRedeem, trackDealView } = useDealInteractionTracker();
 
   const daysRemaining = React.useMemo(

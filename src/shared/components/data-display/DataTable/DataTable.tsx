@@ -1,4 +1,5 @@
 import { Button } from '@/shared/components/ui/button';
+import { getSafeExternalUrl } from '@/shared/utils/safeUrl';
 import { Edit, Trash2 } from 'lucide-react';
 import Image from 'next/image';
 import React from 'react';
@@ -209,9 +210,19 @@ export const cellRenderers = {
     if (!url) {
       return <span className="text-neutral-500 dark:text-neutral-400 text-xs sm:text-sm">-</span>;
     }
+
+    const safeUrl = getSafeExternalUrl(url);
+    if (!safeUrl) {
+      return (
+        <span className={`text-neutral-500 dark:text-neutral-400 text-xs sm:text-sm truncate ${maxWidth} block`}>
+          {url}
+        </span>
+      );
+    }
+
     return (
       <a
-        href={url}
+        href={safeUrl}
         target="_blank"
         rel="noopener noreferrer"
         className={`text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-neutral-100 hover:underline text-xs sm:text-sm truncate ${maxWidth} block`}
