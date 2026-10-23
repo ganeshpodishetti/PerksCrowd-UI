@@ -46,10 +46,6 @@ const Navigation: React.FC<NavigationProps> = () => {
   }, []);
 
   useEffect(() => {
-    setIsMobileMenuOpen(false);
-  }, [pathname]);
-
-  useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Element;
       if (isMobileMenuOpen && !target.closest('header')) {

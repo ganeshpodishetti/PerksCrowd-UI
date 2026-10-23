@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 /**
  * Register service worker for PWA functionality
  */
-function registerServiceWorker() {
+function registerServiceWorker(): (() => void) | undefined {
   if (typeof window === 'undefined') return;
 
   // Check if service workers are supported
@@ -26,6 +26,12 @@ function registerServiceWorker() {
     return;
   }
 
+  let intervalId: ReturnType<typeof setInterval> | undefined;
+
+  const handleControllerChange = () => {
+    browserConsole.log('[SW] Controller changed - new Service Worker is now active');
+  };
+
   // Register the service worker
   navigator.serviceWorker.register('/sw.js', {
     scope: '/',
@@ -43,15 +49,18 @@ function registerServiceWorker() {
     };
 
     // Check for updates every hour
-    setInterval(checkForUpdates, 60 * 60 * 1000);
+    intervalId = setInterval(checkForUpdates, 60 * 60 * 1000);
   }).catch((error) => {
     browserConsole.error('[SW] Service Worker registration failed:', error);
   });
 
   // Listen for controller change (new SW took over)
-  navigator.serviceWorker.addEventListener('controllerchange', () => {
-    browserConsole.log('[SW] Controller changed - new Service Worker is now active');
-  });
+  navigator.serviceWorker.addEventListener('controllerchange', handleControllerChange);
+
+  return () => {
+    if (intervalId) clearInterval(intervalId);
+    navigator.serviceWorker.removeEventListener('controllerchange', handleControllerChange);
+  };
 }
 
 /**
@@ -60,8 +69,9 @@ function registerServiceWorker() {
  */
 export function RootClientInitializer() {
   useEffect(() => {
-    registerServiceWorker();
+    const cleanup = registerServiceWorker();
     suppressProductionLogsAndErrors();
+    return cleanup;
   }, []);
 
   return null;

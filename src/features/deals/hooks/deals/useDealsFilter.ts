@@ -46,18 +46,14 @@ export const useDealsFilter = ({
   const [selectedStore, setSelectedStore] = useState<string>(initialStore || 'All');
   const [activeSort, setActiveSort] = useState<SortOption>(sortOptions[0]);
 
-  // Update selectedCategory when initialCategory prop changes
+  // Follow the prop, including when it is cleared back to "all".
   useEffect(() => {
-    if (initialCategory) {
-      setSelectedCategory(initialCategory);
-    }
+    setSelectedCategory(initialCategory || 'All');
   }, [initialCategory]);
 
-  // Update selectedStore when initialStore prop changes
+  // Follow the prop, including when it is cleared back to "all".
   useEffect(() => {
-    if (initialStore) {
-      setSelectedStore(initialStore);
-    }
+    setSelectedStore(initialStore || 'All');
   }, [initialStore]);
 
   // Memoize filter functions for better performance
@@ -125,13 +121,15 @@ export const useDealsFilter = ({
       return [];
     }
 
-    // Apply all filters in sequence for better performance
-    const filtered = deals
-      .filter(filterByActive)
-      .filter(filterByCategory)
-      .filter(filterByStore)
-      .filter(filterBySearchTerm)
-      .filter(filterByUniversitySpecific);
+    // One pass and one combined predicate instead of five intermediate arrays.
+    const filtered = deals.filter(
+      (deal) =>
+        filterByActive(deal) &&
+        filterByCategory(deal) &&
+        filterByStore(deal) &&
+        filterBySearchTerm(deal) &&
+        filterByUniversitySpecific(deal),
+    );
 
     // Apply sorting
     return sortDeals(filtered);

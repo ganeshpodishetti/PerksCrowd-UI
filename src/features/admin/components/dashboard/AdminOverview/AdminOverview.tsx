@@ -4,27 +4,32 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/sha
 import { Deal } from '@/shared/types/entities/deal';
 import { Clock, TrendingUp } from 'lucide-react';
 import Link from 'next/link';
+import { useMemo } from 'react';
 
 interface AdminOverviewProps {
   deals: Deal[];
 }
 
 export default function AdminOverview({ deals }: AdminOverviewProps) {
-  // Calculate some basic stats
-  const recentDeals = deals
-    .filter(deal => deal.isActive)
-    .sort((a, b) => new Date(b.createdAt || '').getTime() - new Date(a.createdAt || '').getTime())
-    .slice(0, 5);
+  const { recentDeals, expiringDeals } = useMemo(() => {
+    const now = Date.now();
 
-  const expiringDeals = deals
-    .filter(deal => {
-      if (!deal.endDate) return false;
-      const endDate = new Date(deal.endDate);
-      const now = new Date();
-      const daysUntilExpiry = (endDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24);
-      return daysUntilExpiry <= 7 && daysUntilExpiry > 0;
-    })
-    .slice(0, 3);
+    const recentDeals = deals
+      .filter(deal => deal.isActive)
+      .sort((a, b) => new Date(b.createdAt || '').getTime() - new Date(a.createdAt || '').getTime())
+      .slice(0, 5);
+
+    const expiringDeals = deals
+      .filter(deal => {
+        if (!deal.endDate) return false;
+        const endDate = new Date(deal.endDate);
+        const daysUntilExpiry = (endDate.getTime() - now) / (1000 * 60 * 60 * 24);
+        return daysUntilExpiry <= 7 && daysUntilExpiry > 0;
+      })
+      .slice(0, 3);
+
+    return { recentDeals, expiringDeals };
+  }, [deals]);
 
   return (
     <div className="grid gap-3 sm:gap-4 md:gap-6">

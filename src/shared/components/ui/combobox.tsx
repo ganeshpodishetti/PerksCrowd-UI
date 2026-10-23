@@ -38,14 +38,20 @@ export function Combobox({
   const [searchValue, setSearchValue] = React.useState("")
 
   // Check if current value exists in options
-  const validOptions = options.filter(opt => opt.label && opt.value);
+  const validOptions = React.useMemo(
+    () => options.filter(opt => opt.label && opt.value),
+    [options],
+  );
   const selectedOption = validOptions.find(option => option.value === value);
   const displayValue = selectedOption?.label || value || ""
 
   // Filter options based on search
-  const filteredOptions = validOptions.filter(option =>
-    option.label.toLowerCase().includes(searchValue.toLowerCase())
-  )
+  const filteredOptions = React.useMemo(
+    () => validOptions.filter(option =>
+      option.label.toLowerCase().includes(searchValue.toLowerCase())
+    ),
+    [validOptions, searchValue],
+  );
 
   // Handle selection
   const handleSelect = (selectedValue: string) => {

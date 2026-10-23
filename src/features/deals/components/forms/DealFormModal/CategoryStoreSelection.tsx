@@ -3,6 +3,7 @@ import { useStoresQuery } from '@/features/stores/hooks/useStoresQuery';
 import { Combobox } from '@/shared/components/ui/combobox';
 import { Label } from '@/shared/components/ui/label';
 import { Deal } from '@/shared/types/entities/deal';
+import { useMemo } from 'react';
 import { FormData } from './types';
 
 interface CategoryStoreSelectionProps {
@@ -15,12 +16,21 @@ export default function CategoryStoreSelection({ formData, setFormData, deal }: 
   const { data: categories = [] } = useCategoriesQuery();
   const { data: stores = [] } = useStoresQuery();
 
+  const categoryOptions = useMemo(
+    () => categories.flatMap((cat) => cat.title ? [{ value: cat.title, label: cat.title }] : []),
+    [categories],
+  );
+  const storeOptions = useMemo(
+    () => stores.flatMap((store) => store.title ? [{ value: store.title, label: store.title }] : []),
+    [stores],
+  );
+
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
       <div>
         <Label htmlFor="categoryName">Category *</Label>
         <Combobox
-          options={categories.filter(cat => cat.title).map(cat => ({ value: cat.title!, label: cat.title! }))}
+          options={categoryOptions}
           value={formData.categoryName}
           onValueChange={(value) => setFormData(prev => ({ ...prev, categoryName: value }))}
           placeholder="Select category"
@@ -33,7 +43,7 @@ export default function CategoryStoreSelection({ formData, setFormData, deal }: 
       <div>
         <Label htmlFor="storeName">Store *</Label>
         <Combobox
-          options={stores.filter(store => store.title).map(store => ({ value: store.title, label: store.title }))}
+          options={storeOptions}
           value={formData.storeName}
           onValueChange={(value) => setFormData(prev => ({ ...prev, storeName: value }))}
           placeholder={deal ? "Select store" : "Select or create store"}

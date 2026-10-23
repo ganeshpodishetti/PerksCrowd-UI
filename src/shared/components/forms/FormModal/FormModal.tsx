@@ -1,6 +1,6 @@
 import { Button } from '@/shared/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/shared/components/ui/dialog';
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useEffect, useRef, useState } from 'react';
 
 export interface FormModalProps<T> {
   isOpen: boolean;
@@ -32,15 +32,16 @@ export function FormModal<T>({
   submitText = 'Save'
 }: FormModalProps<T>) {
   const [formData, setFormData] = useState<T>(initialState);
+  const wasOpen = useRef(false);
 
   useEffect(() => {
-    if (isOpen) {
-      if (entity) {
-        setFormData(entity);
-      } else {
-        setFormData(initialState);
-      }
+    // Reset only when the dialog opens. `entity` and `initialState` are often
+    // fresh object literals on every parent render, so depending on their
+    // identity used to wipe input the moment the parent re-rendered.
+    if (isOpen && !wasOpen.current) {
+      setFormData(entity ?? initialState);
     }
+    wasOpen.current = isOpen;
   }, [isOpen, entity, initialState]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
