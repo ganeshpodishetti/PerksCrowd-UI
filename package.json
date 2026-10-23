@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "opennextjs-cloudflare build",
-    "build:next": "next build",
+    "build": "next build",
+    "postbuild": "opennextjs-cloudflare build --skipNextBuild",
     "start": "next start",
     "lint": "eslint . --ignore-pattern .next",
     "test": "jest",
